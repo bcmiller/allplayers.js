@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>AllPlayer's API Calendar</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel='stylesheet' type='text/css' href='libraries/fullcalendar/fullcalendar/fullcalendar.css' />
+    <script type='text/javascript' src='libraries/fullcalendar/jquery/jquery-1.5.2.min.js'></script>
+    <script type='text/javascript' src='libraries/fullcalendar/jquery/jquery-ui-1.8.11.custom.min.js'></script>
+    <script type='text/javascript' src='libraries/fullcalendar/fullcalendar/fullcalendar.js'></script>
+    <script type='text/javascript' src='js/source/allplayers.api.js'></script>
+    <script type='text/javascript' src='js/source/allplayers.base.js'></script>
+    <script type='text/javascript' src='js/source/allplayers.calendar.js'></script>
+    <script type='text/javascript' src='js/source/allplayers.entity.js'></script>
+    <script type='text/javascript' src='js/source/allplayers.group.js'></script>
+    <script type='text/javascript' src='js/source/allplayers.groups.js'></script>
+    <script type='text/javascript' src='js/source/allplayers.location.js'></script>
+    <script type="text/javascript">
+
+      var api = new allplayers.api();
+      var groups = new allplayers.groups(api);
+      groups.getGroups("towncenter", function(json) {
+        var i = json.length;
+        while (i--) {
+          api.getGroupEvents(json[i].uuid, {
+            month:'2011-9',
+            fields:'*',
+            limit:10,
+            offset:0
+          }, function(events) {
+            console.log(events);
+          });
+        }
+      });
+
+    </script>
+  </head>
+  <body>
+    <div id="calendar" style="width:800px;height:600px;"></div>
+  </body>
+</html>
