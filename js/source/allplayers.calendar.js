@@ -64,9 +64,11 @@ var allplayers = allplayers || {};
 
   allplayers.calendar.prototype.getEvents = function(start, end, callback) {
     var api = new allplayers.api();
+    var year = end.getFullYear();
+    var month = end.getMonth();
     api.getGroups("towncenter", function(groups) {
       api.getGroupEvents(groups[0].uuid, {
-        month:'2011-10',
+        month:year + '-' + month,
         fields:'*',
         limit:10,
         offset:0
