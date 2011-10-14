@@ -15,23 +15,9 @@
     <script type='text/javascript' src='js/source/allplayers.groups.js'></script>
     <script type='text/javascript' src='js/source/allplayers.location.js'></script>
     <script type="text/javascript">
-
-      var api = new allplayers.api();
-      var groups = new allplayers.groups(api);
-      groups.getGroups("towncenter", function(json) {
-        var i = json.length;
-        while (i--) {
-          api.getGroupEvents(json[i].uuid, {
-            month:'2011-9',
-            fields:'*',
-            limit:10,
-            offset:0
-          }, function(events) {
-            console.log(events);
-          });
-        }
+      $(function() {
+        $("#calendar").allplayers_calendar();
       });
-
     </script>
   </head>
   <body>

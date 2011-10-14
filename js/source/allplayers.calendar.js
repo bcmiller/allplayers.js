@@ -48,10 +48,13 @@ var allplayers = allplayers || {};
     });
 
     // Store this player instance.
-    APCI.calendars[options.id] = this;
+    allplayers.calendars[options.id] = this;
 
     // Create the fullcalendar.
     context.fullCalendar(options);
+
+    // Get the group.
+    this.api = new allplayers.api();
   };
 
   allplayers.calendar.prototype.onDayClick = function() {
@@ -63,11 +66,18 @@ var allplayers = allplayers || {};
   };
 
   allplayers.calendar.prototype.getEvents = function(start, end, callback) {
-
-    // Get the groups involved.
-    $.ajax(
-    );
-
+    var api = new allplayers.api();
+    api.getGroups("towncenter", function(groups) {
+      api.getGroupEvents(groups[0].uuid, {
+        month:'2011-10',
+        fields:'*',
+        limit:10,
+        offset:0
+      }, function(events) {
+        callback(events);
+      });
+    });
+/*
 
     var date = new Date();
     var d = date.getDate();
@@ -81,6 +91,7 @@ var allplayers = allplayers || {};
       }
     ];
     callback(events);
+*/
   };
 
 }(jQuery));
