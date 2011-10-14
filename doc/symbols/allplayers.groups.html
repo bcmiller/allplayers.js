@@ -220,6 +220,8 @@ ul.inheritsList
 <!-- ============================== class summary ========================== -->			
 			<p class="description">
 				
+				<br />Extends
+					<a href="../symbols/allplayers.base.html">allplayers.base</a>.<br />
 				
 			
 				The groups class to govern lists of groups.
@@ -244,7 +246,7 @@ ul.inheritsList
 						<td class="attributes">&nbsp;</td>
 						<td class="nameDescription" >
 							<div class="fixedFont">
-								<b><a href="../symbols/allplayers.groups.html#constructor">allplayers.groups</a></b>(options)
+								<b><a href="../symbols/allplayers.groups.html#constructor">allplayers.groups</a></b>(api, options)
 							</div>
 							<div class="description"></div>
 						</td>
@@ -257,30 +259,11 @@ ul.inheritsList
 			
 				
 				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class allplayers.groups.">
-					<caption>Field Summary</caption>
-					<thead>
-						<tr>
-							<th scope="col">Field Attributes</th>
-							<th scope="col">Field Name and Description</th>
-						</tr>
-					</thead>
-					<tbody>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								<b><a href="../symbols/allplayers.groups.html#groups">groups</a></b>
-								</div>
-								<div class="description">A list of all groups within a query</div>
-							</td>
-						</tr>
-					
-					</tbody>
-				</table>
 				
 				
+				<dl class="inheritsList">
+				<dt>Fields borrowed from class <a href="../symbols/allplayers.base.html">allplayers.base</a>: </dt><dd><a href="../symbols/allplayers.base.html#api">api</a>, <a href="../symbols/allplayers.base.html#options">options</a></dd>
+				</dl>
 				
 			
 
@@ -301,7 +284,16 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/allplayers.groups.html#getGroups">getGroups</a></b>(search)
+								<div class="fixedFont"><b><a href="../symbols/allplayers.groups.html#getGroup">getGroup</a></b>(uuid, callback)
+								</div>
+								<div class="description">Returns group information provided a UUID.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/allplayers.groups.html#getGroups">getGroups</a></b>(search, callback)
 								</div>
 								<div class="description">Fetch all groups provided a filter.</div>
 							</td>
@@ -311,6 +303,10 @@ ul.inheritsList
 				</table>
 				
 				
+				
+				<dl class="inheritsList">
+				<dt>Methods borrowed from class <a href="../symbols/allplayers.base.html">allplayers.base</a>: </dt><dd><a href="../symbols/allplayers.base.html#log">log</a></dd>
+				</dl>
 				
 			
 <!-- ============================== events summary ======================== -->
@@ -324,7 +320,7 @@ ul.inheritsList
 				</div>
 				
 				<div class="fixedFont">
-						<b>allplayers.groups</b>(options)
+						<b>allplayers.groups</b>(api, options)
 				</div>
 				
 				<div class="description">
@@ -340,10 +336,16 @@ ul.inheritsList
 						<dt class="heading">Parameters:</dt>
 						
 							<dt>
-								 <b>options</b>
+								<span class="light fixedFont">{@link allplayers.api}</span>  <b>api</b>
 								
 							</dt>
-								<dd></dd>
+								<dd>The API interface.</dd>
+						
+							<dt>
+								<span class="light fixedFont">{object}</span>  <b>options</b>
+								
+							</dt>
+								<dd>The options for this class.</dd>
 						
 						</dl>
 					
@@ -359,33 +361,6 @@ ul.inheritsList
 
 <!-- ============================== field details ========================== -->		
 			
-				<div class="sectionTitle">
-					Field Detail
-				</div>
-				
-					<a name="groups"> </a>
-					<div class="fixedFont">
-					
-					
-					<b>groups</b>
-					
-					</div>
-					<div class="description">
-						A list of all groups within a query
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					
-				
-			
 
 <!-- ============================== method details ========================= -->		
 			
@@ -393,11 +368,53 @@ ul.inheritsList
 					Method Detail
 				</div>
 				
+					<a name="getGroup"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>getGroup</b>(uuid, callback)
+					
+					</div>
+					<div class="description">
+						Returns group information provided a UUID.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{string}</span> <b>uuid</b>
+									
+								</dt>
+								<dd>The univerally unique identifier for this group.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{function}</span> <b>callback</b>
+									
+								</dt>
+								<dd>The callback to handle the group object.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
 					<a name="getGroups"> </a>
 					<div class="fixedFont">
 					
 					
-					<b>getGroups</b>(search)
+					<b>getGroups</b>(search, callback)
 					
 					</div>
 					<div class="description">
@@ -417,6 +434,12 @@ ul.inheritsList
 									
 								</dt>
 								<dd>Search string to filter groups.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{function}</span> <b>callback</b>
+									
+								</dt>
+								<dd>The callback function for all the groups.</dd>
 							
 							</dl>
 						
@@ -441,7 +464,7 @@ ul.inheritsList
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Fri Oct 14 2011 14:10:26 GMT-0500 (CDT)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Fri Oct 14 2011 16:01:24 GMT-0500 (CDT)
 		</div>
 	</body>
 </html>

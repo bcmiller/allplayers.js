@@ -7,6 +7,7 @@ var allplayers = allplayers || {};
    * @class The API class that governs the AllPlayers API.
    *
    * @extends allplayers.base
+   * @param {object} options The options for this class.
    */
   allplayers.api = function(options) {
 
@@ -15,8 +16,12 @@ var allplayers = allplayers || {};
       path: 'https://www.pdup.allplayers.com/api/v1/rest'
     };
 
+    // Set the groups path.
+    defaults.group_path = defaults.path + '/groups.jsonp';
+
     // Derive from allplayers.base.
-    allplayers.base.call($.extend(defaults, options));
+    options = $.extend(defaults, options);
+    allplayers.base.call(this, null, options);
   };
 
   /**
@@ -52,7 +57,7 @@ var allplayers = allplayers || {};
    * returned from this api call. See usage.
    */
   allplayers.api.prototype.getGroups = function(search, callback) {
-    var path = this.options.path + '/groups?';
+    var path = this.options.group_path + '?';
     path += search ? 'search="' + encodeURIComponent(search) + '"&' : '';
     path += 'callback=?';
     this.get(path, callback);
@@ -64,8 +69,10 @@ var allplayers = allplayers || {};
    * @param {string} uuid The univerally unique identifier for this group.
    * @param {function} callback The callback to handle the return JSON data.
    */
-  allplayers.api.prototype.getGroup = function(uuid, callback) {
-    var path = this.options.path + '/groups/' + uuid + '?callback=?';
+  allplayers.api.prototype.getGroup = function(uuid, params, callback) {
+    var path = this.options.group_path + '/' + uuid + '?';
+    path += params ? (jQuery.param(params) + '&') : '';
+    path += 'callback=?';
     this.get(path, callback);
   };
 
@@ -75,8 +82,10 @@ var allplayers = allplayers || {};
    * @param {string} uuid The univerally unique identifier for this group.
    * @param {function} callback The callback to handle the return JSON data.
    */
-  allplayers.api.prototype.getGroupAlbums = function(uuid, callback) {
-    var path = this.options.path + '/groups/' + uuid + '/albums?callback=?';
+  allplayers.api.prototype.getGroupAlbums = function(uuid, params, callback) {
+    var path = this.options.group_path + '/' + uuid + '/albums?';
+    path += params ? (jQuery.param(params) + '&') : '';
+    path += 'callback=?';
     this.get(path, callback);
   };
 
@@ -86,8 +95,10 @@ var allplayers = allplayers || {};
    * @param {string} uuid The univerally unique identifier for this group.
    * @param {function} callback The callback to handle the return JSON data.
    */
-  allplayers.api.prototype.getGroupEvents = function(uuid, callback) {
-    var path = this.options.path + '/groups/' + uuid + '/events?callback=?';
+  allplayers.api.prototype.getGroupEvents = function(uuid, params, callback) {
+    var path = this.options.group_path + '/' + uuid + '/events?';
+    path += params ? (jQuery.param(params) + '&') : '';
+    path += 'callback=?';
     this.get(path, callback);
   };
 
@@ -97,8 +108,23 @@ var allplayers = allplayers || {};
    * @param {string} uuid The univerally unique identifier for this group.
    * @param {function} callback The callback to handle the return JSON data.
    */
-  allplayers.api.prototype.getGroupMembers = function(uuid, callback) {
-    var path = this.options.path + '/groups/' + uuid + '/members?callback=?';
+  allplayers.api.prototype.getGroupMembers = function(uuid, params, callback) {
+    var path = this.options.group_path + '/' + uuid + '/members?';
+    path += params ? (jQuery.param(params) + '&') : '';
+    path += 'callback=?';
+    this.get(path, callback);
+  };
+
+  /**
+   * Returns group photos provided a UUID.
+   *
+   * @param {string} uuid The univerally unique identifier for this group.
+   * @param {function} callback The callback to handle the return JSON data.
+   */
+  allplayers.api.prototype.getGroupPhotos = function(uuid, params, callback) {
+    var path = this.options.group_path + '/' + uuid + '/photos?';
+    path += params ? (jQuery.param(params) + '&') : '';
+    path += 'callback=?';
     this.get(path, callback);
   };
 
@@ -113,9 +139,13 @@ var allplayers = allplayers || {};
   /**
    * @class Base class for all objects in the AllPlayers API system.
    *
-   * @param {object} options The options for this component.
+   * @param {@link allplayers.api} api The API interface.
+   * @param {object} options The options for this class.
    */
-  allplayers.base = function(options) {
+  allplayers.base = function(api, options) {
+
+    /** The API interface */
+    this.api = api;
 
     /** Store the options for this component */
     this.options = options;
@@ -228,8 +258,12 @@ var allplayers = allplayers || {};
   /**
    * @class The base entity class to store the data that is common to all
    * allplayers entities whether it be groups, events, users, etc.
+   *
+   * @extends allplayers.base
+   * @param {@link allplayers.api} api The API interface.
+   * @param {object} options The options for this class.
    */
-  allplayers.entity = function() {
+  allplayers.entity = function(api, options) {
 
     /** The universally unique identifier */
     this.uuid = '';
@@ -239,14 +273,21 @@ var allplayers = allplayers || {};
 
     /** The description of this entity */
     this.description = '';
+
+    // Derive from allplayers.base.
+    allplayers.base.call(this, api, options);
   };
+
+  // Create the proper derivation.
+  allplayers.entity.prototype = new allplayers.base();
+  allplayers.entity.prototype.constructor = allplayers.entity;
 
   /**
    * Update the entity data.
    *
    * @param {object} entity The entity information.
    */
-  allplayers.entity.update = function(entity) {
+  allplayers.entity.prototype.update = function(entity) {
 
     // Allow this to update all the parameters based on what was updated.
     $.extend(true, this, entity);
@@ -261,13 +302,16 @@ var allplayers = allplayers || {};
    * @class The group class to govern all functionality that groups have.
    *
    * @extends allplayers.entity
+   * @param {@link allplayers.api} api The API interface.
+   * @param {object} options The options for this class.
+   * @param {object} groupInfo The group information.
    */
-  allplayers.group = function() {
+  allplayers.group = function(api, options, groupInfo) {
 
     /**
      * A {@link allplayers.location} object.
      */
-    this.location = new allplayers.location();
+    this.location = new allplayers.location(api, options);
 
     /** The group activity level */
     this.activity_level = 0;
@@ -309,13 +353,24 @@ var allplayers = allplayers || {};
     this.groups_above_uuid = [];
 
     // Derive from allplayers.entity.
-    allplayers.entity.call(this);
+    allplayers.entity.call(this, api, options);
+
+    // Update all the group information.
+    this.update(groupInfo);
   };
 
   // Create the proper derivation.
   allplayers.group.prototype = new allplayers.entity();
   allplayers.group.prototype.constructor = allplayers.group;
 
+  /**
+   * Save a group to the database.
+   */
+  allplayers.group.prototype.save = function() {
+
+    // Call the api group save function.
+    this.api.saveGroup(this);
+  };
 
 }(jQuery));
 
@@ -327,28 +382,58 @@ var allplayers = allplayers || {};
 
   /**
    * @class The groups class to govern lists of groups.
+   *
+   * @extends allplayers.base
+   * @param {@link allplayers.api} api The API interface.
+   * @param {object} options The options for this class.
    */
-  allplayers.groups = function(options) {
+  allplayers.groups = function(api, options) {
 
-    /** A list of all groups within a query */
-    this.groups = [];
-
-    // Derive from allplayers.api.
-    allplayers.api.call($.extend(defaults, options));
+    // Derive from allplayers.base.
+    allplayers.base.call(this, api, options);
   };
 
   // Define the prototype for all controllers.
-  allplayers.groups.prototype = new allplayers.api();
+  allplayers.groups.prototype = new allplayers.base();
   allplayers.groups.prototype.constructor = allplayers.groups;
 
   /**
    * Fetch all groups provided a filter.
    *
    * @param {string} search Search string to filter groups.
+   * @param {function} callback The callback function for all the groups.
    */
-  allplayers.groups.prototype.getGroups = function(search) {
+  allplayers.groups.prototype.getGroups = function(search, callback) {
 
+    this.api.getGroups(search, function(json) {
 
+      // The groups array.
+      var groups = [];
+
+      // Iterate through all the groups and return the group objects.
+      var i = json.length;
+      while (i--) {
+        groups.push(new allplayers.group(this.options, this.api, json[i]));
+      }
+
+      // Return all the group objects.
+      callback(groups);
+    });
+  };
+
+  /**
+   * Returns group information provided a UUID.
+   *
+   * @param {string} uuid The univerally unique identifier for this group.
+   * @param {function} callback The callback to handle the group object.
+   */
+  allplayers.groups.prototype.getGroup = function(uuid, callback) {
+
+    this.api.getGroup(uuid, function(groupInfo) {
+
+      // Return a new group object.
+      return new allplayers.group(this.options, this.api, groupInfo);
+    });
   };
 
 }(jQuery));
@@ -361,8 +446,10 @@ var allplayers = allplayers || {};
    * @class The class to govern all location functionality and data.
    *
    * @extends allplayers.entity
+   * @param {@link allplayers.api} api The API interface.
+   * @param {object} options The options for this class.
    */
-  allplayers.location = function() {
+  allplayers.location = function(api, options) {
 
     /** Street Address. */
     this.street = '';
@@ -386,7 +473,7 @@ var allplayers = allplayers || {};
     this.longitude = '';
 
     // Derive from allplayers.entity.
-    allplayers.entity.call(this);
+    allplayers.entity.call(this, api, options);
   };
 
   // Create the proper derivation.

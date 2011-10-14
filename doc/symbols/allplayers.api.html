@@ -285,7 +285,7 @@ ul.inheritsList
 				
 				
 				<dl class="inheritsList">
-				<dt>Fields borrowed from class <a href="../symbols/allplayers.base.html">allplayers.base</a>: </dt><dd><a href="../symbols/allplayers.base.html#options">options</a></dd>
+				<dt>Fields borrowed from class <a href="../symbols/allplayers.base.html">allplayers.base</a>: </dt><dd><a href="../symbols/allplayers.base.html#api">api</a>, <a href="../symbols/allplayers.base.html#options">options</a></dd>
 				</dl>
 				
 			
@@ -316,7 +316,7 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/allplayers.api.html#getGroup">getGroup</a></b>(uuid, callback)
+								<div class="fixedFont"><b><a href="../symbols/allplayers.api.html#getGroup">getGroup</a></b>(uuid, callback, callback)
 								</div>
 								<div class="description">Returns group information provided a UUID.</div>
 							</td>
@@ -325,7 +325,7 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/allplayers.api.html#getGroupAlbums">getGroupAlbums</a></b>(uuid, callback)
+								<div class="fixedFont"><b><a href="../symbols/allplayers.api.html#getGroupAlbums">getGroupAlbums</a></b>(uuid, callback, callback)
 								</div>
 								<div class="description">Returns group albums provided a UUID.</div>
 							</td>
@@ -334,7 +334,7 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/allplayers.api.html#getGroupEvents">getGroupEvents</a></b>(uuid, callback)
+								<div class="fixedFont"><b><a href="../symbols/allplayers.api.html#getGroupEvents">getGroupEvents</a></b>(uuid, callback, callback)
 								</div>
 								<div class="description">Returns group events provided a UUID.</div>
 							</td>
@@ -343,9 +343,18 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/allplayers.api.html#getGroupMembers">getGroupMembers</a></b>(uuid, callback)
+								<div class="fixedFont"><b><a href="../symbols/allplayers.api.html#getGroupMembers">getGroupMembers</a></b>(uuid, callback, callback)
 								</div>
 								<div class="description">Returns group members provided a UUID.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/allplayers.api.html#getGroupPhotos">getGroupPhotos</a></b>(uuid, callback, callback)
+								</div>
+								<div class="description">Returns group photos provided a UUID.</div>
 							</td>
 						</tr>
 					
@@ -395,10 +404,10 @@ ul.inheritsList
 						<dt class="heading">Parameters:</dt>
 						
 							<dt>
-								 <b>options</b>
+								<span class="light fixedFont">{object}</span>  <b>options</b>
 								
 							</dt>
-								<dd></dd>
+								<dd>The options for this class.</dd>
 						
 						</dl>
 					
@@ -494,7 +503,7 @@ ul.inheritsList
 					<div class="fixedFont">
 					
 					
-					<b>getGroup</b>(uuid, callback)
+					<b>getGroup</b>(uuid, callback, callback)
 					
 					</div>
 					<div class="description">
@@ -521,6 +530,12 @@ ul.inheritsList
 								</dt>
 								<dd>The callback to handle the return JSON data.</dd>
 							
+								<dt>
+									<b>callback</b>
+									
+								</dt>
+								<dd></dd>
+							
 							</dl>
 						
 						
@@ -536,7 +551,7 @@ ul.inheritsList
 					<div class="fixedFont">
 					
 					
-					<b>getGroupAlbums</b>(uuid, callback)
+					<b>getGroupAlbums</b>(uuid, callback, callback)
 					
 					</div>
 					<div class="description">
@@ -563,6 +578,12 @@ ul.inheritsList
 								</dt>
 								<dd>The callback to handle the return JSON data.</dd>
 							
+								<dt>
+									<b>callback</b>
+									
+								</dt>
+								<dd></dd>
+							
 							</dl>
 						
 						
@@ -578,7 +599,7 @@ ul.inheritsList
 					<div class="fixedFont">
 					
 					
-					<b>getGroupEvents</b>(uuid, callback)
+					<b>getGroupEvents</b>(uuid, callback, callback)
 					
 					</div>
 					<div class="description">
@@ -605,6 +626,12 @@ ul.inheritsList
 								</dt>
 								<dd>The callback to handle the return JSON data.</dd>
 							
+								<dt>
+									<b>callback</b>
+									
+								</dt>
+								<dd></dd>
+							
 							</dl>
 						
 						
@@ -620,7 +647,7 @@ ul.inheritsList
 					<div class="fixedFont">
 					
 					
-					<b>getGroupMembers</b>(uuid, callback)
+					<b>getGroupMembers</b>(uuid, callback, callback)
 					
 					</div>
 					<div class="description">
@@ -646,6 +673,60 @@ ul.inheritsList
 									
 								</dt>
 								<dd>The callback to handle the return JSON data.</dd>
+							
+								<dt>
+									<b>callback</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="getGroupPhotos"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>getGroupPhotos</b>(uuid, callback, callback)
+					
+					</div>
+					<div class="description">
+						Returns group photos provided a UUID.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{string}</span> <b>uuid</b>
+									
+								</dt>
+								<dd>The univerally unique identifier for this group.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{function}</span> <b>callback</b>
+									
+								</dt>
+								<dd>The callback to handle the return JSON data.</dd>
+							
+								<dt>
+									<b>callback</b>
+									
+								</dt>
+								<dd></dd>
 							
 							</dl>
 						
@@ -724,7 +805,7 @@ returned from this api call. See usage.</dd>
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Fri Oct 14 2011 14:10:26 GMT-0500 (CDT)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Fri Oct 14 2011 16:01:23 GMT-0500 (CDT)
 		</div>
 	</body>
 </html>
