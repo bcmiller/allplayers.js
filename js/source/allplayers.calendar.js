@@ -52,9 +52,6 @@ var allplayers = allplayers || {};
 
     // Create the fullcalendar.
     context.fullCalendar(options);
-
-    // Get the group.
-    this.api = new allplayers.api();
   };
 
   allplayers.calendar.prototype.onDayClick = function() {
