@@ -17,7 +17,7 @@ var allplayers = allplayers || {};
     };
 
     // Set the groups path.
-    defaults.group_path = defaults.path + '/groups.jsonp';
+    defaults.group_path = defaults.path + '/groups';
 
     // Derive from allplayers.base.
     options = $.extend(defaults, options);
@@ -57,7 +57,7 @@ var allplayers = allplayers || {};
    * returned from this api call. See usage.
    */
   allplayers.api.prototype.getGroups = function(search, callback) {
-    var path = this.options.group_path + '?';
+    var path = this.options.group_path + '.jsonp?';
     path += search ? 'search="' + encodeURIComponent(search) + '"&' : '';
     path += 'callback=?';
     this.get(path, callback);
@@ -70,7 +70,7 @@ var allplayers = allplayers || {};
    * @param {function} callback The callback to handle the return JSON data.
    */
   allplayers.api.prototype.getGroup = function(uuid, params, callback) {
-    var path = this.options.group_path + '/' + uuid + '?';
+    var path = this.options.group_path + '/' + uuid + '.jsonp?';
     path += params ? (jQuery.param(params) + '&') : '';
     path += 'callback=?';
     this.get(path, callback);
@@ -83,7 +83,7 @@ var allplayers = allplayers || {};
    * @param {function} callback The callback to handle the return JSON data.
    */
   allplayers.api.prototype.getGroupAlbums = function(uuid, params, callback) {
-    var path = this.options.group_path + '/' + uuid + '/albums?';
+    var path = this.options.group_path + '/' + uuid + '/albums.jsonp?';
     path += params ? (jQuery.param(params) + '&') : '';
     path += 'callback=?';
     this.get(path, callback);
@@ -96,7 +96,7 @@ var allplayers = allplayers || {};
    * @param {function} callback The callback to handle the return JSON data.
    */
   allplayers.api.prototype.getGroupEvents = function(uuid, params, callback) {
-    var path = this.options.group_path + '/' + uuid + '/events?';
+    var path = this.options.group_path + '/' + uuid + '/events.jsonp?';
     path += params ? (jQuery.param(params) + '&') : '';
     path += 'callback=?';
     this.get(path, callback);
@@ -109,7 +109,7 @@ var allplayers = allplayers || {};
    * @param {function} callback The callback to handle the return JSON data.
    */
   allplayers.api.prototype.getGroupMembers = function(uuid, params, callback) {
-    var path = this.options.group_path + '/' + uuid + '/members?';
+    var path = this.options.group_path + '/' + uuid + '/members.jsonp?';
     path += params ? (jQuery.param(params) + '&') : '';
     path += 'callback=?';
     this.get(path, callback);
@@ -122,7 +122,7 @@ var allplayers = allplayers || {};
    * @param {function} callback The callback to handle the return JSON data.
    */
   allplayers.api.prototype.getGroupPhotos = function(uuid, params, callback) {
-    var path = this.options.group_path + '/' + uuid + '/photos?';
+    var path = this.options.group_path + '/' + uuid + '/photos.jsonp?';
     path += params ? (jQuery.param(params) + '&') : '';
     path += 'callback=?';
     this.get(path, callback);
