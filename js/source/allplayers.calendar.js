@@ -43,10 +43,21 @@ var allplayers = allplayers || {};
     // Make sure we provide default options...
     var _this = this;
     options = $.extend(defaults, options, {
+      header: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'month,agendaWeek,agendaDay'
+      },
       editable: true,
       dayClick: this.onDayClick,
       eventClick: this.onEventClick,
       eventDragStop: function(event, jsEvent, ui, view) {
+
+        // Save this event.
+        event.obj.update(event);
+        event.obj.save();
+      },
+      eventResizeStop: function(event, jsEvent, ui, view) {
 
         // Save this event.
         event.obj.update(event);
@@ -108,6 +119,7 @@ var allplayers = allplayers || {};
         var event = null;
         while (i--) {
           event = new allplayers.event(_this.api, _this.options, events[i]);
+          events[i].allDay = false;
           events[i].obj = event;
         }
 

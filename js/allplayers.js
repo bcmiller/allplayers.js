@@ -24,6 +24,10 @@ var allplayers = allplayers || {};
     allplayers.base.call(this, null, options);
   };
 
+  // Create the proper derivation.
+  allplayers.api.prototype = new allplayers.base();
+  allplayers.api.prototype.constructor = allplayers.api;
+
   /**
    * Common callback function for data retrieval for the API.
    */
@@ -74,6 +78,14 @@ var allplayers = allplayers || {};
     path += params ? (jQuery.param(params) + '&') : '';
     path += 'callback=?';
     this.get(path, callback);
+  };
+
+  /**
+   * Saves a group
+   */
+  allplayers.api.prototype.saveGroup = function(group) {
+    this.log('Saving Group');
+    this.log(group);
   };
 
   /**
@@ -139,7 +151,8 @@ var allplayers = allplayers || {};
    * Saves an event
    */
   allplayers.api.prototype.saveEvent = function(event) {
-    console.log('Saving Event: ' + event);
+    this.log('Saving Event');
+    this.log(event);
   };
 
 }(jQuery));
@@ -222,12 +235,24 @@ var allplayers = allplayers || {};
     // Make sure we provide default options...
     var _this = this;
     options = $.extend(defaults, options, {
+      header: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'month,agendaWeek,agendaDay'
+      },
       editable: true,
       dayClick: this.onDayClick,
       eventClick: this.onEventClick,
       eventDragStop: function(event, jsEvent, ui, view) {
 
         // Save this event.
+        event.obj.update(event);
+        event.obj.save();
+      },
+      eventResizeStop: function(event, jsEvent, ui, view) {
+
+        // Save this event.
+        event.obj.update(event);
         event.obj.save();
       },
       events: function(start, end, callback) {
@@ -273,6 +298,7 @@ var allplayers = allplayers || {};
     var year = end.getFullYear();
     var month = end.getMonth();
     this.getUUID(function() {
+      var _this = this;
       this.api.getGroupEvents(this.uuid, {
         month: year + '-' + month,
         fields: '*',
@@ -282,8 +308,11 @@ var allplayers = allplayers || {};
 
         // Iterate through the events and add a new event object.
         var i = events.length;
+        var event = null;
         while (i--) {
-          events[i].ojb = new allplayers.event(events[i]);
+          event = new allplayers.event(_this.api, _this.options, events[i]);
+          events[i].allDay = false;
+          events[i].obj = event;
         }
 
         // Add this to the events for the calendar.

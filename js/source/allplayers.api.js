@@ -81,6 +81,14 @@ var allplayers = allplayers || {};
   };
 
   /**
+   * Saves a group
+   */
+  allplayers.api.prototype.saveGroup = function(group) {
+    this.log('Saving Group');
+    this.log(group);
+  };
+
+  /**
    * Returns group albums provided a UUID.
    *
    * @param {string} uuid The univerally unique identifier for this group.
