@@ -41,14 +41,23 @@ var allplayers = allplayers || {};
    */
   allplayers.calendar = function(context, options) {
     // Make sure we provide default options...
+    var _this = this;
     options = $.extend(defaults, options, {
       dayClick: this.onDayClick,
       eventClick: this.onEventClick,
-      events: this.getEvents
+      events: function(start, end, callback) {
+        _this.getEvents(start, end, callback);
+      }
     });
 
     // Store this player instance.
     allplayers.calendars[options.id] = this;
+
+    // TO-DO: MAKE IT SO THAT WE DON'T NEED A GROUP TO GET EVENTS
+    this.uuid = '';
+
+    // The api.
+    this.api = new allplayers.api();
 
     // Create the fullcalendar.
     context.fullCalendar(options);
@@ -62,35 +71,32 @@ var allplayers = allplayers || {};
     console.log('Event has been clicked');
   };
 
+  allplayers.calendar.prototype.getUUID = function(callback) {
+    if (this.uuid) {
+      callback.call(this);
+    }
+    else {
+      var _this = this;
+      this.api.getGroups("towncenter", function(groups) {
+        _this.uuid = groups[0].uuid;
+        callback.call(_this);
+      });
+    }
+  };
+
   allplayers.calendar.prototype.getEvents = function(start, end, callback) {
-    var api = new allplayers.api();
     var year = end.getFullYear();
     var month = end.getMonth();
-    api.getGroups("towncenter", function(groups) {
-      api.getGroupEvents(groups[0].uuid, {
+    this.getUUID(function() {
+      this.api.getGroupEvents(this.uuid, {
         month:year + '-' + month,
         fields:'*',
-        limit:10,
+        limit:0,
         offset:0
       }, function(events) {
         callback(events);
       });
     });
-/*
-
-    var date = new Date();
-    var d = date.getDate();
-    var m = date.getMonth();
-    var y = date.getFullYear();
-    var events = [
-      {
-        title: 'Test Event',
-        start: new Date(y, m, d - 2),
-        end: new Date(y, m, d)
-      }
-    ];
-    callback(events);
-*/
   };
 
 }(jQuery));

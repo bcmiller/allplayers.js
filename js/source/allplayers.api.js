@@ -128,6 +128,12 @@ var allplayers = allplayers || {};
     this.get(path, callback);
   };
 
+  /**
+   * Returns a list of all events.
+   */
+  allplayers.api.prototype.getEvents = function() {
+
+  };
 }(jQuery));
 
 
