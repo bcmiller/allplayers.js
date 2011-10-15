@@ -43,8 +43,15 @@ var allplayers = allplayers || {};
     // Make sure we provide default options...
     var _this = this;
     options = $.extend(defaults, options, {
+      editable: true,
       dayClick: this.onDayClick,
       eventClick: this.onEventClick,
+      eventDragStop: function(event, jsEvent, ui, view) {
+
+        // Save this event.
+        event.obj.update(event);
+        event.obj.save();
+      },
       events: function(start, end, callback) {
         _this.getEvents(start, end, callback);
       }
@@ -77,7 +84,7 @@ var allplayers = allplayers || {};
     }
     else {
       var _this = this;
-      this.api.getGroups("towncenter", function(groups) {
+      this.api.getGroups('towncenter', function(groups) {
         _this.uuid = groups[0].uuid;
         callback.call(_this);
       });
@@ -88,12 +95,23 @@ var allplayers = allplayers || {};
     var year = end.getFullYear();
     var month = end.getMonth();
     this.getUUID(function() {
+      var _this = this;
       this.api.getGroupEvents(this.uuid, {
-        month:year + '-' + month,
-        fields:'*',
-        limit:0,
-        offset:0
+        month: year + '-' + month,
+        fields: '*',
+        limit: 0,
+        offset: 0
       }, function(events) {
+
+        // Iterate through the events and add a new event object.
+        var i = events.length;
+        var event = null;
+        while (i--) {
+          event = new allplayers.event(_this.api, _this.options, events[i]);
+          events[i].obj = event;
+        }
+
+        // Add this to the events for the calendar.
         callback(events);
       });
     });

@@ -17,7 +17,7 @@ var allplayers = allplayers || {};
     };
 
     // Set the groups path.
-    defaults.group_path = defaults.path + '/groups.jsonp';
+    defaults.group_path = defaults.path + '/groups';
 
     // Derive from allplayers.base.
     options = $.extend(defaults, options);
@@ -57,7 +57,7 @@ var allplayers = allplayers || {};
    * returned from this api call. See usage.
    */
   allplayers.api.prototype.getGroups = function(search, callback) {
-    var path = this.options.group_path + '?';
+    var path = this.options.group_path + '.jsonp?';
     path += search ? 'search="' + encodeURIComponent(search) + '"&' : '';
     path += 'callback=?';
     this.get(path, callback);
@@ -70,7 +70,7 @@ var allplayers = allplayers || {};
    * @param {function} callback The callback to handle the return JSON data.
    */
   allplayers.api.prototype.getGroup = function(uuid, params, callback) {
-    var path = this.options.group_path + '/' + uuid + '?';
+    var path = this.options.group_path + '/' + uuid + '.jsonp?';
     path += params ? (jQuery.param(params) + '&') : '';
     path += 'callback=?';
     this.get(path, callback);
@@ -83,7 +83,7 @@ var allplayers = allplayers || {};
    * @param {function} callback The callback to handle the return JSON data.
    */
   allplayers.api.prototype.getGroupAlbums = function(uuid, params, callback) {
-    var path = this.options.group_path + '/' + uuid + '/albums?';
+    var path = this.options.group_path + '/' + uuid + '/albums.jsonp?';
     path += params ? (jQuery.param(params) + '&') : '';
     path += 'callback=?';
     this.get(path, callback);
@@ -96,7 +96,7 @@ var allplayers = allplayers || {};
    * @param {function} callback The callback to handle the return JSON data.
    */
   allplayers.api.prototype.getGroupEvents = function(uuid, params, callback) {
-    var path = this.options.group_path + '/' + uuid + '/events?';
+    var path = this.options.group_path + '/' + uuid + '/events.jsonp?';
     path += params ? (jQuery.param(params) + '&') : '';
     path += 'callback=?';
     this.get(path, callback);
@@ -109,7 +109,7 @@ var allplayers = allplayers || {};
    * @param {function} callback The callback to handle the return JSON data.
    */
   allplayers.api.prototype.getGroupMembers = function(uuid, params, callback) {
-    var path = this.options.group_path + '/' + uuid + '/members?';
+    var path = this.options.group_path + '/' + uuid + '/members.jsonp?';
     path += params ? (jQuery.param(params) + '&') : '';
     path += 'callback=?';
     this.get(path, callback);
@@ -122,10 +122,24 @@ var allplayers = allplayers || {};
    * @param {function} callback The callback to handle the return JSON data.
    */
   allplayers.api.prototype.getGroupPhotos = function(uuid, params, callback) {
-    var path = this.options.group_path + '/' + uuid + '/photos?';
+    var path = this.options.group_path + '/' + uuid + '/photos.jsonp?';
     path += params ? (jQuery.param(params) + '&') : '';
     path += 'callback=?';
     this.get(path, callback);
+  };
+
+  /**
+   * Returns a list of all events.
+   */
+  allplayers.api.prototype.getEvents = function() {
+
+  };
+
+  /**
+   * Saves an event
+   */
+  allplayers.api.prototype.saveEvent = function(event) {
+    console.log('Saving Event: ' + event);
   };
 
 }(jQuery));
@@ -206,14 +220,29 @@ var allplayers = allplayers || {};
    */
   allplayers.calendar = function(context, options) {
     // Make sure we provide default options...
+    var _this = this;
     options = $.extend(defaults, options, {
+      editable: true,
       dayClick: this.onDayClick,
       eventClick: this.onEventClick,
-      events: this.getEvents
+      eventDragStop: function(event, jsEvent, ui, view) {
+
+        // Save this event.
+        event.obj.save();
+      },
+      events: function(start, end, callback) {
+        _this.getEvents(start, end, callback);
+      }
     });
 
     // Store this player instance.
-    APCI.calendars[options.id] = this;
+    allplayers.calendars[options.id] = this;
+
+    // TO-DO: MAKE IT SO THAT WE DON'T NEED A GROUP TO GET EVENTS
+    this.uuid = '';
+
+    // The api.
+    this.api = new allplayers.api();
 
     // Create the fullcalendar.
     context.fullCalendar(options);
@@ -227,25 +256,40 @@ var allplayers = allplayers || {};
     console.log('Event has been clicked');
   };
 
+  allplayers.calendar.prototype.getUUID = function(callback) {
+    if (this.uuid) {
+      callback.call(this);
+    }
+    else {
+      var _this = this;
+      this.api.getGroups('towncenter', function(groups) {
+        _this.uuid = groups[0].uuid;
+        callback.call(_this);
+      });
+    }
+  };
+
   allplayers.calendar.prototype.getEvents = function(start, end, callback) {
+    var year = end.getFullYear();
+    var month = end.getMonth();
+    this.getUUID(function() {
+      this.api.getGroupEvents(this.uuid, {
+        month: year + '-' + month,
+        fields: '*',
+        limit: 0,
+        offset: 0
+      }, function(events) {
 
-    // Get the groups involved.
-    $.ajax(
-    );
+        // Iterate through the events and add a new event object.
+        var i = events.length;
+        while (i--) {
+          events[i].ojb = new allplayers.event(events[i]);
+        }
 
-
-    var date = new Date();
-    var d = date.getDate();
-    var m = date.getMonth();
-    var y = date.getFullYear();
-    var events = [
-      {
-        title: 'Test Event',
-        start: new Date(y, m, d - 2),
-        end: new Date(y, m, d)
-      }
-    ];
-    callback(events);
+        // Add this to the events for the calendar.
+        callback(events);
+      });
+    });
   };
 
 }(jQuery));
@@ -292,6 +336,51 @@ var allplayers = allplayers || {};
     // Allow this to update all the parameters based on what was updated.
     $.extend(true, this, entity);
   };
+}(jQuery));
+/** The allplayers namespace. */
+var allplayers = allplayers || {};
+
+(function($) {
+
+  /**
+   * @class The event class to govern all functionality that events have.
+   *
+   * @extends allplayers.entity
+   * @param {@link allplayers.api} api The API interface.
+   * @param {object} options The options for this class.
+   * @param {object} eventInfo The event information.
+   */
+  allplayers.event = function(api, options, eventInfo) {
+
+    /** All day flag */
+    this.allDay = false;
+
+    /** The start time */
+    this.start = null;
+
+    /** The end time */
+    this.end = null;
+
+    // Derive from allplayers.entity.
+    allplayers.entity.call(this, api, options);
+
+    // Update the data.
+    this.update(eventInfo);
+  };
+
+  // Create the proper derivation.
+  allplayers.event.prototype = new allplayers.entity();
+  allplayers.event.prototype.constructor = allplayers.event;
+
+  /**
+   * Save an event to the database.
+   */
+  allplayers.event.prototype.save = function() {
+
+    // Call the api event save function.
+    this.api.saveEvent(this);
+  };
+
 }(jQuery));
 /** The allplayers namespace. */
 var allplayers = allplayers || {};

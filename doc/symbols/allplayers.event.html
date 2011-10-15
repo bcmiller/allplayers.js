@@ -5,7 +5,7 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
 		
-		<title>JsDoc Reference - allplayers.groups</title>
+		<title>JsDoc Reference - allplayers.event</title>
 
 		<style type="text/css">
 			/* default.css */
@@ -216,26 +216,26 @@ ul.inheritsList
 <!-- ============================== class title ============================ -->
 			<h1 class="classTitle">
 				
-				Class allplayers.groups
+				Class allplayers.event
 			</h1>
 
 <!-- ============================== class summary ========================== -->			
 			<p class="description">
 				
 				<br />Extends
-					<a href="../symbols/allplayers.base.html">allplayers.base</a>.<br />
+					<a href="../symbols/allplayers.entity.html">allplayers.entity</a>.<br />
 				
 			
-				The groups class to govern lists of groups.
+				The event class to govern all functionality that events have.
 				
 				
-					<br /><i>Defined in: </i> <a href="../symbols/src/js_source_allplayers.groups.js.html">allplayers.groups.js</a>.
+					<br /><i>Defined in: </i> <a href="../symbols/src/js_source_allplayers.event.js.html">allplayers.event.js</a>.
 				
 			</p>
 
 <!-- ============================== constructor summary ==================== -->			
 			
-			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class allplayers.groups.">
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class allplayers.event.">
 				<caption>Class Summary</caption>
 				<thead>
 					<tr>
@@ -248,7 +248,7 @@ ul.inheritsList
 						<td class="attributes">&nbsp;</td>
 						<td class="nameDescription" >
 							<div class="fixedFont">
-								<b><a href="../symbols/allplayers.groups.html#constructor">allplayers.groups</a></b>(api, options)
+								<b><a href="../symbols/allplayers.event.html#constructor">allplayers.event</a></b>(api, options, eventInfo)
 							</div>
 							<div class="description"></div>
 						</td>
@@ -261,10 +261,53 @@ ul.inheritsList
 			
 				
 				
+				<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class allplayers.event.">
+					<caption>Field Summary</caption>
+					<thead>
+						<tr>
+							<th scope="col">Field Attributes</th>
+							<th scope="col">Field Name and Description</th>
+						</tr>
+					</thead>
+					<tbody>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/allplayers.event.html#allDay">allDay</a></b>
+								</div>
+								<div class="description">All day flag</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/allplayers.event.html#end">end</a></b>
+								</div>
+								<div class="description">The end time</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/allplayers.event.html#start">start</a></b>
+								</div>
+								<div class="description">The start time</div>
+							</td>
+						</tr>
+					
+					</tbody>
+				</table>
+				
 				
 				
 				<dl class="inheritsList">
-				<dt>Fields borrowed from class <a href="../symbols/allplayers.base.html">allplayers.base</a>: </dt><dd><a href="../symbols/allplayers.base.html#api">api</a>, <a href="../symbols/allplayers.base.html#options">options</a></dd>
+				<dt>Fields borrowed from class <a href="../symbols/allplayers.entity.html">allplayers.entity</a>: </dt><dd><a href="../symbols/allplayers.entity.html#description">description</a>, <a href="../symbols/allplayers.entity.html#title">title</a>, <a href="../symbols/allplayers.entity.html#uuid">uuid</a></dd><dt>Fields borrowed from class <a href="../symbols/allplayers.base.html">allplayers.base</a>: </dt><dd><a href="../symbols/allplayers.base.html#api">api</a>, <a href="../symbols/allplayers.base.html#options">options</a></dd>
 				</dl>
 				
 			
@@ -273,7 +316,7 @@ ul.inheritsList
 			
 				
 				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class allplayers.groups.">
+				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class allplayers.event.">
 					<caption>Method Summary</caption>
 					<thead>
 						<tr>
@@ -286,18 +329,9 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/allplayers.groups.html#getGroup">getGroup</a></b>(uuid, callback)
+								<div class="fixedFont"><b><a href="../symbols/allplayers.event.html#save">save</a></b>()
 								</div>
-								<div class="description">Returns group information provided a UUID.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/allplayers.groups.html#getGroups">getGroups</a></b>(search, callback)
-								</div>
-								<div class="description">Fetch all groups provided a filter.</div>
+								<div class="description">Save an event to the database.</div>
 							</td>
 						</tr>
 					
@@ -307,7 +341,7 @@ ul.inheritsList
 				
 				
 				<dl class="inheritsList">
-				<dt>Methods borrowed from class <a href="../symbols/allplayers.base.html">allplayers.base</a>: </dt><dd><a href="../symbols/allplayers.base.html#log">log</a></dd>
+				<dt>Methods borrowed from class <a href="../symbols/allplayers.entity.html">allplayers.entity</a>: </dt><dd><a href="../symbols/allplayers.entity.html#update">update</a></dd><dt>Methods borrowed from class <a href="../symbols/allplayers.base.html">allplayers.base</a>: </dt><dd><a href="../symbols/allplayers.base.html#log">log</a></dd>
 				</dl>
 				
 			
@@ -322,7 +356,7 @@ ul.inheritsList
 				</div>
 				
 				<div class="fixedFont">
-						<b>allplayers.groups</b>(api, options)
+						<b>allplayers.event</b>(api, options, eventInfo)
 				</div>
 				
 				<div class="description">
@@ -349,6 +383,12 @@ ul.inheritsList
 							</dt>
 								<dd>The options for this class.</dd>
 						
+							<dt>
+								<span class="light fixedFont">{object}</span>  <b>eventInfo</b>
+								
+							</dt>
+								<dd>The event information.</dd>
+						
 						</dl>
 					
 					
@@ -363,48 +403,25 @@ ul.inheritsList
 
 <!-- ============================== field details ========================== -->		
 			
-
-<!-- ============================== method details ========================= -->		
-			
 				<div class="sectionTitle">
-					Method Detail
+					Field Detail
 				</div>
 				
-					<a name="getGroup"> </a>
+					<a name="allDay"> </a>
 					<div class="fixedFont">
 					
 					
-					<b>getGroup</b>(uuid, callback)
+					<b>allDay</b>
 					
 					</div>
 					<div class="description">
-						Returns group information provided a UUID.
+						All day flag
 						
 						
 					</div>
 					
 					
-					
-						
-							<dl class="detailList">
-							<dt class="heading">Parameters:</dt>
-							
-								<dt>
-									<span class="light fixedFont">{string}</span> <b>uuid</b>
-									
-								</dt>
-								<dd>The univerally unique identifier for this group.</dd>
-							
-								<dt>
-									<span class="light fixedFont">{function}</span> <b>callback</b>
-									
-								</dt>
-								<dd>The callback to handle the group object.</dd>
-							
-							</dl>
-						
-						
-						
+
 						
 						
 						
@@ -412,38 +429,73 @@ ul.inheritsList
 
 					<hr />
 				
-					<a name="getGroups"> </a>
+					<a name="end"> </a>
 					<div class="fixedFont">
 					
 					
-					<b>getGroups</b>(search, callback)
+					<b>end</b>
 					
 					</div>
 					<div class="description">
-						Fetch all groups provided a filter.
+						The end time
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="start"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>start</b>
+					
+					</div>
+					<div class="description">
+						The start time
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					
+				
+			
+
+<!-- ============================== method details ========================= -->		
+			
+				<div class="sectionTitle">
+					Method Detail
+				</div>
+				
+					<a name="save"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>save</b>()
+					
+					</div>
+					<div class="description">
+						Save an event to the database.
 						
 						
 					</div>
 					
 					
 					
-						
-							<dl class="detailList">
-							<dt class="heading">Parameters:</dt>
-							
-								<dt>
-									<span class="light fixedFont">{string}</span> <b>search</b>
-									
-								</dt>
-								<dd>Search string to filter groups.</dd>
-							
-								<dt>
-									<span class="light fixedFont">{function}</span> <b>callback</b>
-									
-								</dt>
-								<dd>The callback function for all the groups.</dd>
-							
-							</dl>
 						
 						
 						

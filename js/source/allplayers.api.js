@@ -24,6 +24,10 @@ var allplayers = allplayers || {};
     allplayers.base.call(this, null, options);
   };
 
+  // Create the proper derivation.
+  allplayers.api.prototype = new allplayers.base();
+  allplayers.api.prototype.constructor = allplayers.api;
+
   /**
    * Common callback function for data retrieval for the API.
    */
@@ -134,6 +138,15 @@ var allplayers = allplayers || {};
   allplayers.api.prototype.getEvents = function() {
 
   };
+
+  /**
+   * Saves an event
+   */
+  allplayers.api.prototype.saveEvent = function(event) {
+    this.log('Saving Event');
+    this.log(event);
+  };
+
 }(jQuery));
 
 
