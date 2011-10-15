@@ -144,7 +144,7 @@ var allplayers = allplayers || {};
    * Returns a list of all events.
    */
   allplayers.api.prototype.getEvents = function() {
-
+    this.log('Get Events');
   };
 
   /**

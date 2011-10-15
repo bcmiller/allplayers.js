@@ -144,7 +144,7 @@ var allplayers = allplayers || {};
    * Returns a list of all events.
    */
   allplayers.api.prototype.getEvents = function() {
-
+    this.log('Get Events');
   };
 
   /**
@@ -197,7 +197,7 @@ var allplayers = allplayers || {};
 
   /** The default options. */
   var defaults = {
-
+    dialog: '#calendar-dialog-form'
   };
 
   // Store all the calendar instances.
@@ -232,6 +232,7 @@ var allplayers = allplayers || {};
    * @param {object} options This components options.
    */
   allplayers.calendar = function(context, options) {
+
     // Make sure we provide default options...
     var _this = this;
     options = $.extend(defaults, options, {
@@ -241,24 +242,37 @@ var allplayers = allplayers || {};
         right: 'month,agendaWeek,agendaDay'
       },
       editable: true,
-      dayClick: this.onDayClick,
-      eventClick: this.onEventClick,
+      dayClick: function(date, allDay, jsEvent, view) {
+        console.log(date);
+        console.log(allDay);
+        console.log(jsEvent);
+        console.log(view);
+      },
+      eventClick: function(event, jsEvent, view) {
+        console.log(event);
+        console.log(jsEvent);
+        console.log(view);
+        //_this.dialog.show().dialog();
+      },
       eventDragStop: function(event, jsEvent, ui, view) {
 
         // Save this event.
-        event.obj.update(event);
-        event.obj.save();
+        event.update(event);
+        event.save();
       },
       eventResizeStop: function(event, jsEvent, ui, view) {
 
         // Save this event.
-        event.obj.update(event);
-        event.obj.save();
+        event.update(event);
+        event.save();
       },
       events: function(start, end, callback) {
         _this.getEvents(start, end, callback);
       }
     });
+
+    /** The calendar dialog to edit events */
+    this.dialog = $(options.dialog, context).hide();
 
     // Store this player instance.
     allplayers.calendars[options.id] = this;
@@ -271,10 +285,6 @@ var allplayers = allplayers || {};
 
     // Create the fullcalendar.
     context.fullCalendar(options);
-  };
-
-  allplayers.calendar.prototype.onDayClick = function() {
-    console.log('Day has been clicked');
   };
 
   allplayers.calendar.prototype.onEventClick = function() {
@@ -294,6 +304,13 @@ var allplayers = allplayers || {};
     }
   };
 
+  /**
+   * Get's all the events in this calendar.
+   *
+   * @param {Date} start The start timeframe.
+   * @param {Date} end The end timeframe.
+   * @param {function} callback The callback function to return the events.
+   */
   allplayers.calendar.prototype.getEvents = function(start, end, callback) {
     var year = end.getFullYear();
     var month = end.getMonth();
@@ -306,13 +323,11 @@ var allplayers = allplayers || {};
         offset: 0
       }, function(events) {
 
-        // Iterate through the events and add a new event object.
+        // Iterate through the events and make them allplayers.event's
         var i = events.length;
         var event = null;
         while (i--) {
-          event = new allplayers.event(_this.api, _this.options, events[i]);
-          events[i].allDay = false;
-          events[i].obj = event;
+          events[i] = new allplayers.event(_this.api, _this.options, events[i]);
         }
 
         // Add this to the events for the calendar.
@@ -392,6 +407,15 @@ var allplayers = allplayers || {};
 
     // Derive from allplayers.entity.
     allplayers.entity.call(this, api, options);
+
+    // Check to make sure the end and start in info are Date objects.
+    if (typeof eventInfo.start === 'string') {
+      eventInfo.start = new Date(eventInfo.start);
+    }
+
+    if (typeof eventInfo.end === 'string') {
+      eventInfo.end = new Date(eventInfo.end);
+    }
 
     // Update the data.
     this.update(eventInfo);

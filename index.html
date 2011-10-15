@@ -4,8 +4,12 @@
     <title>AllPlayer's API Calendar</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link rel='stylesheet' type='text/css' href='libraries/fullcalendar/fullcalendar/fullcalendar.css' />
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css" type="text/css" media="all" />
+    <style>
+      #calendar-dialog-form {display:none}
+    </style>
     <script type='text/javascript' src='libraries/fullcalendar/jquery/jquery-1.5.2.min.js'></script>
-    <script type='text/javascript' src='libraries/fullcalendar/jquery/jquery-ui-1.8.11.custom.min.js'></script>
+    <script type='text/javascript' src='libraries/fullcalendar/jquery/jquery-ui-1.8.16.custom.min.js'></script>
     <script type='text/javascript' src='libraries/fullcalendar/fullcalendar/fullcalendar.js'></script>
     <script type='text/javascript' src='js/source/allplayers.base.js'></script>
     <script type='text/javascript' src='js/source/allplayers.api.js'></script>
@@ -22,6 +26,20 @@
     </script>
   </head>
   <body>
-    <div id="calendar" style="width:800px;height:600px;"></div>
+    <div id="calendar" style="width:800px;height:600px;">
+      <div id="calendar-dialog-form" title="Create new user">
+        <p class="validateTips">All form fields are required.</p>
+        <form>
+          <fieldset>
+            <label for="name">Name</label>
+            <input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all" />
+            <label for="email">Email</label>
+            <input type="text" name="email" id="email" value="" class="text ui-widget-content ui-corner-all" />
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" value="" class="text ui-widget-content ui-corner-all" />
+          </fieldset>
+        </form>
+      </div>
+    </div>
   </body>
 </html>

@@ -25,6 +25,15 @@ var allplayers = allplayers || {};
     // Derive from allplayers.entity.
     allplayers.entity.call(this, api, options);
 
+    // Check to make sure the end and start in info are Date objects.
+    if (typeof eventInfo.start === 'string') {
+      eventInfo.start = new Date(eventInfo.start);
+    }
+
+    if (typeof eventInfo.end === 'string') {
+      eventInfo.end = new Date(eventInfo.end);
+    }
+
     // Update the data.
     this.update(eventInfo);
   };
