@@ -105,7 +105,7 @@ var allplayers = allplayers || {};
     }
     else {
       var _this = this;
-      this.api.getGroups('towncenter', function(groups) {
+      this.api.searchGroups({search: 'towncenter'}, function(groups) {
         _this.uuid = groups[0].uuid;
         callback.call(_this);
       });

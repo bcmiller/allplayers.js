@@ -13,11 +13,8 @@ var allplayers = allplayers || {};
 
     /** The default options for the api. */
     var defaults = {
-      path: 'https://www.pdup.allplayers.com/api/v1/rest'
+      api_path: 'https://www.pdup.allplayers.com/api/v1/rest'
     };
-
-    // Set the groups path.
-    defaults.group_path = defaults.path + '/groups';
 
     // Derive from allplayers.base.
     options = $.extend(defaults, options);
@@ -29,9 +26,27 @@ var allplayers = allplayers || {};
   allplayers.api.prototype.constructor = allplayers.api;
 
   /**
-   * Common callback function for data retrieval for the API.
+   * Master API function to get any results from the AllPlayers API.
+   *
+   * @param {string} type The content type returned from the API
+   * (groups, events, resources, etc).
+   *
+   * @param {object} params The additional params for this API.
+   * <ul>
+   * <li><strong>uuid</strong> - The universal unique ID.</li>
+   * <li><strong>filter</strong> - Additional content type filter.</li>
+   * <li><strong>query</strong> - key-value pairs to add to query string.</li>
+   * </ul>
+   *
+   * @param {function} callback The callback function.
    */
-  allplayers.api.prototype.get = function(path, callback) {
+  allplayers.api.prototype.get = function(type, params, callback) {
+    var path = this.options.api_path + '/' + type;
+    path += params.uuid ? ('/' + params.uuid) : '';
+    path += params.filter ? ('/' + params.filter) : '';
+    path += '.jsonp?';
+    path += params.query ? (jQuery.param(params.query) + '&') : '';
+    path += 'callback=?';
     $.getJSON(path, function(data, textStatus) {
       if (textStatus == 'success') {
         callback(data);
@@ -42,42 +57,24 @@ var allplayers = allplayers || {};
     });
   };
 
-  /**
-   * Returns all the groups.
-   *
-   * <strong>Usage:</strong>
-   * <code>
-   *   var api = new allplayers.api();
-   *   api.getGroups('', function(groups) {
-   *    var i = groups.length;
-   *    while (i--) {
-   *      console.log(groups[i].title + ' found!');
-   *    }
-   *   });
-   * </code>
-   *
-   * @param {string} search The search string to use when getting the groups.
-   * @param {function} callback A callback function to handle the groups
-   * returned from this api call. See usage.
-   */
-  allplayers.api.prototype.getGroups = function(search, callback) {
-    var path = this.options.group_path + '.jsonp?';
-    path += search ? 'search="' + encodeURIComponent(search) + '"&' : '';
-    path += 'callback=?';
-    this.get(path, callback);
-  };
 
   /**
-   * Returns group information provided a UUID.
+   * Get the groups based on a search query.
    *
-   * @param {string} uuid The univerally unique identifier for this group.
-   * @param {function} callback The callback to handle the return JSON data.
+   * @see https://www.allplayers.com/api/v1/rest/wadl/describe.xml#search
    */
-  allplayers.api.prototype.getGroup = function(uuid, params, callback) {
-    var path = this.options.group_path + '/' + uuid + '.jsonp?';
-    path += params ? (jQuery.param(params) + '&') : '';
-    path += 'callback=?';
-    this.get(path, callback);
+  allplayers.api.prototype.searchGroups = function(query, callback) {
+    this.get('groups', {query: query}, callback);
+  };
+
+
+  /**
+   * Return a group provided a uuid.
+   *
+   * @see https://www.allplayers.com/api/v1/rest/wadl/describe.xml#uuid
+   */
+  allplayers.api.prototype.getGroup = function(uuid, query, callback) {
+    this.get('groups', {uuid: uuid, query: query}, callback);
   };
 
   /**
@@ -89,62 +86,39 @@ var allplayers = allplayers || {};
   };
 
   /**
-   * Returns group albums provided a UUID.
+   * Returns a groups albums provided a uuid.
    *
-   * @param {string} uuid The univerally unique identifier for this group.
-   * @param {function} callback The callback to handle the return JSON data.
+   * @see https://www.allplayers.com/api/v1/rest/wadl/describe.xml#albums
    */
-  allplayers.api.prototype.getGroupAlbums = function(uuid, params, callback) {
-    var path = this.options.group_path + '/' + uuid + '/albums.jsonp?';
-    path += params ? (jQuery.param(params) + '&') : '';
-    path += 'callback=?';
-    this.get(path, callback);
+  allplayers.api.prototype.getGroupAlbums = function(uuid, query, callback) {
+    this.get('groups', {uuid: uuid, query: query, filter: 'albums'}, callback);
   };
 
   /**
-   * Returns group events provided a UUID.
+   * Returns a groups events provided a uuid.
    *
-   * @param {string} uuid The univerally unique identifier for this group.
-   * @param {function} callback The callback to handle the return JSON data.
+   * @see https://www.allplayers.com/api/v1/rest/wadl/describe.xml#events
    */
-  allplayers.api.prototype.getGroupEvents = function(uuid, params, callback) {
-    var path = this.options.group_path + '/' + uuid + '/events.jsonp?';
-    path += params ? (jQuery.param(params) + '&') : '';
-    path += 'callback=?';
-    this.get(path, callback);
+  allplayers.api.prototype.getGroupEvents = function(uuid, query, callback) {
+    this.get('groups', {uuid: uuid, query: query, filter: 'events'}, callback);
   };
 
   /**
-   * Returns group members provided a UUID.
+   * Returns a groups members provided a uuid.
    *
-   * @param {string} uuid The univerally unique identifier for this group.
-   * @param {function} callback The callback to handle the return JSON data.
+   * @see https://www.allplayers.com/api/v1/rest/wadl/describe.xml#members
    */
-  allplayers.api.prototype.getGroupMembers = function(uuid, params, callback) {
-    var path = this.options.group_path + '/' + uuid + '/members.jsonp?';
-    path += params ? (jQuery.param(params) + '&') : '';
-    path += 'callback=?';
-    this.get(path, callback);
+  allplayers.api.prototype.getGroupMembers = function(uuid, query, callback) {
+    this.get('groups', {uuid: uuid, query: query, filter: 'members'}, callback);
   };
 
   /**
-   * Returns group photos provided a UUID.
+   * Returns a groups photos provided a uuid.
    *
-   * @param {string} uuid The univerally unique identifier for this group.
-   * @param {function} callback The callback to handle the return JSON data.
+   * @see https://www.allplayers.com/api/v1/rest/wadl/describe.xml#photos
    */
-  allplayers.api.prototype.getGroupPhotos = function(uuid, params, callback) {
-    var path = this.options.group_path + '/' + uuid + '/photos.jsonp?';
-    path += params ? (jQuery.param(params) + '&') : '';
-    path += 'callback=?';
-    this.get(path, callback);
-  };
-
-  /**
-   * Returns a list of all events.
-   */
-  allplayers.api.prototype.getEvents = function() {
-    this.log('Get Events');
+  allplayers.api.prototype.getGroupPhotos = function(query, callback) {
+    this.get('groups', {query: query, filter: 'photos'}, callback);
   };
 
   /**

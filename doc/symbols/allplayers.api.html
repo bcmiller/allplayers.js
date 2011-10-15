@@ -309,72 +309,54 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/allplayers.api.html#get">get</a></b>(path, callback)
+								<div class="fixedFont"><b><a href="../symbols/allplayers.api.html#get">get</a></b>(type, params, callback)
 								</div>
-								<div class="description">Common callback function for data retrieval for the API.</div>
+								<div class="description">Master API function to get any results from the AllPlayers API.</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/allplayers.api.html#getEvents">getEvents</a></b>()
+								<div class="fixedFont"><b><a href="../symbols/allplayers.api.html#getGroup">getGroup</a></b>(uuid, query, callback)
 								</div>
-								<div class="description">Returns a list of all events.</div>
+								<div class="description">Return a group provided a uuid.</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/allplayers.api.html#getGroup">getGroup</a></b>(uuid, callback, callback)
+								<div class="fixedFont"><b><a href="../symbols/allplayers.api.html#getGroupAlbums">getGroupAlbums</a></b>(uuid, query, callback)
 								</div>
-								<div class="description">Returns group information provided a UUID.</div>
+								<div class="description">Returns a groups albums provided a uuid.</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/allplayers.api.html#getGroupAlbums">getGroupAlbums</a></b>(uuid, callback, callback)
+								<div class="fixedFont"><b><a href="../symbols/allplayers.api.html#getGroupEvents">getGroupEvents</a></b>(uuid, query, callback)
 								</div>
-								<div class="description">Returns group albums provided a UUID.</div>
+								<div class="description">Returns a groups events provided a uuid.</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/allplayers.api.html#getGroupEvents">getGroupEvents</a></b>(uuid, callback, callback)
+								<div class="fixedFont"><b><a href="../symbols/allplayers.api.html#getGroupMembers">getGroupMembers</a></b>(uuid, query, callback)
 								</div>
-								<div class="description">Returns group events provided a UUID.</div>
+								<div class="description">Returns a groups members provided a uuid.</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/allplayers.api.html#getGroupMembers">getGroupMembers</a></b>(uuid, callback, callback)
+								<div class="fixedFont"><b><a href="../symbols/allplayers.api.html#getGroupPhotos">getGroupPhotos</a></b>(query, callback)
 								</div>
-								<div class="description">Returns group members provided a UUID.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/allplayers.api.html#getGroupPhotos">getGroupPhotos</a></b>(uuid, callback, callback)
-								</div>
-								<div class="description">Returns group photos provided a UUID.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/allplayers.api.html#getGroups">getGroups</a></b>(search, callback)
-								</div>
-								<div class="description">Returns all the groups.</div>
+								<div class="description">Returns a groups photos provided a uuid.</div>
 							</td>
 						</tr>
 					
@@ -393,6 +375,15 @@ ul.inheritsList
 								<div class="fixedFont"><b><a href="../symbols/allplayers.api.html#saveGroup">saveGroup</a></b>(group)
 								</div>
 								<div class="description">Saves a group</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/allplayers.api.html#searchGroups">searchGroups</a></b>(query, callback)
+								</div>
+								<div class="description">Get the groups based on a search query.</div>
 							</td>
 						</tr>
 					
@@ -490,11 +481,11 @@ ul.inheritsList
 					<div class="fixedFont">
 					
 					
-					<b>get</b>(path, callback)
+					<b>get</b>(type, params, callback)
 					
 					</div>
 					<div class="description">
-						Common callback function for data retrieval for the API.
+						Master API function to get any results from the AllPlayers API.
 						
 						
 					</div>
@@ -506,43 +497,30 @@ ul.inheritsList
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<b>path</b>
+									<span class="light fixedFont">{string}</span> <b>type</b>
 									
 								</dt>
-								<dd></dd>
+								<dd>The content type returned from the API
+(groups, events, resources, etc).</dd>
 							
 								<dt>
-									<b>callback</b>
+									<span class="light fixedFont">{object}</span> <b>params</b>
 									
 								</dt>
-								<dd></dd>
+								<dd>The additional params for this API.
+<ul>
+<li><strong>uuid</strong> - The universal unique ID.</li>
+<li><strong>filter</strong> - Additional content type filter.</li>
+<li><strong>query</strong> - key-value pairs to add to query string.</li>
+</ul></dd>
+							
+								<dt>
+									<span class="light fixedFont">{function}</span> <b>callback</b>
+									
+								</dt>
+								<dd>The callback function.</dd>
 							
 							</dl>
-						
-						
-						
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name="getEvents"> </a>
-					<div class="fixedFont">
-					
-					
-					<b>getEvents</b>()
-					
-					</div>
-					<div class="description">
-						Returns a list of all events.
-						
-						
-					</div>
-					
-					
-					
 						
 						
 						
@@ -557,11 +535,11 @@ ul.inheritsList
 					<div class="fixedFont">
 					
 					
-					<b>getGroup</b>(uuid, callback, callback)
+					<b>getGroup</b>(uuid, query, callback)
 					
 					</div>
 					<div class="description">
-						Returns group information provided a UUID.
+						Return a group provided a uuid.
 						
 						
 					</div>
@@ -573,16 +551,16 @@ ul.inheritsList
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<span class="light fixedFont">{string}</span> <b>uuid</b>
+									<b>uuid</b>
 									
 								</dt>
-								<dd>The univerally unique identifier for this group.</dd>
+								<dd></dd>
 							
 								<dt>
-									<span class="light fixedFont">{function}</span> <b>callback</b>
+									<b>query</b>
 									
 								</dt>
-								<dd>The callback to handle the return JSON data.</dd>
+								<dd></dd>
 							
 								<dt>
 									<b>callback</b>
@@ -597,6 +575,13 @@ ul.inheritsList
 						
 						
 						
+						
+							<dl class="detailList">
+							<dt class="heading">See:</dt>
+							
+								<dd>https://www.allplayers.com/api/v1/rest/wadl/describe.xml#uuid</dd>
+							
+							</dl>
 						
 
 					<hr />
@@ -605,11 +590,11 @@ ul.inheritsList
 					<div class="fixedFont">
 					
 					
-					<b>getGroupAlbums</b>(uuid, callback, callback)
+					<b>getGroupAlbums</b>(uuid, query, callback)
 					
 					</div>
 					<div class="description">
-						Returns group albums provided a UUID.
+						Returns a groups albums provided a uuid.
 						
 						
 					</div>
@@ -621,16 +606,16 @@ ul.inheritsList
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<span class="light fixedFont">{string}</span> <b>uuid</b>
+									<b>uuid</b>
 									
 								</dt>
-								<dd>The univerally unique identifier for this group.</dd>
+								<dd></dd>
 							
 								<dt>
-									<span class="light fixedFont">{function}</span> <b>callback</b>
+									<b>query</b>
 									
 								</dt>
-								<dd>The callback to handle the return JSON data.</dd>
+								<dd></dd>
 							
 								<dt>
 									<b>callback</b>
@@ -645,6 +630,13 @@ ul.inheritsList
 						
 						
 						
+						
+							<dl class="detailList">
+							<dt class="heading">See:</dt>
+							
+								<dd>https://www.allplayers.com/api/v1/rest/wadl/describe.xml#albums</dd>
+							
+							</dl>
 						
 
 					<hr />
@@ -653,11 +645,11 @@ ul.inheritsList
 					<div class="fixedFont">
 					
 					
-					<b>getGroupEvents</b>(uuid, callback, callback)
+					<b>getGroupEvents</b>(uuid, query, callback)
 					
 					</div>
 					<div class="description">
-						Returns group events provided a UUID.
+						Returns a groups events provided a uuid.
 						
 						
 					</div>
@@ -669,16 +661,16 @@ ul.inheritsList
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<span class="light fixedFont">{string}</span> <b>uuid</b>
+									<b>uuid</b>
 									
 								</dt>
-								<dd>The univerally unique identifier for this group.</dd>
+								<dd></dd>
 							
 								<dt>
-									<span class="light fixedFont">{function}</span> <b>callback</b>
+									<b>query</b>
 									
 								</dt>
-								<dd>The callback to handle the return JSON data.</dd>
+								<dd></dd>
 							
 								<dt>
 									<b>callback</b>
@@ -693,6 +685,13 @@ ul.inheritsList
 						
 						
 						
+						
+							<dl class="detailList">
+							<dt class="heading">See:</dt>
+							
+								<dd>https://www.allplayers.com/api/v1/rest/wadl/describe.xml#events</dd>
+							
+							</dl>
 						
 
 					<hr />
@@ -701,11 +700,11 @@ ul.inheritsList
 					<div class="fixedFont">
 					
 					
-					<b>getGroupMembers</b>(uuid, callback, callback)
+					<b>getGroupMembers</b>(uuid, query, callback)
 					
 					</div>
 					<div class="description">
-						Returns group members provided a UUID.
+						Returns a groups members provided a uuid.
 						
 						
 					</div>
@@ -717,16 +716,16 @@ ul.inheritsList
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<span class="light fixedFont">{string}</span> <b>uuid</b>
+									<b>uuid</b>
 									
 								</dt>
-								<dd>The univerally unique identifier for this group.</dd>
+								<dd></dd>
 							
 								<dt>
-									<span class="light fixedFont">{function}</span> <b>callback</b>
+									<b>query</b>
 									
 								</dt>
-								<dd>The callback to handle the return JSON data.</dd>
+								<dd></dd>
 							
 								<dt>
 									<b>callback</b>
@@ -741,6 +740,13 @@ ul.inheritsList
 						
 						
 						
+						
+							<dl class="detailList">
+							<dt class="heading">See:</dt>
+							
+								<dd>https://www.allplayers.com/api/v1/rest/wadl/describe.xml#members</dd>
+							
+							</dl>
 						
 
 					<hr />
@@ -749,11 +755,11 @@ ul.inheritsList
 					<div class="fixedFont">
 					
 					
-					<b>getGroupPhotos</b>(uuid, callback, callback)
+					<b>getGroupPhotos</b>(query, callback)
 					
 					</div>
 					<div class="description">
-						Returns group photos provided a UUID.
+						Returns a groups photos provided a uuid.
 						
 						
 					</div>
@@ -765,16 +771,10 @@ ul.inheritsList
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<span class="light fixedFont">{string}</span> <b>uuid</b>
+									<b>query</b>
 									
 								</dt>
-								<dd>The univerally unique identifier for this group.</dd>
-							
-								<dt>
-									<span class="light fixedFont">{function}</span> <b>callback</b>
-									
-								</dt>
-								<dd>The callback to handle the return JSON data.</dd>
+								<dd></dd>
 							
 								<dt>
 									<b>callback</b>
@@ -790,59 +790,12 @@ ul.inheritsList
 						
 						
 						
-
-					<hr />
-				
-					<a name="getGroups"> </a>
-					<div class="fixedFont">
-					
-					
-					<b>getGroups</b>(search, callback)
-					
-					</div>
-					<div class="description">
-						Returns all the groups.
-
-<strong>Usage:</strong>
-<code>
-  var api = new allplayers.api();
-  api.getGroups('', function(groups) {
-   var i = groups.length;
-   while (i--) {
-     console.log(groups[i].title + ' found!');
-   }
-  });
-</code>
-						
-						
-					</div>
-					
-					
-					
-						
 							<dl class="detailList">
-							<dt class="heading">Parameters:</dt>
+							<dt class="heading">See:</dt>
 							
-								<dt>
-									<span class="light fixedFont">{string}</span> <b>search</b>
-									
-								</dt>
-								<dd>The search string to use when getting the groups.</dd>
-							
-								<dt>
-									<span class="light fixedFont">{function}</span> <b>callback</b>
-									
-								</dt>
-								<dd>A callback function to handle the groups
-returned from this api call. See usage.</dd>
+								<dd>https://www.allplayers.com/api/v1/rest/wadl/describe.xml#photos</dd>
 							
 							</dl>
-						
-						
-						
-						
-						
-						
 						
 
 					<hr />
@@ -917,6 +870,55 @@ returned from this api call. See usage.</dd>
 						
 						
 
+					<hr />
+				
+					<a name="searchGroups"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>searchGroups</b>(query, callback)
+					
+					</div>
+					<div class="description">
+						Get the groups based on a search query.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>query</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<b>callback</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">See:</dt>
+							
+								<dd>https://www.allplayers.com/api/v1/rest/wadl/describe.xml#search</dd>
+							
+							</dl>
+						
+
 					
 				
 			
@@ -931,7 +933,7 @@ returned from this api call. See usage.</dd>
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Fri Oct 14 2011 21:04:29 GMT-0500 (CDT)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Fri Oct 14 2011 22:52:57 GMT-0500 (CDT)
 		</div>
 	</body>
 </html>
