@@ -13,7 +13,7 @@ var allplayers = allplayers || {};
 
     /** The default options for the api. */
     var defaults = {
-      api_path: 'https://www.pdup.allplayers.com/api/v1/rest'
+      api_path: 'https://www.ttidwell.allplayers.com/api/v1/rest'
     };
 
     // Derive from allplayers.base.

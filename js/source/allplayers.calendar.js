@@ -105,7 +105,7 @@ var allplayers = allplayers || {};
     }
     else {
       var _this = this;
-      this.api.searchGroups({search: 'towncenter'}, function(groups) {
+      this.api.searchGroups({search: 'Spring Soccer 2011'}, function(groups) {
         _this.uuid = groups[0].uuid;
         callback.call(_this);
       });
@@ -120,12 +120,21 @@ var allplayers = allplayers || {};
    * @param {function} callback The callback function to return the events.
    */
   allplayers.calendar.prototype.getEvents = function(start, end, callback) {
-    var year = end.getFullYear();
-    var month = end.getMonth();
+
+    // Format the start and end strings according to the AllPlayers API.
+    var startString = start.getFullYear() + '-';
+    startString += start.getMonth() + '-';
+    startString += start.getDate();
+
+    var endString = end.getFullYear() + '-';
+    endString += end.getMonth() + '-';
+    endString += end.getDate();
+
     this.getUUID(function() {
       var _this = this;
       this.api.getGroupEvents(this.uuid, {
-        month: year + '-' + month,
+        start: startString,
+        end: endString,
         fields: '*',
         limit: 0,
         offset: 0
