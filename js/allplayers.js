@@ -61,7 +61,9 @@ var allplayers = allplayers || {};
   };
 
   /**
-   * API function to update any object on the AllPlayers server.
+   * API function to save any object on the AllPlayers server.  If the object
+   * already has a UUID, then this is a simple update, otherwise it will create
+   * a new object.
    *
    * @param {string} type The content type returned from the API
    * (groups, events, resources, etc).
@@ -71,42 +73,12 @@ var allplayers = allplayers || {};
    * finished updating.
    */
   allplayers.api.prototype.save = function(type, object, callback) {
-    var path = this.options.api_path + '/' + type;
-    path += '.json';
+    var path = this.options.api_path + '/' + type + '.json';
     $.ajax({
       url: path,
       dataType: 'json',
-      type: 'PUT',
+      type: (object.uuid) ? 'PUT' : 'POST',
       data: object,
-      success: function(data, textStatus) {
-        if (textStatus == 'success') {
-          callback(data);
-        }
-        else {
-          this.log('Error: ' + textStatus);
-        }
-      }
-    });
-  };
-
-  /**
-   * API function to create any object on the AllPlayers server.
-   *
-   * @param {string} type The content type returned from the API
-   * (groups, events, resources, etc).
-   *
-   * @param {object} entity The entity you wish to create on the server.
-   * @param {function} callback The function to be called when the entity has
-   * finished updating.
-   */
-  allplayers.api.prototype.create = function(type, entity, callback) {
-    var path = this.options.api_path + '/' + type;
-    path += '.json';
-    $.ajax({
-      url: path,
-      dataType: 'json',
-      type: 'POST',
-      data: entity,
       success: function(data, textStatus) {
         if (textStatus == 'success') {
           callback(data);
