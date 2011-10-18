@@ -123,11 +123,11 @@ var allplayers = allplayers || {};
 
     // Format the start and end strings according to the AllPlayers API.
     var startString = start.getFullYear() + '-';
-    startString += start.getMonth() + '-';
+    startString += (start.getMonth()+1) + '-';
     startString += start.getDate();
 
     var endString = end.getFullYear() + '-';
-    endString += end.getMonth() + '-';
+    endString += (end.getMonth()+1) + '-';
     endString += end.getDate();
 
     this.getUUID(function() {
