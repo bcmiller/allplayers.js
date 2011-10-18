@@ -26,7 +26,7 @@ var allplayers = allplayers || {};
   allplayers.api.prototype.constructor = allplayers.api;
 
   /**
-   * Master API function to get any results from the AllPlayers API.
+   * API function to get any results from the AllPlayers API.
    *
    * @param {string} type The content type returned from the API
    * (groups, events, resources, etc).
@@ -46,17 +46,77 @@ var allplayers = allplayers || {};
     path += params.filter ? ('/' + params.filter) : '';
     path += '.jsonp?';
     path += params.query ? (jQuery.param(params.query) + '&') : '';
-    path += 'callback=?';
-    $.getJSON(path, function(data, textStatus) {
-      if (textStatus == 'success') {
-        callback(data);
-      }
-      else {
-        this.log('Error: ' + textStatus);
+    $.ajax({
+      url: path,
+      dataType: 'jsonp',
+      success: function(data, textStatus) {
+        if (textStatus == 'success') {
+          callback(data);
+        }
+        else {
+          this.log('Error: ' + textStatus);
+        }
       }
     });
   };
 
+  /**
+   * API function to update any object on the AllPlayers server.
+   *
+   * @param {string} type The content type returned from the API
+   * (groups, events, resources, etc).
+   *
+   * @param {object} object The object you wish to update on the server.
+   * @param {function} callback The function to be called when the entity has
+   * finished updating.
+   */
+  allplayers.api.prototype.save = function(type, object, callback) {
+    var path = this.options.api_path + '/' + type;
+    path += '.json';
+    $.ajax({
+      url: path,
+      dataType: 'json',
+      type: 'PUT',
+      data: object,
+      success: function(data, textStatus) {
+        if (textStatus == 'success') {
+          callback(data);
+        }
+        else {
+          this.log('Error: ' + textStatus);
+        }
+      }
+    });
+  };
+
+  /**
+   * API function to create any object on the AllPlayers server.
+   *
+   * @param {string} type The content type returned from the API
+   * (groups, events, resources, etc).
+   *
+   * @param {object} entity The entity you wish to create on the server.
+   * @param {function} callback The function to be called when the entity has
+   * finished updating.
+   */
+  allplayers.api.prototype.create = function(type, entity, callback) {
+    var path = this.options.api_path + '/' + type;
+    path += '.json';
+    $.ajax({
+      url: path,
+      dataType: 'json',
+      type: 'POST',
+      data: entity,
+      success: function(data, textStatus) {
+        if (textStatus == 'success') {
+          callback(data);
+        }
+        else {
+          this.log('Error: ' + textStatus);
+        }
+      }
+    });
+  };
 
   /**
    * Get the groups based on a search query.
@@ -124,9 +184,8 @@ var allplayers = allplayers || {};
   /**
    * Saves an event
    */
-  allplayers.api.prototype.saveEvent = function(event) {
-    this.log('Saving Event');
-    this.log(event);
+  allplayers.api.prototype.saveEvent = function(event, callback) {
+    this.save('events', event, callback);
   };
 
 }(jQuery));

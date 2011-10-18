@@ -26,7 +26,7 @@ var allplayers = allplayers || {};
   allplayers.api.prototype.constructor = allplayers.api;
 
   /**
-   * Master API function to get any results from the AllPlayers API.
+   * API function to get any results from the AllPlayers API.
    *
    * @param {string} type The content type returned from the API
    * (groups, events, resources, etc).
@@ -46,17 +46,77 @@ var allplayers = allplayers || {};
     path += params.filter ? ('/' + params.filter) : '';
     path += '.jsonp?';
     path += params.query ? (jQuery.param(params.query) + '&') : '';
-    path += 'callback=?';
-    $.getJSON(path, function(data, textStatus) {
-      if (textStatus == 'success') {
-        callback(data);
-      }
-      else {
-        this.log('Error: ' + textStatus);
+    $.ajax({
+      url: path,
+      dataType: 'jsonp',
+      success: function(data, textStatus) {
+        if (textStatus == 'success') {
+          callback(data);
+        }
+        else {
+          this.log('Error: ' + textStatus);
+        }
       }
     });
   };
 
+  /**
+   * API function to update any object on the AllPlayers server.
+   *
+   * @param {string} type The content type returned from the API
+   * (groups, events, resources, etc).
+   *
+   * @param {object} object The object you wish to update on the server.
+   * @param {function} callback The function to be called when the entity has
+   * finished updating.
+   */
+  allplayers.api.prototype.save = function(type, object, callback) {
+    var path = this.options.api_path + '/' + type;
+    path += '.json';
+    $.ajax({
+      url: path,
+      dataType: 'json',
+      type: 'PUT',
+      data: object,
+      success: function(data, textStatus) {
+        if (textStatus == 'success') {
+          callback(data);
+        }
+        else {
+          this.log('Error: ' + textStatus);
+        }
+      }
+    });
+  };
+
+  /**
+   * API function to create any object on the AllPlayers server.
+   *
+   * @param {string} type The content type returned from the API
+   * (groups, events, resources, etc).
+   *
+   * @param {object} entity The entity you wish to create on the server.
+   * @param {function} callback The function to be called when the entity has
+   * finished updating.
+   */
+  allplayers.api.prototype.create = function(type, entity, callback) {
+    var path = this.options.api_path + '/' + type;
+    path += '.json';
+    $.ajax({
+      url: path,
+      dataType: 'json',
+      type: 'POST',
+      data: entity,
+      success: function(data, textStatus) {
+        if (textStatus == 'success') {
+          callback(data);
+        }
+        else {
+          this.log('Error: ' + textStatus);
+        }
+      }
+    });
+  };
 
   /**
    * Get the groups based on a search query.
@@ -124,9 +184,8 @@ var allplayers = allplayers || {};
   /**
    * Saves an event
    */
-  allplayers.api.prototype.saveEvent = function(event) {
-    this.log('Saving Event');
-    this.log(event);
+  allplayers.api.prototype.saveEvent = function(event, callback) {
+    this.save('events', event, callback);
   };
 
 }(jQuery));
@@ -231,14 +290,14 @@ var allplayers = allplayers || {};
       eventDragStop: function(event, jsEvent, ui, view) {
 
         // Save this event.
-        event.update(event);
-        event.save();
+        event.obj.update(event);
+        event.obj.save();
       },
       eventResizeStop: function(event, jsEvent, ui, view) {
 
         // Save this event.
-        event.update(event);
-        event.save();
+        event.obj.update(event);
+        event.obj.save();
       },
       events: function(start, end, callback) {
         _this.getEvents(start, end, callback);
@@ -289,11 +348,11 @@ var allplayers = allplayers || {};
 
     // Format the start and end strings according to the AllPlayers API.
     var startString = start.getFullYear() + '-';
-    startString += start.getMonth() + '-';
+    startString += (start.getMonth() + 1) + '-';
     startString += start.getDate();
 
     var endString = end.getFullYear() + '-';
-    endString += end.getMonth() + '-';
+    endString += (end.getMonth() + 1) + '-';
     endString += end.getDate();
 
     this.getUUID(function() {
@@ -310,7 +369,8 @@ var allplayers = allplayers || {};
         var i = events.length;
         var event = null;
         while (i--) {
-          events[i] = new allplayers.event(_this.api, _this.options, events[i]);
+          event = new allplayers.event(_this.api, _this.options, events[i]);
+          events[i].obj = event;
         }
 
         // Add this to the events for the calendar.
@@ -363,6 +423,199 @@ var allplayers = allplayers || {};
     // Allow this to update all the parameters based on what was updated.
     $.extend(true, this, entity);
   };
+
+  /**
+   * Returns the object to send during PUT's and POST's during a save or add.
+   *
+   * @return {object} An object of the data when saving to the server.
+   */
+  allplayers.entity.prototype.getObject = function() {
+    return {
+      uuid: this.uuid,
+      title: this.title,
+      description: this.description
+    };
+  };
+}(jQuery));
+/** The allplayers namespace. */
+var allplayers = allplayers || {};
+
+(function($) {
+
+  /**
+   * @class The date class wraps up the AllPlayers Date-Time object used in
+   * several parameters for Event creation, etc.
+   *
+   * <p><strong>Usage:</strong></p>
+   * <pre><code>
+   *   var start = new Date('2010-09-01T00:00:00');  // Start on 9-1-2011
+   *   var end = new Date('2012-09-20T00:00:00');    // End on 9-20-2012
+   *   var repeat = {
+   *     interval:1,                            // The repeat interval.
+   *     freq:'DAILY',                          // Repeat Daily
+   *     until:new Date('2012-09-04T00:00:00'), // Go until 9-4-2012
+   *     bymonth: ['1'],                        // January
+   *     bymonthday: ['3'],                     // 3rd of the month.
+   *     byday: [
+   *       'SU' => 'SU',                        // Sunday
+   *       '+1MO' => '+1MO',                    // First Monday of the Month
+   *       '+2WED' => '+2WED',                  // 2nd Wed of the month
+   *     ],
+   *     exdate: [
+   *       '2011-09-04T00:00:00'                // Except 9-4-2011
+   *       '2011-10-03T00:00:00'                // Except 10-3-2011
+   *     ],
+   *     rdate: [
+   *       '2011-09-01T00:00:00'                // Add 9-1-2011
+   *       '2011-10-04T00:00:00'                // ADD 10-4-2011
+   *     ]
+   *   };
+   *
+   *   // Create a new AllPlayers Date object.
+   *   var date = new allplayers.date(start, end, repeat);
+   *
+   *   // Add additional exceptions.
+   *   date.addException('2011-09-10T00:00:00');
+   *
+   *   // Add additional dates.
+   *   date.addRDate('2011-10-10T00:00:00');
+   * </code></pre>
+   *
+   * @param {Date} start The start date.
+   * @param {Date} end The end date.
+   * @param {object} repeat The repeat rule. In the following form.
+   */
+  allplayers.date = function(start, end, repeat) {
+
+    /**
+     * Creates a new date based on a parameter which could be a string, Date
+     * object, or nothing...
+     *
+     * @param {optional} date Either a date string, Date object, or nothing...
+     */
+    this.newDate = function(date) {
+      if (typeof date === 'string') {
+        return new Date(date);
+      }
+      else if (typeof date === 'Date') {
+        return date;
+      }
+      else {
+        return new Date();
+      }
+    }
+
+    /** The start date */
+    this.date_start = this.newDate(start);
+
+    /** The end date */
+    this.date_end = this.newDate(end);
+
+    /** The repeat rule */
+    this.repeat = repeat ? {
+      interval: (repeat.interval ? repeat.interval : 1),
+      freq: (repeat.freq ? repeat.freq : 'DAILY'),
+      until: this.newDate(repeat.until),
+      bymonth: (repeat.bymonth ? repeat.bymonth : []),
+      bymonthday: (repeat.bymonthday ? repeat.bymonthday : []),
+      byday: (repeat.byday ? repeat.byday : []),
+      exdate: (repeat.exdate ? repeat.exdate : []),
+      rdate: (repeat.rdate ? repeat.rdate : [])
+    } : null;
+  };
+
+  /**
+   * Updates the date start and end dates and repeat rule.
+   *
+   * @param {Date} start The new start date.
+   * @param {Date} end The new end date.
+   * @param {object} repeat The new repeat rule.
+   */
+  allplayers.date.prototype.update = function(start, end, repeat) {
+
+    this.date_start = start ? this.newDate(start) : this.date_start;
+    this.date_end = end ? this.newDate(end) : this.date_end;
+    if (repeat) {
+      repeat.until = this.newDate(repeat.until);
+      $.extend(this.repeat, repeat);
+    }
+  };
+
+  /**
+   * Adds a generic new date to repeat rule.
+   *
+   * @param {string} param The repeat rule parameter to set.
+   * @param {optional} date Either a date string, Date object, or nothing...
+   */
+  allplayers.date.prototype.addDate = function(param, date) {
+
+    // Normalize the date parameter.
+    date = this.newDate(date);
+
+    // Add this date.
+    this.repeat[param].push(date);
+  };
+
+  /**
+   * Add's an exception date to the repeat rule.
+   *
+   * @param {Date} except An exception date to remove from the repeat rule.
+   */
+  allplayers.date.prototype.addException = function(except) {
+
+    // Add an exception.
+    this.addDate('except', except);
+  };
+
+  /**
+   * Adds an additional date to the repeat rule.
+   *
+   * @param {Date} addition An additional date to add to the repeat rule.
+   */
+  allplayers.date.prototype.addRDate = function(addition) {
+
+    // Add an addition.
+    this.addDate('rdate', addition);
+  };
+
+  /**
+   * Returns the object which will be passed to the services API.
+   */
+  allplayers.date.prototype.getObject = function() {
+    var i = 0;
+    var obj = {
+      date_start: this.date_start.toString(),
+      date_end: this.date_end.toString()
+    };
+
+    // If there is a repeat rule, then add that to the object.
+    if (this.repeat) {
+      obj.repeat = {
+        interval: this.repeat.interval,
+        freq: this.repeat.freq,
+        until: this.repeat.until.toString(),
+        bymonth: this.repeat.bymonth,
+        bymonthday: this.repeat.bymonthday,
+        byday: this.repeat.byday,
+        exdate: [],
+        rdate: []
+      };
+
+      // Iterate through the exdate and rdate and add the date strings.
+      i = this.repeat.exdate.length;
+      while (i--) {
+        obj.repeat.exdate.push(this.repeat.exdate[i].toString());
+      }
+
+      i = this.repeat.rdate.length;
+      while (i--) {
+        obj.repeat.rdate.push(this.repeat.rdate[i].toString());
+      }
+    }
+
+    return obj;
+  };
+
 }(jQuery));
 /** The allplayers namespace. */
 var allplayers = allplayers || {};
@@ -379,26 +632,52 @@ var allplayers = allplayers || {};
    */
   allplayers.event = function(api, options, eventInfo) {
 
-    /** All day flag */
-    this.allDay = false;
+    /** An array of group UUID's that have this Event. */
+    this.gids = [];
 
-    /** The start time */
-    this.start = null;
+    /** An array of resource UUID's that are associated with this Event.*/
+    this.resources = [];
 
-    /** The end time */
-    this.end = null;
+    /**
+     * <p>The category of this event.</p>
+     * <ul>
+     * <li>Game</li>
+     * <li>Meeting</li>
+     * <li>Other</li>
+     * <li>Party</li>
+     * <li>Practice</li>
+     * <li>Scrimmage</li>
+     * </ul>
+     * <p><em>Game</em> and <em>Scrimmage</em> categories require competitors
+     * array to be passed and will override the title.</p>
+     */
+    this.category = eventInfo.category ? eventInfo.category : 'Other';
+
+    /**
+     * An associative array of competitor information, where the key is the
+     * UUID of the competitor and each entry contains a label and score like
+     * the following.
+     *
+     * <pre><code>
+     *   var competitors = {
+     *     '123456789' => {
+     *       'label':'Competitor 1',
+     *       'score':5
+     *     },
+     *     '232342342' => {
+     *       'label':'Competitor 2',
+     *       'score':10
+     *     }
+     *   };
+     * </code></pre>
+     */
+    this.competitors = {};
+
+    /** The date-time object */
+    this.date_time = new allplayers.date(eventInfo.start, eventInfo.end);
 
     // Derive from allplayers.entity.
     allplayers.entity.call(this, api, options);
-
-    // Check to make sure the end and start in info are Date objects.
-    if (typeof eventInfo.start === 'string') {
-      eventInfo.start = new Date(eventInfo.start);
-    }
-
-    if (typeof eventInfo.end === 'string') {
-      eventInfo.end = new Date(eventInfo.end);
-    }
 
     // Update the data.
     this.update(eventInfo);
@@ -414,7 +693,35 @@ var allplayers = allplayers || {};
   allplayers.event.prototype.save = function() {
 
     // Call the api event save function.
-    this.api.saveEvent(this);
+    this.api.saveEvent(this.getObject(), function() {
+      console.log('Event Saved!!!');
+    });
+  };
+
+  /**
+   * @see allplayers.entity#update
+   */
+  allplayers.event.prototype.update = function(date) {
+
+    // Call the entity first.
+    allplayers.entity.prototype.update.call(this, date);
+
+    // Now update the start and end dates.
+    this.date_time.update(date.start, date.end);
+  };
+
+
+  /**
+   * @see allplayers.entity#getObject
+   */
+  allplayers.event.prototype.getObject = function() {
+    return $.extend(allplayers.entity.prototype.getObject.call(this), {
+      gids: this.gids,
+      resources: this.resources,
+      category: this.category,
+      competitors: this.competitors,
+      date_time: this.date_time.getObject()
+    });
   };
 
 }(jQuery));

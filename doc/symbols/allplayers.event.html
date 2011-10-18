@@ -197,6 +197,8 @@ ul.inheritsList
 	
 	<li><a href="../symbols/allplayers.calendar.html">allplayers.calendar</a></li>
 	
+	<li><a href="../symbols/allplayers.date.html">allplayers.date</a></li>
+	
 	<li><a href="../symbols/allplayers.entity.html">allplayers.entity</a></li>
 	
 	<li><a href="../symbols/allplayers.event.html">allplayers.event</a></li>
@@ -275,9 +277,9 @@ ul.inheritsList
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
 								<div class="fixedFont">
-								<b><a href="../symbols/allplayers.event.html#allDay">allDay</a></b>
+								<b><a href="../symbols/allplayers.event.html#category">category</a></b>
 								</div>
-								<div class="description">All day flag</div>
+								<div class="description"><p>The category of this event.</div>
 							</td>
 						</tr>
 					
@@ -285,9 +287,11 @@ ul.inheritsList
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
 								<div class="fixedFont">
-								<b><a href="../symbols/allplayers.event.html#end">end</a></b>
+								<b><a href="../symbols/allplayers.event.html#competitors">competitors</a></b>
 								</div>
-								<div class="description">The end time</div>
+								<div class="description">An associative array of competitor information, where the key is the
+UUID of the competitor and each entry contains a label and score like
+the following.</div>
 							</td>
 						</tr>
 					
@@ -295,9 +299,29 @@ ul.inheritsList
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
 								<div class="fixedFont">
-								<b><a href="../symbols/allplayers.event.html#start">start</a></b>
+								<b><a href="../symbols/allplayers.event.html#date_time">date_time</a></b>
 								</div>
-								<div class="description">The start time</div>
+								<div class="description">The date-time object</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/allplayers.event.html#gids">gids</a></b>
+								</div>
+								<div class="description">An array of group UUID's that have this Event.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/allplayers.event.html#resources">resources</a></b>
+								</div>
+								<div class="description">An array of resource UUID's that are associated with this Event.</div>
 							</td>
 						</tr>
 					
@@ -329,9 +353,27 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/allplayers.event.html#getObject">getObject</a></b>()
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
 								<div class="fixedFont"><b><a href="../symbols/allplayers.event.html#save">save</a></b>()
 								</div>
 								<div class="description">Save an event to the database.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/allplayers.event.html#update">update</a></b>(date)
+								</div>
+								<div class="description"></div>
 							</td>
 						</tr>
 					
@@ -341,7 +383,7 @@ ul.inheritsList
 				
 				
 				<dl class="inheritsList">
-				<dt>Methods borrowed from class <a href="../symbols/allplayers.entity.html">allplayers.entity</a>: </dt><dd><a href="../symbols/allplayers.entity.html#update">update</a></dd><dt>Methods borrowed from class <a href="../symbols/allplayers.base.html">allplayers.base</a>: </dt><dd><a href="../symbols/allplayers.base.html#log">log</a></dd>
+				<dt>Methods borrowed from class <a href="../symbols/allplayers.base.html">allplayers.base</a>: </dt><dd><a href="../symbols/allplayers.base.html#log">log</a></dd>
 				</dl>
 				
 			
@@ -407,15 +449,25 @@ ul.inheritsList
 					Field Detail
 				</div>
 				
-					<a name="allDay"> </a>
+					<a name="category"> </a>
 					<div class="fixedFont">
 					
 					
-					<b>allDay</b>
+					<b>category</b>
 					
 					</div>
 					<div class="description">
-						All day flag
+						<p>The category of this event.</p>
+<ul>
+<li>Game</li>
+<li>Meeting</li>
+<li>Other</li>
+<li>Party</li>
+<li>Practice</li>
+<li>Scrimmage</li>
+</ul>
+<p><em>Game</em> and <em>Scrimmage</em> categories require competitors
+array to be passed and will override the title.</p>
 						
 						
 					</div>
@@ -429,15 +481,30 @@ ul.inheritsList
 
 					<hr />
 				
-					<a name="end"> </a>
+					<a name="competitors"> </a>
 					<div class="fixedFont">
 					
 					
-					<b>end</b>
+					<b>competitors</b>
 					
 					</div>
 					<div class="description">
-						The end time
+						An associative array of competitor information, where the key is the
+UUID of the competitor and each entry contains a label and score like
+the following.
+
+<pre><code>
+  var competitors = {
+    '123456789' => {
+      'label':'Competitor 1',
+      'score':5
+    },
+    '232342342' => {
+      'label':'Competitor 2',
+      'score':10
+    }
+  };
+</code></pre>
 						
 						
 					</div>
@@ -451,15 +518,59 @@ ul.inheritsList
 
 					<hr />
 				
-					<a name="start"> </a>
+					<a name="date_time"> </a>
 					<div class="fixedFont">
 					
 					
-					<b>start</b>
+					<b>date_time</b>
 					
 					</div>
 					<div class="description">
-						The start time
+						The date-time object
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="gids"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>gids</b>
+					
+					</div>
+					<div class="description">
+						An array of group UUID's that have this Event.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="resources"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>resources</b>
+					
+					</div>
+					<div class="description">
+						An array of resource UUID's that are associated with this Event.
 						
 						
 					</div>
@@ -480,6 +591,38 @@ ul.inheritsList
 				<div class="sectionTitle">
 					Method Detail
 				</div>
+				
+					<a name="getObject"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>getObject</b>()
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">See:</dt>
+							
+								<dd><a href="../symbols/allplayers.entity.html#getObject">allplayers.entity#getObject</a></dd>
+							
+							</dl>
+						
+
+					<hr />
 				
 					<a name="save"> </a>
 					<div class="fixedFont">
@@ -504,6 +647,49 @@ ul.inheritsList
 						
 						
 
+					<hr />
+				
+					<a name="update"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>update</b>(date)
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>date</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">See:</dt>
+							
+								<dd><a href="../symbols/allplayers.entity.html#update">allplayers.entity#update</a></dd>
+							
+							</dl>
+						
+
 					
 				
 			
@@ -518,7 +704,7 @@ ul.inheritsList
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Mon Oct 17 2011 13:05:23 GMT-0500 (CDT)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Tue Oct 18 2011 15:44:47 GMT-0500 (CDT)
 		</div>
 	</body>
 </html>

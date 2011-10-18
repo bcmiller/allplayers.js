@@ -65,14 +65,14 @@ var allplayers = allplayers || {};
       eventDragStop: function(event, jsEvent, ui, view) {
 
         // Save this event.
-        event.update(event);
-        event.save();
+        event.obj.update(event);
+        event.obj.save();
       },
       eventResizeStop: function(event, jsEvent, ui, view) {
 
         // Save this event.
-        event.update(event);
-        event.save();
+        event.obj.update(event);
+        event.obj.save();
       },
       events: function(start, end, callback) {
         _this.getEvents(start, end, callback);
@@ -123,11 +123,11 @@ var allplayers = allplayers || {};
 
     // Format the start and end strings according to the AllPlayers API.
     var startString = start.getFullYear() + '-';
-    startString += (start.getMonth()+1) + '-';
+    startString += (start.getMonth() + 1) + '-';
     startString += start.getDate();
 
     var endString = end.getFullYear() + '-';
-    endString += (end.getMonth()+1) + '-';
+    endString += (end.getMonth() + 1) + '-';
     endString += end.getDate();
 
     this.getUUID(function() {
@@ -144,7 +144,8 @@ var allplayers = allplayers || {};
         var i = events.length;
         var event = null;
         while (i--) {
-          events[i] = new allplayers.event(_this.api, _this.options, events[i]);
+          event = new allplayers.event(_this.api, _this.options, events[i]);
+          events[i].obj = event;
         }
 
         // Add this to the events for the calendar.

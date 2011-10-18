@@ -5,7 +5,7 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
 		
-		<title>JsDoc Reference - allplayers.location</title>
+		<title>JsDoc Reference - allplayers.date</title>
 
 		<style type="text/css">
 			/* default.css */
@@ -218,26 +218,60 @@ ul.inheritsList
 <!-- ============================== class title ============================ -->
 			<h1 class="classTitle">
 				
-				Class allplayers.location
+				Class allplayers.date
 			</h1>
 
 <!-- ============================== class summary ========================== -->			
 			<p class="description">
 				
-				<br />Extends
-					<a href="../symbols/allplayers.entity.html">allplayers.entity</a>.<br />
 				
 			
-				The class to govern all location functionality and data.
+				The date class wraps up the AllPlayers Date-Time object used in
+several parameters for Event creation, etc.
+
+<p><strong>Usage:</strong></p>
+<pre><code>
+  var start = new Date('2010-09-01T00:00:00');  // Start on 9-1-2011
+  var end = new Date('2012-09-20T00:00:00');    // End on 9-20-2012
+  var repeat = {
+    interval:1,                            // The repeat interval.
+    freq:'DAILY',                          // Repeat Daily
+    until:new Date('2012-09-04T00:00:00'), // Go until 9-4-2012
+    bymonth: ['1'],                        // January
+    bymonthday: ['3'],                     // 3rd of the month.
+    byday: [
+      'SU' => 'SU',                        // Sunday
+      '+1MO' => '+1MO',                    // First Monday of the Month
+      '+2WED' => '+2WED',                  // 2nd Wed of the month
+    ],
+    exdate: [
+      '2011-09-04T00:00:00'                // Except 9-4-2011
+      '2011-10-03T00:00:00'                // Except 10-3-2011
+    ],
+    rdate: [
+      '2011-09-01T00:00:00'                // Add 9-1-2011
+      '2011-10-04T00:00:00'                // ADD 10-4-2011
+    ]
+  };
+
+  // Create a new AllPlayers Date object.
+  var date = new allplayers.date(start, end, repeat);
+
+  // Add additional exceptions.
+  date.addException('2011-09-10T00:00:00');
+
+  // Add additional dates.
+  date.addRDate('2011-10-10T00:00:00');
+</code></pre>
 				
 				
-					<br /><i>Defined in: </i> <a href="../symbols/src/js_source_allplayers.location.js.html">allplayers.location.js</a>.
+					<br /><i>Defined in: </i> <a href="../symbols/src/js_source_allplayers.date.js.html">allplayers.date.js</a>.
 				
 			</p>
 
 <!-- ============================== constructor summary ==================== -->			
 			
-			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class allplayers.location.">
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class allplayers.date.">
 				<caption>Class Summary</caption>
 				<thead>
 					<tr>
@@ -250,7 +284,7 @@ ul.inheritsList
 						<td class="attributes">&nbsp;</td>
 						<td class="nameDescription" >
 							<div class="fixedFont">
-								<b><a href="../symbols/allplayers.location.html#constructor">allplayers.location</a></b>(api, options)
+								<b><a href="../symbols/allplayers.date.html#constructor">allplayers.date</a></b>(start, end, repeat)
 							</div>
 							<div class="description"></div>
 						</td>
@@ -263,7 +297,7 @@ ul.inheritsList
 			
 				
 				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class allplayers.location.">
+				<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class allplayers.date.">
 					<caption>Field Summary</caption>
 					<thead>
 						<tr>
@@ -277,9 +311,9 @@ ul.inheritsList
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
 								<div class="fixedFont">
-								<b><a href="../symbols/allplayers.location.html#city">city</a></b>
+								<b><a href="../symbols/allplayers.date.html#date_end">date_end</a></b>
 								</div>
-								<div class="description">City</div>
+								<div class="description">The end date</div>
 							</td>
 						</tr>
 					
@@ -287,9 +321,9 @@ ul.inheritsList
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
 								<div class="fixedFont">
-								<b><a href="../symbols/allplayers.location.html#country">country</a></b>
+								<b><a href="../symbols/allplayers.date.html#date_start">date_start</a></b>
 								</div>
-								<div class="description">Country</div>
+								<div class="description">The start date</div>
 							</td>
 						</tr>
 					
@@ -297,49 +331,9 @@ ul.inheritsList
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
 								<div class="fixedFont">
-								<b><a href="../symbols/allplayers.location.html#latitude">latitude</a></b>
+								<b><a href="../symbols/allplayers.date.html#repeat">repeat</a></b>
 								</div>
-								<div class="description">Latitude</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								<b><a href="../symbols/allplayers.location.html#longitude">longitude</a></b>
-								</div>
-								<div class="description">Longitude</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								<b><a href="../symbols/allplayers.location.html#state">state</a></b>
-								</div>
-								<div class="description">State / Province</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								<b><a href="../symbols/allplayers.location.html#street">street</a></b>
-								</div>
-								<div class="description">Street Address.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								<b><a href="../symbols/allplayers.location.html#zip">zip</a></b>
-								</div>
-								<div class="description">Postal Code</div>
+								<div class="description">The repeat rule</div>
 							</td>
 						</tr>
 					
@@ -348,21 +342,81 @@ ul.inheritsList
 				
 				
 				
-				<dl class="inheritsList">
-				<dt>Fields borrowed from class <a href="../symbols/allplayers.entity.html">allplayers.entity</a>: </dt><dd><a href="../symbols/allplayers.entity.html#description">description</a>, <a href="../symbols/allplayers.entity.html#title">title</a>, <a href="../symbols/allplayers.entity.html#uuid">uuid</a></dd><dt>Fields borrowed from class <a href="../symbols/allplayers.base.html">allplayers.base</a>: </dt><dd><a href="../symbols/allplayers.base.html#api">api</a>, <a href="../symbols/allplayers.base.html#options">options</a></dd>
-				</dl>
-				
 			
 
 <!-- ============================== methods summary ======================== -->
 			
 				
 				
+				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class allplayers.date.">
+					<caption>Method Summary</caption>
+					<thead>
+						<tr>
+							<th scope="col">Method Attributes</th>
+							<th scope="col">Method Name and Description</th>
+						</tr>
+					</thead>
+					<tbody>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/allplayers.date.html#addDate">addDate</a></b>(param, date)
+								</div>
+								<div class="description">Adds a generic new date to repeat rule.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/allplayers.date.html#addException">addException</a></b>(except)
+								</div>
+								<div class="description">Add's an exception date to the repeat rule.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/allplayers.date.html#addRDate">addRDate</a></b>(addition)
+								</div>
+								<div class="description">Adds an additional date to the repeat rule.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/allplayers.date.html#getObject">getObject</a></b>()
+								</div>
+								<div class="description">Returns the object which will be passed to the services API.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/allplayers.date.html#newDate">newDate</a></b>(date)
+								</div>
+								<div class="description">Creates a new date based on a parameter which could be a string, Date
+object, or nothing.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/allplayers.date.html#update">update</a></b>(start, end, repeat)
+								</div>
+								<div class="description">Updates the date start and end dates and repeat rule.</div>
+							</td>
+						</tr>
+					
+					</tbody>
+				</table>
 				
 				
-				<dl class="inheritsList">
-				<dt>Methods borrowed from class <a href="../symbols/allplayers.entity.html">allplayers.entity</a>: </dt><dd><a href="../symbols/allplayers.entity.html#getObject">getObject</a>, <a href="../symbols/allplayers.entity.html#update">update</a></dd><dt>Methods borrowed from class <a href="../symbols/allplayers.base.html">allplayers.base</a>: </dt><dd><a href="../symbols/allplayers.base.html#log">log</a></dd>
-				</dl>
 				
 			
 <!-- ============================== events summary ======================== -->
@@ -376,7 +430,7 @@ ul.inheritsList
 				</div>
 				
 				<div class="fixedFont">
-						<b>allplayers.location</b>(api, options)
+						<b>allplayers.date</b>(start, end, repeat)
 				</div>
 				
 				<div class="description">
@@ -392,16 +446,22 @@ ul.inheritsList
 						<dt class="heading">Parameters:</dt>
 						
 							<dt>
-								<span class="light fixedFont">{@link allplayers.api}</span>  <b>api</b>
+								<span class="light fixedFont">{Date}</span>  <b>start</b>
 								
 							</dt>
-								<dd>The API interface.</dd>
+								<dd>The start date.</dd>
 						
 							<dt>
-								<span class="light fixedFont">{object}</span>  <b>options</b>
+								<span class="light fixedFont">{Date}</span>  <b>end</b>
 								
 							</dt>
-								<dd>The options for this class.</dd>
+								<dd>The end date.</dd>
+						
+							<dt>
+								<span class="light fixedFont">{object}</span>  <b>repeat</b>
+								
+							</dt>
+								<dd>The repeat rule. In the following form.</dd>
 						
 						</dl>
 					
@@ -421,15 +481,15 @@ ul.inheritsList
 					Field Detail
 				</div>
 				
-					<a name="city"> </a>
+					<a name="date_end"> </a>
 					<div class="fixedFont">
 					
 					
-					<b>city</b>
+					<b>date_end</b>
 					
 					</div>
 					<div class="description">
-						City
+						The end date
 						
 						
 					</div>
@@ -443,15 +503,15 @@ ul.inheritsList
 
 					<hr />
 				
-					<a name="country"> </a>
+					<a name="date_start"> </a>
 					<div class="fixedFont">
 					
 					
-					<b>country</b>
+					<b>date_start</b>
 					
 					</div>
 					<div class="description">
-						Country
+						The start date
 						
 						
 					</div>
@@ -465,103 +525,15 @@ ul.inheritsList
 
 					<hr />
 				
-					<a name="latitude"> </a>
+					<a name="repeat"> </a>
 					<div class="fixedFont">
 					
 					
-					<b>latitude</b>
+					<b>repeat</b>
 					
 					</div>
 					<div class="description">
-						Latitude
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name="longitude"> </a>
-					<div class="fixedFont">
-					
-					
-					<b>longitude</b>
-					
-					</div>
-					<div class="description">
-						Longitude
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name="state"> </a>
-					<div class="fixedFont">
-					
-					
-					<b>state</b>
-					
-					</div>
-					<div class="description">
-						State / Province
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name="street"> </a>
-					<div class="fixedFont">
-					
-					
-					<b>street</b>
-					
-					</div>
-					<div class="description">
-						Street Address.
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name="zip"> </a>
-					<div class="fixedFont">
-					
-					
-					<b>zip</b>
-					
-					</div>
-					<div class="description">
-						Postal Code
+						The repeat rule
 						
 						
 					</div>
@@ -578,6 +550,235 @@ ul.inheritsList
 			
 
 <!-- ============================== method details ========================= -->		
+			
+				<div class="sectionTitle">
+					Method Detail
+				</div>
+				
+					<a name="addDate"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>addDate</b>(param, date)
+					
+					</div>
+					<div class="description">
+						Adds a generic new date to repeat rule.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{string}</span> <b>param</b>
+									
+								</dt>
+								<dd>The repeat rule parameter to set.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{optional}</span> <b>date</b>
+									
+								</dt>
+								<dd>Either a date string, Date object, or nothing...</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="addException"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>addException</b>(except)
+					
+					</div>
+					<div class="description">
+						Add's an exception date to the repeat rule.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Date}</span> <b>except</b>
+									
+								</dt>
+								<dd>An exception date to remove from the repeat rule.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="addRDate"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>addRDate</b>(addition)
+					
+					</div>
+					<div class="description">
+						Adds an additional date to the repeat rule.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Date}</span> <b>addition</b>
+									
+								</dt>
+								<dd>An additional date to add to the repeat rule.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="getObject"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>getObject</b>()
+					
+					</div>
+					<div class="description">
+						Returns the object which will be passed to the services API.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="newDate"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>newDate</b>(date)
+					
+					</div>
+					<div class="description">
+						Creates a new date based on a parameter which could be a string, Date
+object, or nothing...
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{optional}</span> <b>date</b>
+									
+								</dt>
+								<dd>Either a date string, Date object, or nothing...</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="update"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>update</b>(start, end, repeat)
+					
+					</div>
+					<div class="description">
+						Updates the date start and end dates and repeat rule.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Date}</span> <b>start</b>
+									
+								</dt>
+								<dd>The new start date.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Date}</span> <b>end</b>
+									
+								</dt>
+								<dd>The new end date.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{object}</span> <b>repeat</b>
+									
+								</dt>
+								<dd>The new repeat rule.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					
+				
 			
 			
 <!-- ============================== event details ========================= -->		

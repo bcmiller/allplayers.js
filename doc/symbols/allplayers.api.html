@@ -197,6 +197,8 @@ ul.inheritsList
 	
 	<li><a href="../symbols/allplayers.calendar.html">allplayers.calendar</a></li>
 	
+	<li><a href="../symbols/allplayers.date.html">allplayers.date</a></li>
+	
 	<li><a href="../symbols/allplayers.entity.html">allplayers.entity</a></li>
 	
 	<li><a href="../symbols/allplayers.event.html">allplayers.event</a></li>
@@ -309,9 +311,18 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/allplayers.api.html#create">create</a></b>(type, entity, callback)
+								</div>
+								<div class="description">API function to create any object on the AllPlayers server.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
 								<div class="fixedFont"><b><a href="../symbols/allplayers.api.html#get">get</a></b>(type, params, callback)
 								</div>
-								<div class="description">Master API function to get any results from the AllPlayers API.</div>
+								<div class="description">API function to get any results from the AllPlayers API.</div>
 							</td>
 						</tr>
 					
@@ -363,7 +374,16 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/allplayers.api.html#saveEvent">saveEvent</a></b>(event)
+								<div class="fixedFont"><b><a href="../symbols/allplayers.api.html#save">save</a></b>(type, object, callback)
+								</div>
+								<div class="description">API function to update any object on the AllPlayers server.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/allplayers.api.html#saveEvent">saveEvent</a></b>(event, callback)
 								</div>
 								<div class="description">Saves an event</div>
 							</td>
@@ -477,6 +497,56 @@ ul.inheritsList
 					Method Detail
 				</div>
 				
+					<a name="create"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>create</b>(type, entity, callback)
+					
+					</div>
+					<div class="description">
+						API function to create any object on the AllPlayers server.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{string}</span> <b>type</b>
+									
+								</dt>
+								<dd>The content type returned from the API
+(groups, events, resources, etc).</dd>
+							
+								<dt>
+									<span class="light fixedFont">{object}</span> <b>entity</b>
+									
+								</dt>
+								<dd>The entity you wish to create on the server.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{function}</span> <b>callback</b>
+									
+								</dt>
+								<dd>The function to be called when the entity has
+finished updating.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
 					<a name="get"> </a>
 					<div class="fixedFont">
 					
@@ -485,7 +555,7 @@ ul.inheritsList
 					
 					</div>
 					<div class="description">
-						Master API function to get any results from the AllPlayers API.
+						API function to get any results from the AllPlayers API.
 						
 						
 					</div>
@@ -800,11 +870,61 @@ ul.inheritsList
 
 					<hr />
 				
+					<a name="save"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>save</b>(type, object, callback)
+					
+					</div>
+					<div class="description">
+						API function to update any object on the AllPlayers server.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{string}</span> <b>type</b>
+									
+								</dt>
+								<dd>The content type returned from the API
+(groups, events, resources, etc).</dd>
+							
+								<dt>
+									<span class="light fixedFont">{object}</span> <b>object</b>
+									
+								</dt>
+								<dd>The object you wish to update on the server.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{function}</span> <b>callback</b>
+									
+								</dt>
+								<dd>The function to be called when the entity has
+finished updating.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
 					<a name="saveEvent"> </a>
 					<div class="fixedFont">
 					
 					
-					<b>saveEvent</b>(event)
+					<b>saveEvent</b>(event, callback)
 					
 					</div>
 					<div class="description">
@@ -821,6 +941,12 @@ ul.inheritsList
 							
 								<dt>
 									<b>event</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<b>callback</b>
 									
 								</dt>
 								<dd></dd>
@@ -933,7 +1059,7 @@ ul.inheritsList
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Mon Oct 17 2011 13:05:23 GMT-0500 (CDT)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Tue Oct 18 2011 15:44:47 GMT-0500 (CDT)
 		</div>
 	</body>
 </html>

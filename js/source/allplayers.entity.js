@@ -40,4 +40,17 @@ var allplayers = allplayers || {};
     // Allow this to update all the parameters based on what was updated.
     $.extend(true, this, entity);
   };
+
+  /**
+   * Returns the object to send during PUT's and POST's during a save or add.
+   *
+   * @return {object} An object of the data when saving to the server.
+   */
+  allplayers.entity.prototype.getObject = function() {
+    return {
+      uuid: this.uuid,
+      title: this.title,
+      description: this.description
+    };
+  };
 }(jQuery));
