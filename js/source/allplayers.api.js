@@ -73,7 +73,9 @@ var allplayers = allplayers || {};
    * finished updating.
    */
   allplayers.api.prototype.save = function(type, object, callback) {
-    var path = this.options.api_path + '/' + type + '.json';
+    var path = this.options.api_path + '/' + type;
+    path += object.uuid ? ('/' + object.uuid) : '';
+    path += '.json';
     $.ajax({
       url: path,
       dataType: 'json',
@@ -112,9 +114,10 @@ var allplayers = allplayers || {};
   /**
    * Saves a group
    */
-  allplayers.api.prototype.saveGroup = function(group) {
+  allplayers.api.prototype.saveGroup = function(group, callback) {
     this.log('Saving Group');
     this.log(group);
+    callback(group);
   };
 
   /**

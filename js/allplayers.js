@@ -4,6 +4,38 @@ var allplayers = allplayers || {};
 (function($) {
 
   /**
+   * @class Base class for all objects in the AllPlayers API system.
+   *
+   * @param {@link allplayers.api} api The API interface.
+   * @param {object} options The options for this class.
+   */
+  allplayers.base = function(api, options) {
+
+    /** The API interface */
+    this.api = api;
+
+    /** Store the options for this component */
+    this.options = options;
+  };
+
+  /**
+   * Method for printing out log statements.
+   */
+  allplayers.base.prototype.log = function(text) {
+
+    // For now, just use console, but we may want to change this...
+    console.log(text);
+  };
+
+}(jQuery));
+
+
+/** The allplayers namespace. */
+var allplayers = allplayers || {};
+
+(function($) {
+
+  /**
    * @class The API class that governs the AllPlayers API.
    *
    * @extends allplayers.base
@@ -73,7 +105,9 @@ var allplayers = allplayers || {};
    * finished updating.
    */
   allplayers.api.prototype.save = function(type, object, callback) {
-    var path = this.options.api_path + '/' + type + '.json';
+    var path = this.options.api_path + '/' + type;
+    path += object.uuid ? ('/' + object.uuid) : '';
+    path += '.json';
     $.ajax({
       url: path,
       dataType: 'json',
@@ -112,9 +146,10 @@ var allplayers = allplayers || {};
   /**
    * Saves a group
    */
-  allplayers.api.prototype.saveGroup = function(group) {
+  allplayers.api.prototype.saveGroup = function(group, callback) {
     this.log('Saving Group');
     this.log(group);
+    callback(group);
   };
 
   /**
@@ -162,196 +197,6 @@ var allplayers = allplayers || {};
 
 }(jQuery));
 
-
-/** The allplayers namespace. */
-var allplayers = allplayers || {};
-
-(function($) {
-
-  /**
-   * @class Base class for all objects in the AllPlayers API system.
-   *
-   * @param {@link allplayers.api} api The API interface.
-   * @param {object} options The options for this class.
-   */
-  allplayers.base = function(api, options) {
-
-    /** The API interface */
-    this.api = api;
-
-    /** Store the options for this component */
-    this.options = options;
-  };
-
-  /**
-   * Method for printing out log statements.
-   */
-  allplayers.base.prototype.log = function(text) {
-
-    // For now, just use console, but we may want to change this...
-    console.log(text);
-  };
-
-}(jQuery));
-
-
-/** The allplayers namespace. */
-var allplayers = allplayers || {};
-
-(function($) {
-
-  /** The default options. */
-  var defaults = {
-    dialog: '#calendar-dialog-form'
-  };
-
-  // Store all the calendar instances.
-  allplayers.calendars = {};
-
-  // Add a way to instanciate using jQuery prototype.
-  if (!$.fn.allplayers_calendar) {
-    $.fn.allplayers_calendar = function(options) {
-      return $(this).each(function() {
-        if (!allplayers.calendars[$(this).selector]) {
-          new allplayers.calendar($(this), options);
-        }
-      });
-    };
-  }
-
-  /**
-   * @class The AllPlayers calendar JavaScript API
-   *
-   * <p><strong>Usage:</strong>
-   * <pre><code>
-   *
-   *   // Create a calendar
-   *   var player = $("#calendar").apcicalendar({
-   *
-   *   });
-   *
-   * </code></pre>
-   * </p>
-   *
-   * @param {object} context The jQuery context.
-   * @param {object} options This components options.
-   */
-  allplayers.calendar = function(context, options) {
-
-    // Make sure we provide default options...
-    var _this = this;
-    options = $.extend(defaults, options, {
-      header: {
-        left: 'prev,next today',
-        center: 'title',
-        right: 'month,agendaWeek,agendaDay'
-      },
-      editable: true,
-      dayClick: function(date, allDay, jsEvent, view) {
-        console.log(date);
-        console.log(allDay);
-        console.log(jsEvent);
-        console.log(view);
-      },
-      eventClick: function(event, jsEvent, view) {
-        console.log(event);
-        console.log(jsEvent);
-        console.log(view);
-        //_this.dialog.show().dialog();
-      },
-      eventDragStop: function(event, jsEvent, ui, view) {
-
-        // Save this event.
-        event.obj.update(event);
-        event.obj.save();
-      },
-      eventResizeStop: function(event, jsEvent, ui, view) {
-
-        // Save this event.
-        event.obj.update(event);
-        event.obj.save();
-      },
-      events: function(start, end, callback) {
-        _this.getEvents(start, end, callback);
-      }
-    });
-
-    /** The calendar dialog to edit events */
-    this.dialog = $(options.dialog, context).hide();
-
-    // Store this player instance.
-    allplayers.calendars[options.id] = this;
-
-    // TO-DO: MAKE IT SO THAT WE DON'T NEED A GROUP TO GET EVENTS
-    this.uuid = '';
-
-    // The api.
-    this.api = new allplayers.api();
-
-    // Create the fullcalendar.
-    context.fullCalendar(options);
-  };
-
-  allplayers.calendar.prototype.onEventClick = function() {
-    console.log('Event has been clicked');
-  };
-
-  allplayers.calendar.prototype.getUUID = function(callback) {
-    if (this.uuid) {
-      callback.call(this);
-    }
-    else {
-      var _this = this;
-      this.api.searchGroups({search: 'Spring Soccer 2011'}, function(groups) {
-        _this.uuid = groups[0].uuid;
-        callback.call(_this);
-      });
-    }
-  };
-
-  /**
-   * Get's all the events in this calendar.
-   *
-   * @param {Date} start The start timeframe.
-   * @param {Date} end The end timeframe.
-   * @param {function} callback The callback function to return the events.
-   */
-  allplayers.calendar.prototype.getEvents = function(start, end, callback) {
-
-    // Format the start and end strings according to the AllPlayers API.
-    var startString = start.getFullYear() + '-';
-    startString += (start.getMonth() + 1) + '-';
-    startString += start.getDate();
-
-    var endString = end.getFullYear() + '-';
-    endString += (end.getMonth() + 1) + '-';
-    endString += end.getDate();
-
-    this.getUUID(function() {
-      var _this = this;
-      this.api.getGroupEvents(this.uuid, {
-        start: startString,
-        end: endString,
-        fields: '*',
-        limit: 0,
-        offset: 0
-      }, function(events) {
-
-        // Iterate through the events and make them allplayers.event's
-        var i = events.length;
-        var event = null;
-        while (i--) {
-          event = new allplayers.event(_this.api, _this.options, events[i]);
-          events[i].obj = event;
-        }
-
-        // Add this to the events for the calendar.
-        callback(events);
-      });
-    });
-  };
-
-}(jQuery));
 
 /** The allplayers namespace. */
 var allplayers = allplayers || {};
@@ -885,3 +730,161 @@ var allplayers = allplayers || {};
   allplayers.location.prototype.constructor = allplayers.location;
 
 }(jQuery));
+/** The allplayers namespace. */
+var allplayers = allplayers || {};
+
+(function($) {
+
+  /** The default options. */
+  var defaults = {
+    dialog: '#calendar-dialog-form'
+  };
+
+  // Store all the calendar instances.
+  allplayers.calendars = {};
+
+  // Add a way to instanciate using jQuery prototype.
+  if (!$.fn.allplayers_calendar) {
+    $.fn.allplayers_calendar = function(options) {
+      return $(this).each(function() {
+        if (!allplayers.calendars[$(this).selector]) {
+          new allplayers.calendar($(this), options);
+        }
+      });
+    };
+  }
+
+  /**
+   * @class The AllPlayers calendar JavaScript API
+   *
+   * <p><strong>Usage:</strong>
+   * <pre><code>
+   *
+   *   // Create a calendar
+   *   var player = $("#calendar").apcicalendar({
+   *
+   *   });
+   *
+   * </code></pre>
+   * </p>
+   *
+   * @param {object} context The jQuery context.
+   * @param {object} options This components options.
+   */
+  allplayers.calendar = function(context, options) {
+
+    // Make sure we provide default options...
+    var _this = this;
+    options = $.extend(defaults, options, {
+      header: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'month,agendaWeek,agendaDay'
+      },
+      editable: true,
+      dayClick: function(date, allDay, jsEvent, view) {
+        console.log(date);
+        console.log(allDay);
+        console.log(jsEvent);
+        console.log(view);
+      },
+      eventClick: function(event, jsEvent, view) {
+        console.log(event);
+        console.log(jsEvent);
+        console.log(view);
+        //_this.dialog.show().dialog();
+      },
+      eventDragStop: function(event, jsEvent, ui, view) {
+
+        // Save this event.
+        event.obj.update(event);
+        event.obj.save();
+      },
+      eventResizeStop: function(event, jsEvent, ui, view) {
+
+        // Save this event.
+        event.obj.update(event);
+        event.obj.save();
+      },
+      events: function(start, end, callback) {
+        _this.getEvents(start, end, callback);
+      }
+    });
+
+    /** The calendar dialog to edit events */
+    this.dialog = $(options.dialog, context).hide();
+
+    // Store this player instance.
+    allplayers.calendars[options.id] = this;
+
+    // TO-DO: MAKE IT SO THAT WE DON'T NEED A GROUP TO GET EVENTS
+    this.uuid = '';
+
+    // The api.
+    this.api = new allplayers.api();
+
+    // Create the fullcalendar.
+    context.fullCalendar(options);
+  };
+
+  allplayers.calendar.prototype.onEventClick = function() {
+    console.log('Event has been clicked');
+  };
+
+  allplayers.calendar.prototype.getUUID = function(callback) {
+    if (this.uuid) {
+      callback.call(this);
+    }
+    else {
+      var _this = this;
+      this.api.searchGroups({search: 'Spring Soccer 2011'}, function(groups) {
+        _this.uuid = groups[0].uuid;
+        callback.call(_this);
+      });
+    }
+  };
+
+  /**
+   * Get's all the events in this calendar.
+   *
+   * @param {Date} start The start timeframe.
+   * @param {Date} end The end timeframe.
+   * @param {function} callback The callback function to return the events.
+   */
+  allplayers.calendar.prototype.getEvents = function(start, end, callback) {
+
+    // Format the start and end strings according to the AllPlayers API.
+    var startString = start.getFullYear() + '-';
+    startString += (start.getMonth() + 1) + '-';
+    startString += start.getDate();
+
+    var endString = end.getFullYear() + '-';
+    endString += (end.getMonth() + 1) + '-';
+    endString += end.getDate();
+
+    this.getUUID(function() {
+      var _this = this;
+      this.api.getGroupEvents(this.uuid, {
+        start: startString,
+        end: endString,
+        fields: '*',
+        limit: 0,
+        offset: 0
+      }, function(events) {
+
+        // Iterate through the events and make them allplayers.event's
+        var i = events.length;
+        var event = null;
+        while (i--) {
+          event = new allplayers.event(_this.api, _this.options, events[i]);
+          events[i].obj = event;
+        }
+
+        // Add this to the events for the calendar.
+        callback(events);
+      });
+    });
+  };
+
+}(jQuery));
+

@@ -11,15 +11,15 @@
 #      directory within the tools directory.
 
 # Create the list of files
-files =	js/source/allplayers.api.js\
-	js/source/allplayers.base.js\
-	js/source/allplayers.calendar.js\
+files =	js/source/allplayers.base.js\
+	js/source/allplayers.api.js\
 	js/source/allplayers.entity.js\
 	js/source/allplayers.date.js\
 	js/source/allplayers.event.js\
 	js/source/allplayers.group.js\
 	js/source/allplayers.groups.js\
-	js/source/allplayers.location.js
+	js/source/allplayers.location.js\
+	js/source/allplayers.calendar.js
 
 .DEFAULT_GOAL := all
 
