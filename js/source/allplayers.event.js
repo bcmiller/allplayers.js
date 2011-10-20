@@ -13,6 +13,9 @@ var allplayers = allplayers || {};
    */
   allplayers.event = function(api, options, eventInfo) {
 
+    /** Set to TRUE if this is an all day event */
+    this.allDay = false;
+
     /** An array of group UUID's that have this Event. */
     this.gids = [];
 

@@ -62,17 +62,17 @@ var allplayers = allplayers || {};
         console.log(view);
         //_this.dialog.show().dialog();
       },
-      eventDragStop: function(event, jsEvent, ui, view) {
+      eventDrop: function(event, jsEvent, ui, view) {
 
         // Save this event.
-        event.obj.update(event);
-        event.obj.save();
+        event.update(event);
+        event.save();
       },
       eventResizeStop: function(event, jsEvent, ui, view) {
 
         // Save this event.
-        event.obj.update(event);
-        event.obj.save();
+        event.update(event);
+        event.save();
       },
       events: function(start, end, callback) {
         _this.getEvents(start, end, callback);
@@ -142,10 +142,9 @@ var allplayers = allplayers || {};
 
         // Iterate through the events and make them allplayers.event's
         var i = events.length;
-        var event = null;
         while (i--) {
-          event = new allplayers.event(_this.api, _this.options, events[i]);
-          events[i].obj = event;
+          events[i].id = events[i].uuid;
+          events[i] = new allplayers.event(_this.api, _this.options, events[i]);
         }
 
         // Add this to the events for the calendar.

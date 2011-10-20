@@ -37,5 +37,25 @@
 
       });
     });
+
+    // Testing updating events.
+    asyncTest("Updating Events", 2, function() {
+      api.searchGroups({search: 'Spring Soccer 2011'}, function(groups) {
+        api.getGroupEvents(groups[0].uuid, {
+          start: '2011-10-1',
+          end: '2011-10-30'
+        }, function(events) {
+
+          // Create a new event.
+          var event = allplayers.event(api, {}, events[0]);
+
+          // Check to make sure all the params match...
+          equal(event)
+        });
+
+      });
+
+
+    });
   });
 }(jQuery));

@@ -58,7 +58,7 @@ var allplayers = allplayers || {};
       if (typeof date === 'string') {
         return new Date(date);
       }
-      else if (typeof date === 'Date') {
+      else if (typeof date === 'object') {
         return date;
       }
       else {
@@ -67,10 +67,10 @@ var allplayers = allplayers || {};
     }
 
     /** The start date */
-    this.date_start = this.newDate(start);
+    this.start = this.newDate(start);
 
     /** The end date */
-    this.date_end = this.newDate(end);
+    this.end = this.newDate(end);
 
     /** The repeat rule */
     this.repeat = repeat ? {
@@ -85,6 +85,25 @@ var allplayers = allplayers || {};
     } : null;
   };
 
+  // Need to fix the Date prototype to allow toISOString.
+  if (!Date.prototype.toISOString) {
+    function padzero(n) {
+      return n < 10 ? '0' + n : n;
+    }
+    function pad2zeros(n) {
+      if (n < 100) {
+        n = '0' + n;
+      }
+      if (n < 10) {
+        n = '0' + n;
+      }
+      return n;
+    }
+    Date.prototype.toISOString = function() {
+      return d.getUTCFullYear() + '-' +  padzero(d.getUTCMonth() + 1) + '-' + padzero(d.getUTCDate()) + 'T' + padzero(d.getUTCHours()) + ':' +  padzero(d.getUTCMinutes()) + ':' + padzero(d.getUTCSeconds()) + '.' + pad2zeros(d.getUTCMilliseconds()) + 'Z';
+    };
+  }
+
   /**
    * Updates the date start and end dates and repeat rule.
    *
@@ -93,9 +112,8 @@ var allplayers = allplayers || {};
    * @param {object} repeat The new repeat rule.
    */
   allplayers.date.prototype.update = function(start, end, repeat) {
-
-    this.date_start = start ? this.newDate(start) : this.date_start;
-    this.date_end = end ? this.newDate(end) : this.date_end;
+    this.start = start ? this.newDate(start) : this.start;
+    this.end = end ? this.newDate(end) : this.end;
     if (repeat) {
       repeat.until = this.newDate(repeat.until);
       $.extend(this.repeat, repeat);
@@ -145,8 +163,8 @@ var allplayers = allplayers || {};
   allplayers.date.prototype.getObject = function() {
     var i = 0;
     var obj = {
-      date_start: this.date_start.toString(),
-      date_end: this.date_end.toString()
+      date_start: this.start.toISOString(),
+      date_end: this.end.toISOString()
     };
 
     // If there is a repeat rule, then add that to the object.
@@ -154,7 +172,7 @@ var allplayers = allplayers || {};
       obj.repeat = {
         interval: this.repeat.interval,
         freq: this.repeat.freq,
-        until: this.repeat.until.toString(),
+        until: this.repeat.until.toISOString(),
         bymonth: this.repeat.bymonth,
         bymonthday: this.repeat.bymonthday,
         byday: this.repeat.byday,
@@ -165,12 +183,12 @@ var allplayers = allplayers || {};
       // Iterate through the exdate and rdate and add the date strings.
       i = this.repeat.exdate.length;
       while (i--) {
-        obj.repeat.exdate.push(this.repeat.exdate[i].toString());
+        obj.repeat.exdate.push(this.repeat.exdate[i].toISOString());
       }
 
       i = this.repeat.rdate.length;
       while (i--) {
-        obj.repeat.rdate.push(this.repeat.rdate[i].toString());
+        obj.repeat.rdate.push(this.repeat.rdate[i].toISOString());
       }
     }
 
