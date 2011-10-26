@@ -100,7 +100,14 @@ var allplayers = allplayers || {};
       return n;
     }
     Date.prototype.toISOString = function() {
-      return d.getUTCFullYear() + '-' +  padzero(d.getUTCMonth() + 1) + '-' + padzero(d.getUTCDate()) + 'T' + padzero(d.getUTCHours()) + ':' +  padzero(d.getUTCMinutes()) + ':' + padzero(d.getUTCSeconds()) + '.' + pad2zeros(d.getUTCMilliseconds()) + 'Z';
+      var ISOString = this.getUTCFullYear() + '-';
+      ISOString += padzero(this.getUTCMonth() + 1) + '-';
+      ISOString += padzero(this.getUTCDate()) + 'T';
+      ISOString += padzero(this.getUTCHours()) + ':';
+      ISOString += padzero(this.getUTCMinutes()) + ':';
+      ISOString += padzero(this.getUTCSeconds()) + '.';
+      ISOString += pad2zeros(this.getUTCMilliseconds()) + 'Z';
+      return ISOString;
     };
   }
 

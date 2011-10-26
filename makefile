@@ -3,12 +3,20 @@
 # 1.)  Download http://closure-compiler.googlecode.com/files/compiler-latest.zip
 #      and place compiler.jar within the tools directory.
 #
-# 2.)  Install closure-linter tool at by following
-#      http://code.google.com/closure/utilities/docs/linter_howto.html
+# 2.)  Install closure-linter tool at by....
+#
+#        a.) Install easy_install by running...
+#
+#               sudo apt-get install python-setuptools
+#
+#        b.) Install the Google Closure linter tool by following...
+#
+#               http://code.google.com/closure/utilities/docs/linter_howto.html
 #
 # 3.)  Download the JSDoc toolkit found at
 #      http://code.google.com/p/jsdoc-toolkit and place the jsdoc-toolkit
 #      directory within the tools directory.
+#
 
 # Create the list of files
 files =	js/source/allplayers.base.js\

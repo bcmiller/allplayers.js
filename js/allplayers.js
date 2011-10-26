@@ -45,7 +45,7 @@ var allplayers = allplayers || {};
 
     /** The default options for the api. */
     var defaults = {
-      api_path: 'https://www.ttidwell.allplayers.com/api/v1/rest'
+      api_path: 'http://www.ttidwell.allplayers.com:8080/api/v1/rest'
     };
 
     // Derive from allplayers.base.
@@ -314,7 +314,7 @@ var allplayers = allplayers || {};
       if (typeof date === 'string') {
         return new Date(date);
       }
-      else if (typeof date === 'Date') {
+      else if (typeof date === 'object') {
         return date;
       }
       else {
@@ -323,10 +323,10 @@ var allplayers = allplayers || {};
     }
 
     /** The start date */
-    this.date_start = this.newDate(start);
+    this.start = this.newDate(start);
 
     /** The end date */
-    this.date_end = this.newDate(end);
+    this.end = this.newDate(end);
 
     /** The repeat rule */
     this.repeat = repeat ? {
@@ -341,6 +341,32 @@ var allplayers = allplayers || {};
     } : null;
   };
 
+  // Need to fix the Date prototype to allow toISOString.
+  if (!Date.prototype.toISOString) {
+    function padzero(n) {
+      return n < 10 ? '0' + n : n;
+    }
+    function pad2zeros(n) {
+      if (n < 100) {
+        n = '0' + n;
+      }
+      if (n < 10) {
+        n = '0' + n;
+      }
+      return n;
+    }
+    Date.prototype.toISOString = function() {
+      var ISOString = this.getUTCFullYear() + '-';
+      ISOString += padzero(this.getUTCMonth() + 1) + '-';
+      ISOString += padzero(this.getUTCDate()) + 'T';
+      ISOString += padzero(this.getUTCHours()) + ':';
+      ISOString += padzero(this.getUTCMinutes()) + ':';
+      ISOString += padzero(this.getUTCSeconds()) + '.';
+      ISOString += pad2zeros(this.getUTCMilliseconds()) + 'Z';
+      return ISOString;
+    };
+  }
+
   /**
    * Updates the date start and end dates and repeat rule.
    *
@@ -349,9 +375,8 @@ var allplayers = allplayers || {};
    * @param {object} repeat The new repeat rule.
    */
   allplayers.date.prototype.update = function(start, end, repeat) {
-
-    this.date_start = start ? this.newDate(start) : this.date_start;
-    this.date_end = end ? this.newDate(end) : this.date_end;
+    this.start = start ? this.newDate(start) : this.start;
+    this.end = end ? this.newDate(end) : this.end;
     if (repeat) {
       repeat.until = this.newDate(repeat.until);
       $.extend(this.repeat, repeat);
@@ -401,8 +426,8 @@ var allplayers = allplayers || {};
   allplayers.date.prototype.getObject = function() {
     var i = 0;
     var obj = {
-      date_start: this.date_start.toString(),
-      date_end: this.date_end.toString()
+      date_start: this.start.toISOString(),
+      date_end: this.end.toISOString()
     };
 
     // If there is a repeat rule, then add that to the object.
@@ -410,7 +435,7 @@ var allplayers = allplayers || {};
       obj.repeat = {
         interval: this.repeat.interval,
         freq: this.repeat.freq,
-        until: this.repeat.until.toString(),
+        until: this.repeat.until.toISOString(),
         bymonth: this.repeat.bymonth,
         bymonthday: this.repeat.bymonthday,
         byday: this.repeat.byday,
@@ -421,12 +446,12 @@ var allplayers = allplayers || {};
       // Iterate through the exdate and rdate and add the date strings.
       i = this.repeat.exdate.length;
       while (i--) {
-        obj.repeat.exdate.push(this.repeat.exdate[i].toString());
+        obj.repeat.exdate.push(this.repeat.exdate[i].toISOString());
       }
 
       i = this.repeat.rdate.length;
       while (i--) {
-        obj.repeat.rdate.push(this.repeat.rdate[i].toString());
+        obj.repeat.rdate.push(this.repeat.rdate[i].toISOString());
       }
     }
 
@@ -448,6 +473,9 @@ var allplayers = allplayers || {};
    * @param {object} eventInfo The event information.
    */
   allplayers.event = function(api, options, eventInfo) {
+
+    /** Set to TRUE if this is an all day event */
+    this.allDay = false;
 
     /** An array of group UUID's that have this Event. */
     this.gids = [];
@@ -794,17 +822,17 @@ var allplayers = allplayers || {};
         console.log(view);
         //_this.dialog.show().dialog();
       },
-      eventDragStop: function(event, jsEvent, ui, view) {
+      eventDrop: function(event, jsEvent, ui, view) {
 
         // Save this event.
-        event.obj.update(event);
-        event.obj.save();
+        event.update(event);
+        event.save();
       },
       eventResizeStop: function(event, jsEvent, ui, view) {
 
         // Save this event.
-        event.obj.update(event);
-        event.obj.save();
+        event.update(event);
+        event.save();
       },
       events: function(start, end, callback) {
         _this.getEvents(start, end, callback);
@@ -874,10 +902,9 @@ var allplayers = allplayers || {};
 
         // Iterate through the events and make them allplayers.event's
         var i = events.length;
-        var event = null;
         while (i--) {
-          event = new allplayers.event(_this.api, _this.options, events[i]);
-          events[i].obj = event;
+          events[i].id = events[i].uuid;
+          events[i] = new allplayers.event(_this.api, _this.options, events[i]);
         }
 
         // Add this to the events for the calendar.
