@@ -170,8 +170,8 @@ var allplayers = allplayers || {};
   allplayers.date.prototype.getObject = function() {
     var i = 0;
     var obj = {
-      date_start: this.start.toISOString(),
-      date_end: this.end.toISOString()
+      start: this.start.toISOString(),
+      end: this.end.toISOString()
     };
 
     // If there is a repeat rule, then add that to the object.

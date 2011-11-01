@@ -191,10 +191,6 @@ ul.inheritsList
 	
 	<li><i><a href="../symbols/_global_.html">_global_</a></i></li>
 	
-	<li><a href="../symbols/allplayers.api.html">allplayers.api</a></li>
-	
-	<li><a href="../symbols/allplayers.base.html">allplayers.base</a></li>
-	
 	<li><a href="../symbols/allplayers.calendar.html">allplayers.calendar</a></li>
 	
 	<li><a href="../symbols/allplayers.date.html">allplayers.date</a></li>
@@ -204,8 +200,6 @@ ul.inheritsList
 	<li><a href="../symbols/allplayers.event.html">allplayers.event</a></li>
 	
 	<li><a href="../symbols/allplayers.group.html">allplayers.group</a></li>
-	
-	<li><a href="../symbols/allplayers.groups.html">allplayers.groups</a></li>
 	
 	<li><a href="../symbols/allplayers.location.html">allplayers.location</a></li>
 	
@@ -226,15 +220,13 @@ ul.inheritsList
 <!-- ============================== class summary ========================== -->			
 			<p class="description">
 				
-				<br />Extends
-					<a href="../symbols/allplayers.base.html">allplayers.base</a>.<br />
 				
 			
 				The base entity class to store the data that is common to all
 allplayers entities whether it be groups, events, users, etc.
 				
 				
-					<br /><i>Defined in: </i> <a href="../symbols/src/js_source_allplayers.entity.js.html">allplayers.entity.js</a>.
+					<br /><i>Defined in: </i> <a href="../symbols/src/js_src_allplayers.entity.js.html">allplayers.entity.js</a>.
 				
 			</p>
 
@@ -253,7 +245,7 @@ allplayers entities whether it be groups, events, users, etc.
 						<td class="attributes">&nbsp;</td>
 						<td class="nameDescription" >
 							<div class="fixedFont">
-								<b><a href="../symbols/allplayers.entity.html#constructor">allplayers.entity</a></b>(api, options)
+								<b><a href="../symbols/allplayers.entity.html#constructor">allplayers.entity</a></b>(options)
 							</div>
 							<div class="description"></div>
 						</td>
@@ -311,10 +303,6 @@ allplayers entities whether it be groups, events, users, etc.
 				
 				
 				
-				<dl class="inheritsList">
-				<dt>Fields borrowed from class <a href="../symbols/allplayers.base.html">allplayers.base</a>: </dt><dd><a href="../symbols/allplayers.base.html#api">api</a>, <a href="../symbols/allplayers.base.html#options">options</a></dd>
-				</dl>
-				
 			
 
 <!-- ============================== methods summary ======================== -->
@@ -330,6 +318,15 @@ allplayers entities whether it be groups, events, users, etc.
 						</tr>
 					</thead>
 					<tbody>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/allplayers.entity.html#get">get</a></b>(callback)
+								</div>
+								<div class="description">Get's an object from the AllPlayers API.</div>
+							</td>
+						</tr>
 					
 						<tr>
 							<td class="attributes">&nbsp;</td>
@@ -354,10 +351,6 @@ allplayers entities whether it be groups, events, users, etc.
 				
 				
 				
-				<dl class="inheritsList">
-				<dt>Methods borrowed from class <a href="../symbols/allplayers.base.html">allplayers.base</a>: </dt><dd><a href="../symbols/allplayers.base.html#log">log</a></dd>
-				</dl>
-				
 			
 <!-- ============================== events summary ======================== -->
 			
@@ -370,7 +363,7 @@ allplayers entities whether it be groups, events, users, etc.
 				</div>
 				
 				<div class="fixedFont">
-						<b>allplayers.entity</b>(api, options)
+						<b>allplayers.entity</b>(options)
 				</div>
 				
 				<div class="description">
@@ -384,12 +377,6 @@ allplayers entities whether it be groups, events, users, etc.
 					
 						<dl class="detailList">
 						<dt class="heading">Parameters:</dt>
-						
-							<dt>
-								<span class="light fixedFont">{@link allplayers.api}</span>  <b>api</b>
-								
-							</dt>
-								<dd>The API interface.</dd>
 						
 							<dt>
 								<span class="light fixedFont">{object}</span>  <b>options</b>
@@ -489,6 +476,43 @@ allplayers entities whether it be groups, events, users, etc.
 					Method Detail
 				</div>
 				
+					<a name="get"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>get</b>(callback)
+					
+					</div>
+					<div class="description">
+						Get's an object from the AllPlayers API.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{function}</span> <b>callback</b>
+									
+								</dt>
+								<dd>The callback function when the object is
+retrieved.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
 					<a name="getObject"> </a>
 					<div class="fixedFont">
 					
@@ -569,7 +593,7 @@ allplayers entities whether it be groups, events, users, etc.
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Fri Oct 28 2011 16:36:05 GMT-0000 (UTC)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Tue Nov 01 2011 13:48:46 GMT-0000 (UTC)
 		</div>
 	</body>
 </html>

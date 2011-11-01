@@ -4,197 +4,181 @@ var allplayers = allplayers || {};
 (function($) {
 
   /**
-   * @class Base class for all objects in the AllPlayers API system.
-   *
-   * @param {@link allplayers.api} api The API interface.
-   * @param {object} options The options for this class.
+   * A static object that represents the AllPlayers API.
    */
-  allplayers.base = function(api, options) {
+  allplayers.api = {
 
-    /** The API interface */
-    this.api = api;
+    /** The AllPlayers API path */
+    path: 'http://www.ttidwell.allplayers.com:8080/api/v1/rest',
 
-    /** Store the options for this component */
-    this.options = options;
-  };
-
-  /**
-   * Method for printing out log statements.
-   */
-  allplayers.base.prototype.log = function(text) {
-
-    // For now, just use console, but we may want to change this...
-    console.log(text);
-  };
-
-}(jQuery));
-
-
-/** The allplayers namespace. */
-var allplayers = allplayers || {};
-
-(function($) {
-
-  /**
-   * @class The API class that governs the AllPlayers API.
-   *
-   * @extends allplayers.base
-   * @param {object} options The options for this class.
-   */
-  allplayers.api = function(options) {
-
-    /** The default options for the api. */
-    var defaults = {
-      api_path: 'http://www.ttidwell.allplayers.com:8080/api/v1/rest'
-    };
-
-    // Derive from allplayers.base.
-    options = $.extend(defaults, options);
-    allplayers.base.call(this, null, options);
-  };
-
-  // Create the proper derivation.
-  allplayers.api.prototype = new allplayers.base();
-  allplayers.api.prototype.constructor = allplayers.api;
-
-  /**
-   * API function to get any results from the AllPlayers API.
-   *
-   * @param {string} type The content type returned from the API
-   * (groups, events, resources, etc).
-   *
-   * @param {object} params The additional params for this API.
-   * <ul>
-   * <li><strong>uuid</strong> - The universal unique ID.</li>
-   * <li><strong>filter</strong> - Additional content type filter.</li>
-   * <li><strong>query</strong> - key-value pairs to add to query string.</li>
-   * </ul>
-   *
-   * @param {function} callback The callback function.
-   */
-  allplayers.api.prototype.get = function(type, params, callback) {
-    var path = this.options.api_path + '/' + type;
-    path += params.uuid ? ('/' + params.uuid) : '';
-    path += params.filter ? ('/' + params.filter) : '';
-    path += '.jsonp?';
-    path += params.query ? (jQuery.param(params.query) + '&') : '';
-    $.ajax({
-      url: path,
-      dataType: 'jsonp',
-      success: function(data, textStatus) {
-        if (textStatus == 'success') {
-          callback(data);
+    /**
+     * API function to get any results from the AllPlayers API.
+     *
+     * @param {string} type The content type returned from the API
+     * (groups, events, resources, etc).
+     *
+     * @param {object} params The additional params for this API.
+     * <ul>
+     * <li><strong>uuid</strong> - The universal unique ID.</li>
+     * <li><strong>filter</strong> - Additional content type filter.</li>
+     * <li><strong>query</strong> - key-value pairs to add to query string.</li>
+     * </ul>
+     *
+     * @param {function} callback The callback function.
+     */
+    get: function(type, params, callback) {
+      var path = allplayers.api.path + '/' + type;
+      path += params.uuid ? ('/' + params.uuid) : '';
+      path += params.filter ? ('/' + params.filter) : '';
+      path += '.jsonp?';
+      path += params.query ? (jQuery.param(params.query) + '&') : '';
+      $.ajax({
+        url: path,
+        dataType: 'jsonp',
+        success: function(data, textStatus) {
+          if (textStatus == 'success') {
+            callback(data);
+          }
+          else {
+            console.log('Error: ' + textStatus);
+          }
         }
-        else {
-          this.log('Error: ' + textStatus);
+      });
+    },
+
+    /**
+     * API function to save any object on the AllPlayers server.  If the object
+     * already has a UUID, then this is a simple update, otherwise it will
+     * create a new object.
+     *
+     * @param {string} type The content type returned from the API
+     * (groups, events, resources, etc).
+     *
+     * @param {object} object The object you wish to update on the server.
+     * @param {function} callback The function to be called when the entity has
+     * finished updating.
+     */
+    save: function(type, object, callback) {
+      var path = allplayers.api.path + '/' + type;
+      path += object.uuid ? ('/' + object.uuid) : '';
+      path += '.json';
+      $.ajax({
+        url: path,
+        dataType: 'json',
+        type: (object.uuid) ? 'PUT' : 'POST',
+        data: object,
+        success: function(data, textStatus) {
+          if (textStatus == 'success') {
+            callback(data);
+          }
+          else {
+            console.log('Error: ' + textStatus);
+          }
         }
-      }
-    });
-  };
+      });
+    },
 
-  /**
-   * API function to save any object on the AllPlayers server.  If the object
-   * already has a UUID, then this is a simple update, otherwise it will create
-   * a new object.
-   *
-   * @param {string} type The content type returned from the API
-   * (groups, events, resources, etc).
-   *
-   * @param {object} object The object you wish to update on the server.
-   * @param {function} callback The function to be called when the entity has
-   * finished updating.
-   */
-  allplayers.api.prototype.save = function(type, object, callback) {
-    var path = this.options.api_path + '/' + type;
-    path += object.uuid ? ('/' + object.uuid) : '';
-    path += '.json';
-    $.ajax({
-      url: path,
-      dataType: 'json',
-      type: (object.uuid) ? 'PUT' : 'POST',
-      data: object,
-      success: function(data, textStatus) {
-        if (textStatus == 'success') {
-          callback(data);
+    /**
+     * Get the groups based on a search query.
+     *
+     * @see https://www.allplayers.com/api/v1/rest/wadl/describe.xml#search
+     */
+    searchGroups: function(query, callback) {
+      allplayers.api.get('groups', {
+        query: query
+      }, callback);
+    },
+
+    /**
+     * Return a group provided a uuid.
+     *
+     * @see https://www.allplayers.com/api/v1/rest/wadl/describe.xml#uuid
+     */
+    getGroup: function(uuid, query, callback) {
+      allplayers.api.get('groups', {
+        uuid: uuid,
+        query: query
+      }, callback);
+    },
+
+    /**
+     * Saves a group
+     */
+    saveGroup: function(group, callback) {
+      callback(group);
+    },
+
+    /**
+     * Returns a groups albums provided a uuid.
+     *
+     * @see https://www.allplayers.com/api/v1/rest/wadl/describe.xml#albums
+     */
+    getGroupAlbums: function(uuid, query, callback) {
+      allplayers.api.get('groups', {
+        uuid: uuid,
+        query: query,
+        filter: 'albums'
+      }, callback);
+    },
+
+
+    /**
+     * Returns a groups events provided a uuid.
+     *
+     * @see https://www.allplayers.com/api/v1/rest/wadl/describe.xml#events
+     */
+    getGroupEvents: function(uuid, query, callback) {
+      allplayers.api.get('groups', {
+        uuid: uuid,
+        query: query,
+        filter: 'events'
+      }, callback);
+    },
+
+    /**
+     * Returns a groups members provided a uuid.
+     *
+     * @see https://www.allplayers.com/api/v1/rest/wadl/describe.xml#members
+     */
+    getGroupMembers: function(uuid, query, callback) {
+      allplayers.api.get('groups', {
+        uuid: uuid,
+        query: query,
+        filter: 'members'
+      }, callback);
+    },
+
+    /**
+     * Returns a groups photos provided a uuid.
+     *
+     * @see https://www.allplayers.com/api/v1/rest/wadl/describe.xml#photos
+     */
+    getGroupPhotos: function(query, callback) {
+      allplayers.api.get('groups', {
+        query: query,
+        filter: 'photos'
+      }, callback);
+    },
+
+    /**
+     * Returns an event.
+     */
+    getEvent: function(uuid, fields, callback) {
+      allplayers.api.get('events', {
+        uuid: uuid,
+        query: {
+          fields: fields
         }
-        else {
-          this.log('Error: ' + textStatus);
-        }
-      }
-    });
+      }, callback);
+    },
+
+    /**
+     * Saves an event
+     */
+    saveEvent: function(event, callback) {
+      allplayers.api.save('events', event, callback);
+    }
   };
-
-  /**
-   * Get the groups based on a search query.
-   *
-   * @see https://www.allplayers.com/api/v1/rest/wadl/describe.xml#search
-   */
-  allplayers.api.prototype.searchGroups = function(query, callback) {
-    this.get('groups', {query: query}, callback);
-  };
-
-
-  /**
-   * Return a group provided a uuid.
-   *
-   * @see https://www.allplayers.com/api/v1/rest/wadl/describe.xml#uuid
-   */
-  allplayers.api.prototype.getGroup = function(uuid, query, callback) {
-    this.get('groups', {uuid: uuid, query: query}, callback);
-  };
-
-  /**
-   * Saves a group
-   */
-  allplayers.api.prototype.saveGroup = function(group, callback) {
-    this.log('Saving Group');
-    this.log(group);
-    callback(group);
-  };
-
-  /**
-   * Returns a groups albums provided a uuid.
-   *
-   * @see https://www.allplayers.com/api/v1/rest/wadl/describe.xml#albums
-   */
-  allplayers.api.prototype.getGroupAlbums = function(uuid, query, callback) {
-    this.get('groups', {uuid: uuid, query: query, filter: 'albums'}, callback);
-  };
-
-  /**
-   * Returns a groups events provided a uuid.
-   *
-   * @see https://www.allplayers.com/api/v1/rest/wadl/describe.xml#events
-   */
-  allplayers.api.prototype.getGroupEvents = function(uuid, query, callback) {
-    this.get('groups', {uuid: uuid, query: query, filter: 'events'}, callback);
-  };
-
-  /**
-   * Returns a groups members provided a uuid.
-   *
-   * @see https://www.allplayers.com/api/v1/rest/wadl/describe.xml#members
-   */
-  allplayers.api.prototype.getGroupMembers = function(uuid, query, callback) {
-    this.get('groups', {uuid: uuid, query: query, filter: 'members'}, callback);
-  };
-
-  /**
-   * Returns a groups photos provided a uuid.
-   *
-   * @see https://www.allplayers.com/api/v1/rest/wadl/describe.xml#photos
-   */
-  allplayers.api.prototype.getGroupPhotos = function(query, callback) {
-    this.get('groups', {query: query, filter: 'photos'}, callback);
-  };
-
-  /**
-   * Saves an event
-   */
-  allplayers.api.prototype.saveEvent = function(event, callback) {
-    this.save('events', event, callback);
-  };
-
 }(jQuery));
 
 
@@ -207,11 +191,9 @@ var allplayers = allplayers || {};
    * @class The base entity class to store the data that is common to all
    * allplayers entities whether it be groups, events, users, etc.
    *
-   * @extends allplayers.base
-   * @param {@link allplayers.api} api The API interface.
    * @param {object} options The options for this class.
    */
-  allplayers.entity = function(api, options) {
+  allplayers.entity = function(object) {
 
     /** The universally unique identifier */
     this.uuid = '';
@@ -222,23 +204,31 @@ var allplayers = allplayers || {};
     /** The description of this entity */
     this.description = '';
 
-    // Derive from allplayers.base.
-    allplayers.base.call(this, api, options);
+    // If object is a string, assume it is a UUID and get it.
+    this.update(object);
   };
 
-  // Create the proper derivation.
-  allplayers.entity.prototype = new allplayers.base();
-  allplayers.entity.prototype.constructor = allplayers.entity;
+  /**
+   * Get's an object from the AllPlayers API.
+   *
+   * @param {function} callback The callback function when the object is
+   * retrieved.
+   */
+  allplayers.entity.prototype.get = function(callback) {
+  };
 
   /**
    * Update the entity data.
    *
    * @param {object} entity The entity information.
    */
-  allplayers.entity.prototype.update = function(entity) {
+  allplayers.entity.prototype.update = function(object) {
 
-    // Allow this to update all the parameters based on what was updated.
-    $.extend(true, this, entity);
+    if (object) {
+      this.uuid = object.uuid;
+      this.title = object.title;
+      this.description = object.description;
+    }
   };
 
   /**
@@ -426,8 +416,8 @@ var allplayers = allplayers || {};
   allplayers.date.prototype.getObject = function() {
     var i = 0;
     var obj = {
-      date_start: this.start.toISOString(),
-      date_end: this.end.toISOString()
+      start: this.start.toISOString(),
+      end: this.end.toISOString()
     };
 
     // If there is a repeat rule, then add that to the object.
@@ -468,11 +458,9 @@ var allplayers = allplayers || {};
    * @class The event class to govern all functionality that events have.
    *
    * @extends allplayers.entity
-   * @param {@link allplayers.api} api The API interface.
-   * @param {object} options The options for this class.
    * @param {object} eventInfo The event information.
    */
-  allplayers.event = function(api, options, eventInfo) {
+  allplayers.event = function(eventInfo) {
 
     /** Set to TRUE if this is an all day event */
     this.allDay = false;
@@ -482,21 +470,6 @@ var allplayers = allplayers || {};
 
     /** An array of resource UUID's that are associated with this Event.*/
     this.resources = [];
-
-    /**
-     * <p>The category of this event.</p>
-     * <ul>
-     * <li>Game</li>
-     * <li>Meeting</li>
-     * <li>Other</li>
-     * <li>Party</li>
-     * <li>Practice</li>
-     * <li>Scrimmage</li>
-     * </ul>
-     * <p><em>Game</em> and <em>Scrimmage</em> categories require competitors
-     * array to be passed and will override the title.</p>
-     */
-    this.category = eventInfo.category ? eventInfo.category : 'Other';
 
     /**
      * An associative array of competitor information, where the key is the
@@ -518,14 +491,28 @@ var allplayers = allplayers || {};
      */
     this.competitors = {};
 
+    /**
+     * <p>The category of this event.</p>
+     * <ul>
+     * <li>Game</li>
+     * <li>Meeting</li>
+     * <li>Other</li>
+     * <li>Party</li>
+     * <li>Practice</li>
+     * <li>Scrimmage</li>
+     * </ul>
+     * <p><em>Game</em> and <em>Scrimmage</em> categories require competitors
+     * array to be passed and will override the title.</p>
+     */
+    this.category = eventInfo.category ? eventInfo.category : 'Other';
+
     /** The date-time object */
-    this.date_time = new allplayers.date(eventInfo.start, eventInfo.end);
+    this.date = new allplayers.date(eventInfo.start, eventInfo.end);
+    this.start = this.date.start;
+    this.end = this.date.end;
 
     // Derive from allplayers.entity.
-    allplayers.entity.call(this, api, options);
-
-    // Update the data.
-    this.update(eventInfo);
+    allplayers.entity.call(this, eventInfo);
   };
 
   // Create the proper derivation.
@@ -533,13 +520,30 @@ var allplayers = allplayers || {};
   allplayers.event.prototype.constructor = allplayers.event;
 
   /**
+   * Gets an event.
+   */
+  allplayers.event.prototype.get = function(callback) {
+
+    // Get the event from the API.
+    var _this = this;
+    allplayers.api.getEvent(this.uuid, {}, function(object) {
+      _this.update(object);
+      callback(_this);
+    });
+  };
+
+  /**
    * Save an event to the database.
    */
-  allplayers.event.prototype.save = function() {
+  allplayers.event.prototype.save = function(callback) {
 
     // Call the api event save function.
-    this.api.saveEvent(this.getObject(), function() {
-      console.log('Event Saved!!!');
+    this.date.start = this.start;
+    this.date.end = this.end;
+    var _this = this;
+    allplayers.api.saveEvent(this.getObject(), function(object) {
+      _this.update(object);
+      callback(_this);
     });
   };
 
@@ -552,7 +556,7 @@ var allplayers = allplayers || {};
     allplayers.entity.prototype.update.call(this, date);
 
     // Now update the start and end dates.
-    this.date_time.update(date.start, date.end);
+    this.date.update(date.start, date.end);
   };
 
 
@@ -565,7 +569,7 @@ var allplayers = allplayers || {};
       resources: this.resources,
       category: this.category,
       competitors: this.competitors,
-      date_time: this.date_time.getObject()
+      date_time: this.date.getObject()
     });
   };
 
@@ -579,16 +583,15 @@ var allplayers = allplayers || {};
    * @class The group class to govern all functionality that groups have.
    *
    * @extends allplayers.entity
-   * @param {@link allplayers.api} api The API interface.
    * @param {object} options The options for this class.
    * @param {object} groupInfo The group information.
    */
-  allplayers.group = function(api, options, groupInfo) {
+  allplayers.group = function(groupInfo) {
 
     /**
      * A {@link allplayers.location} object.
      */
-    this.location = new allplayers.location(api, options);
+    this.location = new allplayers.location();
 
     /** The group activity level */
     this.activity_level = 0;
@@ -630,10 +633,7 @@ var allplayers = allplayers || {};
     this.groups_above_uuid = [];
 
     // Derive from allplayers.entity.
-    allplayers.entity.call(this, api, options);
-
-    // Update all the group information.
-    this.update(groupInfo);
+    allplayers.entity.call(this, groupInfo);
   };
 
   // Create the proper derivation.
@@ -641,79 +641,28 @@ var allplayers = allplayers || {};
   allplayers.group.prototype.constructor = allplayers.group;
 
   /**
+   * Get a group provided the UUID.
+   */
+  allplayers.group.prototype.get = function(callback) {
+
+    allplayers.api.getGroup(this.uuid, {}, function(object) {
+      this.update(object);
+      callback(this);
+    });
+  };
+
+  /**
    * Save a group to the database.
    */
-  allplayers.group.prototype.save = function() {
+  allplayers.group.prototype.save = function(callback) {
 
     // Call the api group save function.
-    this.api.saveGroup(this);
+    allplayers.api.saveGroup(this);
   };
 
 }(jQuery));
 
 
-/** The allplayers namespace. */
-var allplayers = allplayers || {};
-
-(function($) {
-
-  /**
-   * @class The groups class to govern lists of groups.
-   *
-   * @extends allplayers.base
-   * @param {@link allplayers.api} api The API interface.
-   * @param {object} options The options for this class.
-   */
-  allplayers.groups = function(api, options) {
-
-    // Derive from allplayers.base.
-    allplayers.base.call(this, api, options);
-  };
-
-  // Define the prototype for all controllers.
-  allplayers.groups.prototype = new allplayers.base();
-  allplayers.groups.prototype.constructor = allplayers.groups;
-
-  /**
-   * Fetch all groups provided a filter.
-   *
-   * @param {string} search Search string to filter groups.
-   * @param {function} callback The callback function for all the groups.
-   */
-  allplayers.groups.prototype.getGroups = function(search, callback) {
-
-    this.api.getGroups(search, function(json) {
-
-      // The groups array.
-      var groups = [];
-
-      // Iterate through all the groups and return the group objects.
-      var i = json.length;
-      while (i--) {
-        groups.push(new allplayers.group(this.options, this.api, json[i]));
-      }
-
-      // Return all the group objects.
-      callback(groups);
-    });
-  };
-
-  /**
-   * Returns group information provided a UUID.
-   *
-   * @param {string} uuid The univerally unique identifier for this group.
-   * @param {function} callback The callback to handle the group object.
-   */
-  allplayers.groups.prototype.getGroup = function(uuid, callback) {
-
-    this.api.getGroup(uuid, function(groupInfo) {
-
-      // Return a new group object.
-      return new allplayers.group(this.options, this.api, groupInfo);
-    });
-  };
-
-}(jQuery));
 /** The allplayers namespace. */
 var allplayers = allplayers || {};
 
@@ -726,7 +675,7 @@ var allplayers = allplayers || {};
    * @param {@link allplayers.api} api The API interface.
    * @param {object} options The options for this class.
    */
-  allplayers.location = function(api, options) {
+  allplayers.location = function(options) {
 
     /** Street Address. */
     this.street = '';
@@ -750,7 +699,7 @@ var allplayers = allplayers || {};
     this.longitude = '';
 
     // Derive from allplayers.entity.
-    allplayers.entity.call(this, api, options);
+    allplayers.entity.call(this, options);
   };
 
   // Create the proper derivation.

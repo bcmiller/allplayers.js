@@ -19,15 +19,13 @@
 #
 
 # Create the list of files
-files =	js/source/allplayers.base.js\
-	js/source/allplayers.api.js\
-	js/source/allplayers.entity.js\
-	js/source/allplayers.date.js\
-	js/source/allplayers.event.js\
-	js/source/allplayers.group.js\
-	js/source/allplayers.groups.js\
-	js/source/allplayers.location.js\
-	js/source/allplayers.calendar.js
+files =	js/src/allplayers.api.js\
+	js/src/allplayers.entity.js\
+	js/src/allplayers.date.js\
+	js/src/allplayers.event.js\
+	js/src/allplayers.group.js\
+	js/src/allplayers.location.js\
+	js/src/allplayers.calendar.js
 
 .DEFAULT_GOAL := all
 

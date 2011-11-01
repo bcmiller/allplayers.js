@@ -7,16 +7,15 @@ var allplayers = allplayers || {};
    * @class The group class to govern all functionality that groups have.
    *
    * @extends allplayers.entity
-   * @param {@link allplayers.api} api The API interface.
    * @param {object} options The options for this class.
    * @param {object} groupInfo The group information.
    */
-  allplayers.group = function(api, options, groupInfo) {
+  allplayers.group = function(groupInfo) {
 
     /**
      * A {@link allplayers.location} object.
      */
-    this.location = new allplayers.location(api, options);
+    this.location = new allplayers.location();
 
     /** The group activity level */
     this.activity_level = 0;
@@ -58,10 +57,7 @@ var allplayers = allplayers || {};
     this.groups_above_uuid = [];
 
     // Derive from allplayers.entity.
-    allplayers.entity.call(this, api, options);
-
-    // Update all the group information.
-    this.update(groupInfo);
+    allplayers.entity.call(this, groupInfo);
   };
 
   // Create the proper derivation.
@@ -69,12 +65,23 @@ var allplayers = allplayers || {};
   allplayers.group.prototype.constructor = allplayers.group;
 
   /**
+   * Get a group provided the UUID.
+   */
+  allplayers.group.prototype.get = function(callback) {
+
+    allplayers.api.getGroup(this.uuid, {}, function(object) {
+      this.update(object);
+      callback(this);
+    });
+  };
+
+  /**
    * Save a group to the database.
    */
-  allplayers.group.prototype.save = function() {
+  allplayers.group.prototype.save = function(callback) {
 
     // Call the api group save function.
-    this.api.saveGroup(this);
+    allplayers.api.saveGroup(this);
   };
 
 }(jQuery));

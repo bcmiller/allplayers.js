@@ -7,11 +7,9 @@ var allplayers = allplayers || {};
    * @class The base entity class to store the data that is common to all
    * allplayers entities whether it be groups, events, users, etc.
    *
-   * @extends allplayers.base
-   * @param {@link allplayers.api} api The API interface.
    * @param {object} options The options for this class.
    */
-  allplayers.entity = function(api, options) {
+  allplayers.entity = function(object) {
 
     /** The universally unique identifier */
     this.uuid = '';
@@ -22,23 +20,31 @@ var allplayers = allplayers || {};
     /** The description of this entity */
     this.description = '';
 
-    // Derive from allplayers.base.
-    allplayers.base.call(this, api, options);
+    // If object is a string, assume it is a UUID and get it.
+    this.update(object);
   };
 
-  // Create the proper derivation.
-  allplayers.entity.prototype = new allplayers.base();
-  allplayers.entity.prototype.constructor = allplayers.entity;
+  /**
+   * Get's an object from the AllPlayers API.
+   *
+   * @param {function} callback The callback function when the object is
+   * retrieved.
+   */
+  allplayers.entity.prototype.get = function(callback) {
+  };
 
   /**
    * Update the entity data.
    *
    * @param {object} entity The entity information.
    */
-  allplayers.entity.prototype.update = function(entity) {
+  allplayers.entity.prototype.update = function(object) {
 
-    // Allow this to update all the parameters based on what was updated.
-    $.extend(true, this, entity);
+    if (object) {
+      this.uuid = object.uuid;
+      this.title = object.title;
+      this.description = object.description;
+    }
   };
 
   /**

@@ -7,11 +7,9 @@ var allplayers = allplayers || {};
    * @class The event class to govern all functionality that events have.
    *
    * @extends allplayers.entity
-   * @param {@link allplayers.api} api The API interface.
-   * @param {object} options The options for this class.
    * @param {object} eventInfo The event information.
    */
-  allplayers.event = function(api, options, eventInfo) {
+  allplayers.event = function(eventInfo) {
 
     /** Set to TRUE if this is an all day event */
     this.allDay = false;
@@ -21,21 +19,6 @@ var allplayers = allplayers || {};
 
     /** An array of resource UUID's that are associated with this Event.*/
     this.resources = [];
-
-    /**
-     * <p>The category of this event.</p>
-     * <ul>
-     * <li>Game</li>
-     * <li>Meeting</li>
-     * <li>Other</li>
-     * <li>Party</li>
-     * <li>Practice</li>
-     * <li>Scrimmage</li>
-     * </ul>
-     * <p><em>Game</em> and <em>Scrimmage</em> categories require competitors
-     * array to be passed and will override the title.</p>
-     */
-    this.category = eventInfo.category ? eventInfo.category : 'Other';
 
     /**
      * An associative array of competitor information, where the key is the
@@ -57,14 +40,28 @@ var allplayers = allplayers || {};
      */
     this.competitors = {};
 
+    /**
+     * <p>The category of this event.</p>
+     * <ul>
+     * <li>Game</li>
+     * <li>Meeting</li>
+     * <li>Other</li>
+     * <li>Party</li>
+     * <li>Practice</li>
+     * <li>Scrimmage</li>
+     * </ul>
+     * <p><em>Game</em> and <em>Scrimmage</em> categories require competitors
+     * array to be passed and will override the title.</p>
+     */
+    this.category = eventInfo.category ? eventInfo.category : 'Other';
+
     /** The date-time object */
-    this.date_time = new allplayers.date(eventInfo.start, eventInfo.end);
+    this.date = new allplayers.date(eventInfo.start, eventInfo.end);
+    this.start = this.date.start;
+    this.end = this.date.end;
 
     // Derive from allplayers.entity.
-    allplayers.entity.call(this, api, options);
-
-    // Update the data.
-    this.update(eventInfo);
+    allplayers.entity.call(this, eventInfo);
   };
 
   // Create the proper derivation.
@@ -72,13 +69,30 @@ var allplayers = allplayers || {};
   allplayers.event.prototype.constructor = allplayers.event;
 
   /**
+   * Gets an event.
+   */
+  allplayers.event.prototype.get = function(callback) {
+
+    // Get the event from the API.
+    var _this = this;
+    allplayers.api.getEvent(this.uuid, {}, function(object) {
+      _this.update(object);
+      callback(_this);
+    });
+  };
+
+  /**
    * Save an event to the database.
    */
-  allplayers.event.prototype.save = function() {
+  allplayers.event.prototype.save = function(callback) {
 
     // Call the api event save function.
-    this.api.saveEvent(this.getObject(), function() {
-      console.log('Event Saved!!!');
+    this.date.start = this.start;
+    this.date.end = this.end;
+    var _this = this;
+    allplayers.api.saveEvent(this.getObject(), function(object) {
+      _this.update(object);
+      callback(_this);
     });
   };
 
@@ -91,7 +105,7 @@ var allplayers = allplayers || {};
     allplayers.entity.prototype.update.call(this, date);
 
     // Now update the start and end dates.
-    this.date_time.update(date.start, date.end);
+    this.date.update(date.start, date.end);
   };
 
 
@@ -104,7 +118,7 @@ var allplayers = allplayers || {};
       resources: this.resources,
       category: this.category,
       competitors: this.competitors,
-      date_time: this.date_time.getObject()
+      date_time: this.date.getObject()
     });
   };
 

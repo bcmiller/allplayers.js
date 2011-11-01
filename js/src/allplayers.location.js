@@ -10,7 +10,7 @@ var allplayers = allplayers || {};
    * @param {@link allplayers.api} api The API interface.
    * @param {object} options The options for this class.
    */
-  allplayers.location = function(api, options) {
+  allplayers.location = function(options) {
 
     /** Street Address. */
     this.street = '';
@@ -34,7 +34,7 @@ var allplayers = allplayers || {};
     this.longitude = '';
 
     // Derive from allplayers.entity.
-    allplayers.entity.call(this, api, options);
+    allplayers.entity.call(this, options);
   };
 
   // Create the proper derivation.

@@ -191,10 +191,6 @@ ul.inheritsList
 	
 	<li><i><a href="../symbols/_global_.html">_global_</a></i></li>
 	
-	<li><a href="../symbols/allplayers.api.html">allplayers.api</a></li>
-	
-	<li><a href="../symbols/allplayers.base.html">allplayers.base</a></li>
-	
 	<li><a href="../symbols/allplayers.calendar.html">allplayers.calendar</a></li>
 	
 	<li><a href="../symbols/allplayers.date.html">allplayers.date</a></li>
@@ -204,8 +200,6 @@ ul.inheritsList
 	<li><a href="../symbols/allplayers.event.html">allplayers.event</a></li>
 	
 	<li><a href="../symbols/allplayers.group.html">allplayers.group</a></li>
-	
-	<li><a href="../symbols/allplayers.groups.html">allplayers.groups</a></li>
 	
 	<li><a href="../symbols/allplayers.location.html">allplayers.location</a></li>
 	
@@ -233,7 +227,7 @@ ul.inheritsList
 				The group class to govern all functionality that groups have.
 				
 				
-					<br /><i>Defined in: </i> <a href="../symbols/src/js_source_allplayers.group.js.html">allplayers.group.js</a>.
+					<br /><i>Defined in: </i> <a href="../symbols/src/js_src_allplayers.group.js.html">allplayers.group.js</a>.
 				
 			</p>
 
@@ -252,7 +246,7 @@ ul.inheritsList
 						<td class="attributes">&nbsp;</td>
 						<td class="nameDescription" >
 							<div class="fixedFont">
-								<b><a href="../symbols/allplayers.group.html#constructor">allplayers.group</a></b>(api, options, groupInfo)
+								<b><a href="../symbols/allplayers.group.html#constructor">allplayers.group</a></b>(options, groupInfo)
 							</div>
 							<div class="description"></div>
 						</td>
@@ -421,7 +415,7 @@ ul.inheritsList
 				
 				
 				<dl class="inheritsList">
-				<dt>Fields borrowed from class <a href="../symbols/allplayers.entity.html">allplayers.entity</a>: </dt><dd><a href="../symbols/allplayers.entity.html#description">description</a>, <a href="../symbols/allplayers.entity.html#title">title</a>, <a href="../symbols/allplayers.entity.html#uuid">uuid</a></dd><dt>Fields borrowed from class <a href="../symbols/allplayers.base.html">allplayers.base</a>: </dt><dd><a href="../symbols/allplayers.base.html#api">api</a>, <a href="../symbols/allplayers.base.html#options">options</a></dd>
+				<dt>Fields borrowed from class <a href="../symbols/allplayers.entity.html">allplayers.entity</a>: </dt><dd><a href="../symbols/allplayers.entity.html#description">description</a>, <a href="../symbols/allplayers.entity.html#title">title</a>, <a href="../symbols/allplayers.entity.html#uuid">uuid</a></dd>
 				</dl>
 				
 			
@@ -443,7 +437,16 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/allplayers.group.html#save">save</a></b>()
+								<div class="fixedFont"><b><a href="../symbols/allplayers.group.html#get">get</a></b>(callback)
+								</div>
+								<div class="description">Get a group provided the UUID.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/allplayers.group.html#save">save</a></b>(callback)
 								</div>
 								<div class="description">Save a group to the database.</div>
 							</td>
@@ -455,7 +458,7 @@ ul.inheritsList
 				
 				
 				<dl class="inheritsList">
-				<dt>Methods borrowed from class <a href="../symbols/allplayers.entity.html">allplayers.entity</a>: </dt><dd><a href="../symbols/allplayers.entity.html#getObject">getObject</a>, <a href="../symbols/allplayers.entity.html#update">update</a></dd><dt>Methods borrowed from class <a href="../symbols/allplayers.base.html">allplayers.base</a>: </dt><dd><a href="../symbols/allplayers.base.html#log">log</a></dd>
+				<dt>Methods borrowed from class <a href="../symbols/allplayers.entity.html">allplayers.entity</a>: </dt><dd><a href="../symbols/allplayers.entity.html#getObject">getObject</a>, <a href="../symbols/allplayers.entity.html#update">update</a></dd>
 				</dl>
 				
 			
@@ -470,7 +473,7 @@ ul.inheritsList
 				</div>
 				
 				<div class="fixedFont">
-						<b>allplayers.group</b>(api, options, groupInfo)
+						<b>allplayers.group</b>(options, groupInfo)
 				</div>
 				
 				<div class="description">
@@ -484,12 +487,6 @@ ul.inheritsList
 					
 						<dl class="detailList">
 						<dt class="heading">Parameters:</dt>
-						
-							<dt>
-								<span class="light fixedFont">{@link allplayers.api}</span>  <b>api</b>
-								
-							</dt>
-								<dd>The API interface.</dd>
 						
 							<dt>
 								<span class="light fixedFont">{object}</span>  <b>options</b>
@@ -837,11 +834,47 @@ ul.inheritsList
 					Method Detail
 				</div>
 				
+					<a name="get"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>get</b>(callback)
+					
+					</div>
+					<div class="description">
+						Get a group provided the UUID.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>callback</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
 					<a name="save"> </a>
 					<div class="fixedFont">
 					
 					
-					<b>save</b>()
+					<b>save</b>(callback)
 					
 					</div>
 					<div class="description">
@@ -852,6 +885,17 @@ ul.inheritsList
 					
 					
 					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>callback</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
 						
 						
 						
@@ -874,7 +918,7 @@ ul.inheritsList
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Fri Oct 28 2011 16:36:05 GMT-0000 (UTC)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Tue Nov 01 2011 13:48:47 GMT-0000 (UTC)
 		</div>
 	</body>
 </html>
