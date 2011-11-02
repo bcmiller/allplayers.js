@@ -42,6 +42,10 @@ var allplayers = allplayers || {};
           else {
             console.log('Error: ' + textStatus);
           }
+        },
+        error: function(xhr, ajaxOptions, thrownError) {
+          console.log(xhr.responseText);
+          callback(null);
         }
       });
     },
@@ -74,6 +78,10 @@ var allplayers = allplayers || {};
           else {
             console.log('Error: ' + textStatus);
           }
+        },
+        error: function(xhr, ajaxOptions, thrownError) {
+          console.log(xhr.responseText);
+          callback(null);
         }
       });
     },

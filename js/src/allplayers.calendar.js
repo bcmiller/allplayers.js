@@ -65,14 +65,14 @@ var allplayers = allplayers || {};
       eventDrop: function(event, jsEvent, ui, view) {
 
         // Save this event.
-        event.update(event);
-        event.save();
+        event.obj.update(event);
+        event.obj.save();
       },
       eventResizeStop: function(event, jsEvent, ui, view) {
 
         // Save this event.
-        event.update(event);
-        event.save();
+        event.obj.update(event);
+        event.obj.save();
       },
       events: function(start, end, callback) {
         _this.getEvents(start, end, callback);
@@ -88,9 +88,6 @@ var allplayers = allplayers || {};
     // TO-DO: MAKE IT SO THAT WE DON'T NEED A GROUP TO GET EVENTS
     this.uuid = '';
 
-    // The api.
-    this.api = new allplayers.api();
-
     // Create the fullcalendar.
     context.fullCalendar(options);
   };
@@ -105,7 +102,8 @@ var allplayers = allplayers || {};
     }
     else {
       var _this = this;
-      this.api.searchGroups({search: 'Spring Soccer 2011'}, function(groups) {
+      var query = {search: 'Spring Soccer 2011'};
+      allplayers.api.searchGroups(query, function(groups) {
         _this.uuid = groups[0].uuid;
         callback.call(_this);
       });
@@ -131,8 +129,7 @@ var allplayers = allplayers || {};
     endString += end.getDate();
 
     this.getUUID(function() {
-      var _this = this;
-      this.api.getGroupEvents(this.uuid, {
+      allplayers.api.getGroupEvents(this.uuid, {
         start: startString,
         end: endString,
         fields: '*',
@@ -144,7 +141,7 @@ var allplayers = allplayers || {};
         var i = events.length;
         while (i--) {
           events[i].id = events[i].uuid;
-          events[i] = new allplayers.event(_this.api, _this.options, events[i]);
+          events[i].obj = new allplayers.event(events[i]);
         }
 
         // Add this to the events for the calendar.

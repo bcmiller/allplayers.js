@@ -40,10 +40,15 @@ var allplayers = allplayers || {};
    */
   allplayers.entity.prototype.update = function(object) {
 
+    // Update the object.
     if (object) {
-      this.uuid = object.uuid;
-      this.title = object.title;
-      this.description = object.description;
+
+      // Update the params.
+      for (var param in object) {
+        if (object.hasOwnProperty(param) && this.hasOwnProperty(param)) {
+          this[param] = object[param];
+        }
+      }
     }
   };
 
