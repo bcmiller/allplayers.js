@@ -50,3 +50,9 @@ jsdoc: ${files}
 # Fix the js style on all the files.
 fixjsstyle: ${files}
 	fixjsstyle $^
+
+fullcalendar:
+	wget http://arshaw.com/fullcalendar/downloads/fullcalendar-1.5.2.zip -P libraries
+	unzip libraries/fullcalendar-1.5.2.zip -d libraries
+	sudo mv libraries/fullcalendar-1.5.2 libraries/fullcalendar
+	sudo rm libraries/fullcalendar-1.5.2.zip
