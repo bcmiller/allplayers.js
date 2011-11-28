@@ -195,15 +195,33 @@ ul.inheritsList
 	
 	<li><a href="../symbols/allplayers.date.html">allplayers.date</a></li>
 	
-	<li><a href="../symbols/allplayers.entity.html">allplayers.entity</a></li>
-	
 	<li><a href="../symbols/allplayers.event.html">allplayers.event</a></li>
 	
+	<li><a href="../symbols/allplayers.event.api.html">allplayers.event.api</a></li>
+	
 	<li><a href="../symbols/allplayers.group.html">allplayers.group</a></li>
+	
+	<li><a href="../symbols/allplayers.group.api.html">allplayers.group.api</a></li>
 	
 	<li><a href="../symbols/allplayers.location.html">allplayers.location</a></li>
 	
 	<li><a href="../symbols/Date.html">Date</a></li>
+	
+	<li><a href="../symbols/drupal.api.html">drupal.api</a></li>
+	
+	<li><a href="../symbols/drupal.entity.html">drupal.entity</a></li>
+	
+	<li><a href="../symbols/drupal.node.html">drupal.node</a></li>
+	
+	<li><a href="../symbols/drupal.node.api.html">drupal.node.api</a></li>
+	
+	<li><a href="../symbols/drupal.system.html">drupal.system</a></li>
+	
+	<li><a href="../symbols/drupal.system.api.html">drupal.system.api</a></li>
+	
+	<li><a href="../symbols/drupal.user.html">drupal.user</a></li>
+	
+	<li><a href="../symbols/drupal.user.api.html">drupal.user.api</a></li>
 	
 </ul>
 <hr />
@@ -221,13 +239,13 @@ ul.inheritsList
 			<p class="description">
 				
 				<br />Extends
-					<a href="../symbols/allplayers.entity.html">allplayers.entity</a>.<br />
+					<a href="../symbols/drupal.node.html">drupal.node</a>.<br />
 				
 			
 				The event class to govern all functionality that events have.
 				
 				
-					<br /><i>Defined in: </i> <a href="../symbols/src/js_src_allplayers.event.js.html">allplayers.event.js</a>.
+					<br /><i>Defined in: </i> <a href="../symbols/src/src_allplayers.event.js.html">allplayers.event.js</a>.
 				
 			</p>
 
@@ -246,7 +264,7 @@ ul.inheritsList
 						<td class="attributes">&nbsp;</td>
 						<td class="nameDescription" >
 							<div class="fixedFont">
-								<b><a href="../symbols/allplayers.event.html#constructor">allplayers.event</a></b>(eventInfo)
+								<b><a href="../symbols/allplayers.event.html#constructor">allplayers.event</a></b>(object, callback)
 							</div>
 							<div class="description"></div>
 						</td>
@@ -305,9 +323,29 @@ the following.</div>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
 								<div class="fixedFont">
+								<b><a href="../symbols/allplayers.event.html#constructor">constructor</a></b>
+								</div>
+								<div class="description">Reset the constructor</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
 								<b><a href="../symbols/allplayers.event.html#date">date</a></b>
 								</div>
 								<div class="description">The date-time object</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/allplayers.event.html#description">description</a></b>
+								</div>
+								<div class="description">The description for this event.</div>
 							</td>
 						</tr>
 					
@@ -337,7 +375,7 @@ the following.</div>
 				
 				
 				<dl class="inheritsList">
-				<dt>Fields borrowed from class <a href="../symbols/allplayers.entity.html">allplayers.entity</a>: </dt><dd><a href="../symbols/allplayers.entity.html#description">description</a>, <a href="../symbols/allplayers.entity.html#title">title</a>, <a href="../symbols/allplayers.entity.html#uuid">uuid</a></dd>
+				<dt>Fields borrowed from class <a href="../symbols/drupal.node.html">drupal.node</a>: </dt><dd><a href="../symbols/drupal.node.html#status">status</a>, <a href="../symbols/drupal.node.html#title">title</a>, <a href="../symbols/drupal.node.html#type">type</a>, <a href="../symbols/drupal.node.html#uid">uid</a></dd><dt>Fields borrowed from class <a href="../symbols/drupal.entity.html">drupal.entity</a>: </dt><dd><a href="../symbols/drupal.entity.html#api">api</a>, <a href="../symbols/drupal.entity.html#id">id</a></dd>
 				</dl>
 				
 			
@@ -359,15 +397,6 @@ the following.</div>
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/allplayers.event.html#get">get</a></b>(callback)
-								</div>
-								<div class="description">Gets an event.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
 								<div class="fixedFont"><b><a href="../symbols/allplayers.event.html#getObject">getObject</a></b>()
 								</div>
 								<div class="description"></div>
@@ -377,18 +406,9 @@ the following.</div>
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/allplayers.event.html#save">save</a></b>(callback)
+								<div class="fixedFont"><b><a href="../symbols/allplayers.event.html#update">update</a></b>(object)
 								</div>
-								<div class="description">Save an event to the database.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/allplayers.event.html#update">update</a></b>(date)
-								</div>
-								<div class="description"></div>
+								<div class="description">Override the update routine.</div>
 							</td>
 						</tr>
 					
@@ -398,7 +418,7 @@ the following.</div>
 				
 				
 				<dl class="inheritsList">
-				
+				<dt>Methods borrowed from class <a href="../symbols/drupal.entity.html">drupal.entity</a>: </dt><dd><a href="../symbols/drupal.entity.html#get">get</a>, <a href="../symbols/drupal.entity.html#getQuery">getQuery</a>, <a href="../symbols/drupal.entity.html#remove">remove</a>, <a href="../symbols/drupal.entity.html#save">save</a></dd>
 				</dl>
 				
 			
@@ -413,7 +433,7 @@ the following.</div>
 				</div>
 				
 				<div class="fixedFont">
-						<b>allplayers.event</b>(eventInfo)
+						<b>allplayers.event</b>(object, callback)
 				</div>
 				
 				<div class="description">
@@ -429,10 +449,17 @@ the following.</div>
 						<dt class="heading">Parameters:</dt>
 						
 							<dt>
-								<span class="light fixedFont">{object}</span>  <b>eventInfo</b>
+								<span class="light fixedFont">{object}</span>  <b>object</b>
 								
 							</dt>
 								<dd>The event information.</dd>
+						
+							<dt>
+								<span class="light fixedFont">{function}</span>  <b>callback</b>
+								
+							</dt>
+								<dd>The function to be called once the node has
+been retrieved from the server.</dd>
 						
 						</dl>
 					
@@ -543,6 +570,28 @@ the following.
 
 					<hr />
 				
+					<a name="constructor"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>constructor</b>
+					
+					</div>
+					<div class="description">
+						Reset the constructor
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
 					<a name="date"> </a>
 					<div class="fixedFont">
 					
@@ -552,6 +601,28 @@ the following.
 					</div>
 					<div class="description">
 						The date-time object
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="description"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>description</b>
+					
+					</div>
+					<div class="description">
+						The description for this event.
 						
 						
 					</div>
@@ -617,46 +688,10 @@ the following.
 					Method Detail
 				</div>
 				
-					<a name="get"> </a>
-					<div class="fixedFont">
-					
-					
-					<b>get</b>(callback)
-					
-					</div>
-					<div class="description">
-						Gets an event.
-						
-						
-					</div>
-					
-					
-					
-						
-							<dl class="detailList">
-							<dt class="heading">Parameters:</dt>
-							
-								<dt>
-									<b>callback</b>
-									
-								</dt>
-								<dd></dd>
-							
-							</dl>
-						
-						
-						
-						
-						
-						
-						
-
-					<hr />
-				
 					<a name="getObject"> </a>
 					<div class="fixedFont">
 					
-					
+					<span class="light">{object}</span>
 					<b>getObject</b>()
 					
 					</div>
@@ -673,50 +708,21 @@ the following.
 						
 						
 						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{object}</span> The JSON object to send to the Services endpoint.</dd>
+							
+							</dl>
+						
 						
 						
 							<dl class="detailList">
 							<dt class="heading">See:</dt>
 							
-								<dd><a href="../symbols/allplayers.entity.html#getObject">allplayers.entity#getObject</a></dd>
+								<dd><a href="../symbols/drupal.entity.html#getObject">drupal.entity#getObject</a></dd>
 							
 							</dl>
-						
-
-					<hr />
-				
-					<a name="save"> </a>
-					<div class="fixedFont">
-					
-					
-					<b>save</b>(callback)
-					
-					</div>
-					<div class="description">
-						Save an event to the database.
-						
-						
-					</div>
-					
-					
-					
-						
-							<dl class="detailList">
-							<dt class="heading">Parameters:</dt>
-							
-								<dt>
-									<b>callback</b>
-									
-								</dt>
-								<dd></dd>
-							
-							</dl>
-						
-						
-						
-						
-						
-						
 						
 
 					<hr />
@@ -725,11 +731,11 @@ the following.
 					<div class="fixedFont">
 					
 					
-					<b>update</b>(date)
+					<b>update</b>(object)
 					
 					</div>
 					<div class="description">
-						
+						Override the update routine.
 						
 						
 					</div>
@@ -741,10 +747,10 @@ the following.
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<b>date</b>
+									<span class="light fixedFont">{object}</span> <b>object</b>
 									
 								</dt>
-								<dd></dd>
+								<dd>The node object to update.</dd>
 							
 							</dl>
 						
@@ -753,13 +759,6 @@ the following.
 						
 						
 						
-						
-							<dl class="detailList">
-							<dt class="heading">See:</dt>
-							
-								<dd><a href="../symbols/allplayers.entity.html#update">allplayers.entity#update</a></dd>
-							
-							</dl>
 						
 
 					
@@ -776,7 +775,7 @@ the following.
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Wed Nov 02 2011 20:28:30 GMT-0000 (UTC)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Mon Nov 28 2011 22:58:51 GMT-0000 (UTC)
 		</div>
 	</body>
 </html>

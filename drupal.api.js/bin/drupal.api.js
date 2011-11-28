@@ -8,10 +8,10 @@ var drupal = drupal || {};
 drupal.api = function() {
 
   /** The Services API endpoint */
-  this.endpoint = drupal.endpoint;
+  this.endpoint = drupal.endpoint || this.endpoint || '';
 
   /** The resource within this endpoint */
-  this.resource = '';
+  this.resource = this.resource || '';
 };
 
 /**
@@ -78,6 +78,21 @@ drupal.api.prototype.get = function(object, query, callback) {
 };
 
 /**
+ * API function to get a type of object within an object.
+ *
+ * @param {object} object The object of the item we are getting..
+ * @param {string} type The type of object you wish to get within this object.
+ * @param {object} query key-value pairs to add to the query of the URL.
+ * @param {function} callback The callback function.
+ */
+drupal.api.prototype.getItems = function(object, type, query, callback) {
+  var url = this.getURL(object) + '/' + type;
+  url += '.jsonp';
+  url += query ? ('?' + decodeURIComponent(jQuery.param(query, true))) : '';
+  this.call(url, 'jsonp', 'GET', null, callback);
+};
+
+/**
  * API function to perform an action.
  *
  * @param {string} action The action to perform.
@@ -126,10 +141,10 @@ var drupal = drupal || {};
 drupal.system = function(callback) {
 
   /** The current user. */
-  this.user = null;
+  this.user = this.user || null;
 
   // Declare the api.
-  this.api = new drupal.system.api();
+  this.api = this.api || new drupal.system.api();
 
   // If the callback is set, then connect.
   if (callback) {
@@ -201,11 +216,11 @@ drupal.system = drupal.system || {};
  */
 drupal.system.api = function() {
 
+  // Set the resource
+  this.resource = this.resource || 'system';
+
   // Call the drupal.api constructor.
   drupal.api.call(this);
-
-  // Set the resource
-  this.resource = 'system';
 };
 
 /** Derive from drupal.api. */
@@ -226,20 +241,24 @@ var drupal = drupal || {};
  */
 drupal.entity = function(object, callback) {
 
-  /** The unique identifier for this entity. */
-  this.id = '';
+  // Only continue if the object is valid.
+  if (object) {
 
-  /** The API for this entity */
-  this.api = this.api || null;
+    /** The unique identifier for this entity. */
+    this.id = this.id || '';
 
-  // If object is a string, assume it is a UUID and get it.
-  this.update(object);
+    /** The API for this entity */
+    this.api = this.api || null;
 
-  // If they provide a callback, call it now.
-  if (callback) {
+    // If object is a string, assume it is a UUID and get it.
+    this.update(object);
 
-    // Get the object from the server.
-    this.get(callback);
+    // If they provide a callback, call it now.
+    if (callback) {
+
+      // Get the object from the server.
+      this.get(callback);
+    }
   }
 };
 
@@ -258,8 +277,17 @@ drupal.entity.prototype.get = function(callback) {
     var _this = this;
     this.api.get(this.getObject(), this.getQuery(), function(object) {
 
-      // If this is an array, then just return the results.
-      if (object[0]) {
+      if (!object) {
+        callback(null);
+      }
+      else if (object[0]) {
+
+        var i = object.length;
+        while (i--) {
+          object[i] = new _this.constructor(object[i]);
+        }
+
+        // Callback a list of objects.
         callback(object);
       }
       else {
@@ -327,6 +355,8 @@ drupal.entity.prototype.getQuery = function() {
 
     // Iterate through all of our fields.
     for (var field in this) {
+
+      // Make sure that this property exists, is set, and is not an object.
       if (this.hasOwnProperty(field) &&
           this[field] &&
           (typeof this[field] != 'object')) {
@@ -353,6 +383,8 @@ drupal.entity.prototype.update = function(object) {
 
     // Update the params.
     for (var param in object) {
+
+      // Check to make sure that this param is within object scope.
       if (object.hasOwnProperty(param) && this.hasOwnProperty(param)) {
 
         // Check to see if this object has an update function.
@@ -370,7 +402,7 @@ drupal.entity.prototype.update = function(object) {
 /**
  * Returns the object to send during PUT's and POST's during a save or add.
  *
- * @return {object} The object to send to the Services endpoint.
+ * @return {object} The JSON object to send to the Services endpoint.
  */
 drupal.entity.prototype.getObject = function() {
   return {
@@ -391,20 +423,24 @@ var drupal = drupal || {};
  */
 drupal.node = function(object, callback) {
 
-  /** The title for this node. */
-  this.title = '';
+  // Only continue if the object is valid.
+  if (object) {
 
-  /** The type of node we are dealing with. */
-  this.type = '';
+    /** The title for this node. */
+    this.title = this.title || '';
 
-  /** The status of this node. */
-  this.status = 0;
+    /** The type of node we are dealing with. */
+    this.type = this.type || '';
 
-  /** The user who created this node */
-  this.uid = 0;
+    /** The status of this node. */
+    this.status = this.status || 0;
 
-  // Declare the api.
-  this.api = new drupal.node.api();
+    /** The user who created this node */
+    this.uid = this.uid || 0;
+
+    // Declare the api.
+    this.api = this.api || new drupal.node.api();
+  }
 
   // Call the base class.
   drupal.entity.call(this, object, callback);
@@ -426,7 +462,9 @@ drupal.node.prototype.update = function(object) {
   drupal.entity.prototype.update.call(this, object);
 
   // Make sure to also set the ID the same as nid.
-  this.id = (object && object.nid) || this.id;
+  if (object) {
+    this.id = object.nid || this.id;
+  }
 };
 
 /**
@@ -455,11 +493,11 @@ drupal.node = drupal.node || {};
  */
 drupal.node.api = function() {
 
+  // Set the resource
+  this.resource = this.resource || 'node';
+
   // Call the drupal.api constructor.
   drupal.api.call(this);
-
-  // Set the resource
-  this.resource = 'node';
 };
 
 /** Derive from drupal.api. */
@@ -481,26 +519,30 @@ var drupal = drupal || {};
  */
 drupal.user = function(object, callback) {
 
-  /** The name for this user. */
-  this.name = '';
+  // Only continue if the object is valid.
+  if (object) {
 
-  /** The email address of our user. */
-  this.mail = '';
+    /** The name for this user. */
+    this.name = this.name || '';
 
-  /** The password of the user. */
-  this.pass = '';
+    /** The email address of our user. */
+    this.mail = this.mail || '';
 
-  /** The status of the user. */
-  this.status = 1;
+    /** The password of the user. */
+    this.pass = this.pass || '';
 
-  /** The session ID of the user. */
-  this.sessid = '';
+    /** The status of the user. */
+    this.status = this.status || 1;
 
-  /** The session name of the user */
-  this.session_name = '';
+    /** The session ID of the user. */
+    this.sessid = this.sessid || '';
 
-  // Declare the api.
-  this.api = new drupal.user.api();
+    /** The session name of the user */
+    this.session_name = this.session_name || '';
+
+    // Declare the api.
+    this.api = this.api || new drupal.user.api();
+  }
 
   // Call the base class.
   drupal.entity.call(this, object, callback);
@@ -577,7 +619,9 @@ drupal.user.prototype.update = function(object) {
   drupal.entity.prototype.update.call(this, object);
 
   // Make sure to also set the ID the same as uid.
-  this.id = (object && object.uid) || this.id;
+  if (object) {
+    this.id = object.uid || this.id;
+  }
 };
 
 /**
@@ -606,11 +650,11 @@ drupal.user = drupal.user || {};
  */
 drupal.user.api = function() {
 
-  // Call the drupal.api constructor.
-  drupal.api.call(this);
-
   // Set the resource
   this.resource = 'user';
+
+  // Call the drupal.api constructor.
+  drupal.api.call(this);
 };
 
 /** Derive from drupal.api. */

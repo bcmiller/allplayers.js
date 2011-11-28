@@ -10,6 +10,32 @@ function getRandomDate(year) {
   };
 }
 
+// Return a list of groups.
+asyncTest('Get Group Events', function() {
+
+  // Search for Spring Soccer 2011 groups.
+  new allplayers.group({search: 'Soccer'}, function(groups) {
+
+    // Create a new group, and then get its events.
+    new allplayers.group(groups[0]).getEvents({
+      start: '2011-1-1',
+      end: '2011-12-30'
+    }, function(events) {
+
+      expect(1 + 2*events.length);
+      start();
+      ok(!!events.length, "Events were found");
+      for (var i in events) {
+        ok(!!events[i].id, "Event ID was found");
+        ok(!!events[i].title, "Event Title was found");
+      }
+    });
+  });
+});
+
+
+/*
+
 // Test api.getGroupEvents
 asyncTest("api.getGroupEvents()", 2, function() {
   allplayers.api.searchGroups({search: 'Spring Soccer 2011'}, function(groups) {
@@ -108,3 +134,4 @@ asyncTest("event.create()", 5, function() {
     ok(savedEvent.end.getTime() == randomEnd.date.getTime(), "End date is valid");
   });
 });
+*/

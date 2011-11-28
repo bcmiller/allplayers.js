@@ -195,15 +195,33 @@ ul.inheritsList
 	
 	<li><a href="../symbols/allplayers.date.html">allplayers.date</a></li>
 	
-	<li><a href="../symbols/allplayers.entity.html">allplayers.entity</a></li>
-	
 	<li><a href="../symbols/allplayers.event.html">allplayers.event</a></li>
 	
+	<li><a href="../symbols/allplayers.event.api.html">allplayers.event.api</a></li>
+	
 	<li><a href="../symbols/allplayers.group.html">allplayers.group</a></li>
+	
+	<li><a href="../symbols/allplayers.group.api.html">allplayers.group.api</a></li>
 	
 	<li><a href="../symbols/allplayers.location.html">allplayers.location</a></li>
 	
 	<li><a href="../symbols/Date.html">Date</a></li>
+	
+	<li><a href="../symbols/drupal.api.html">drupal.api</a></li>
+	
+	<li><a href="../symbols/drupal.entity.html">drupal.entity</a></li>
+	
+	<li><a href="../symbols/drupal.node.html">drupal.node</a></li>
+	
+	<li><a href="../symbols/drupal.node.api.html">drupal.node.api</a></li>
+	
+	<li><a href="../symbols/drupal.system.html">drupal.system</a></li>
+	
+	<li><a href="../symbols/drupal.system.api.html">drupal.system.api</a></li>
+	
+	<li><a href="../symbols/drupal.user.html">drupal.user</a></li>
+	
+	<li><a href="../symbols/drupal.user.api.html">drupal.user.api</a></li>
 	
 </ul>
 <hr />
@@ -221,13 +239,13 @@ ul.inheritsList
 			<p class="description">
 				
 				<br />Extends
-					<a href="../symbols/allplayers.entity.html">allplayers.entity</a>.<br />
+					<a href="../symbols/drupal.entity.html">drupal.entity</a>.<br />
 				
 			
 				The group class to govern all functionality that groups have.
 				
 				
-					<br /><i>Defined in: </i> <a href="../symbols/src/js_src_allplayers.group.js.html">allplayers.group.js</a>.
+					<br /><i>Defined in: </i> <a href="../symbols/src/src_allplayers.group.js.html">allplayers.group.js</a>.
 				
 			</p>
 
@@ -246,7 +264,7 @@ ul.inheritsList
 						<td class="attributes">&nbsp;</td>
 						<td class="nameDescription" >
 							<div class="fixedFont">
-								<b><a href="../symbols/allplayers.group.html#constructor">allplayers.group</a></b>(options, groupInfo)
+								<b><a href="../symbols/allplayers.group.html#constructor">allplayers.group</a></b>(object, callback)
 							</div>
 							<div class="description"></div>
 						</td>
@@ -303,9 +321,29 @@ ul.inheritsList
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
 								<div class="fixedFont">
+								<b><a href="../symbols/allplayers.group.html#api">api</a></b>
+								</div>
+								<div class="description">The groups api.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
 								<b><a href="../symbols/allplayers.group.html#approved_for_payment">approved_for_payment</a></b>
 								</div>
 								<div class="description">Approved for payment</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/allplayers.group.html#constructor">constructor</a></b>
+								</div>
+								<div class="description">Reset the constructor.</div>
 							</td>
 						</tr>
 					
@@ -383,6 +421,16 @@ ul.inheritsList
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
 								<div class="fixedFont">
+								<b><a href="../symbols/allplayers.group.html#search">search</a></b>
+								</div>
+								<div class="description">The search parameter for this group.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
 								<b><a href="../symbols/allplayers.group.html#secondary_color">secondary_color</a></b>
 								</div>
 								<div class="description">Secondary Color</div>
@@ -415,7 +463,7 @@ ul.inheritsList
 				
 				
 				<dl class="inheritsList">
-				<dt>Fields borrowed from class <a href="../symbols/allplayers.entity.html">allplayers.entity</a>: </dt><dd><a href="../symbols/allplayers.entity.html#description">description</a>, <a href="../symbols/allplayers.entity.html#title">title</a>, <a href="../symbols/allplayers.entity.html#uuid">uuid</a></dd>
+				<dt>Fields borrowed from class <a href="../symbols/drupal.entity.html">drupal.entity</a>: </dt><dd><a href="../symbols/drupal.entity.html#id">id</a></dd>
 				</dl>
 				
 			
@@ -437,18 +485,27 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/allplayers.group.html#get">get</a></b>(callback)
+								<div class="fixedFont"><b><a href="../symbols/allplayers.group.html#getEvents">getEvents</a></b>(params, callback)
 								</div>
-								<div class="description">Get a group provided the UUID.</div>
+								<div class="description">Returns the events for this group.</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/allplayers.group.html#save">save</a></b>(callback)
+								<div class="fixedFont"><b><a href="../symbols/allplayers.group.html#getUpcomingEvents">getUpcomingEvents</a></b>(params, callback)
 								</div>
-								<div class="description">Save a group to the database.</div>
+								<div class="description">Returns the upcoming events for this group.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/allplayers.group.html#update">update</a></b>(object)
+								</div>
+								<div class="description">Override the update routine.</div>
 							</td>
 						</tr>
 					
@@ -458,7 +515,7 @@ ul.inheritsList
 				
 				
 				<dl class="inheritsList">
-				<dt>Methods borrowed from class <a href="../symbols/allplayers.entity.html">allplayers.entity</a>: </dt><dd><a href="../symbols/allplayers.entity.html#getObject">getObject</a>, <a href="../symbols/allplayers.entity.html#update">update</a></dd>
+				<dt>Methods borrowed from class <a href="../symbols/drupal.entity.html">drupal.entity</a>: </dt><dd><a href="../symbols/drupal.entity.html#get">get</a>, <a href="../symbols/drupal.entity.html#getObject">getObject</a>, <a href="../symbols/drupal.entity.html#getQuery">getQuery</a>, <a href="../symbols/drupal.entity.html#remove">remove</a>, <a href="../symbols/drupal.entity.html#save">save</a></dd>
 				</dl>
 				
 			
@@ -473,7 +530,7 @@ ul.inheritsList
 				</div>
 				
 				<div class="fixedFont">
-						<b>allplayers.group</b>(options, groupInfo)
+						<b>allplayers.group</b>(object, callback)
 				</div>
 				
 				<div class="description">
@@ -489,16 +546,16 @@ ul.inheritsList
 						<dt class="heading">Parameters:</dt>
 						
 							<dt>
-								<span class="light fixedFont">{object}</span>  <b>options</b>
-								
-							</dt>
-								<dd>The options for this class.</dd>
-						
-							<dt>
-								<span class="light fixedFont">{object}</span>  <b>groupInfo</b>
+								<span class="light fixedFont">{object}</span>  <b>object</b>
 								
 							</dt>
 								<dd>The group information.</dd>
+						
+							<dt>
+								<span class="light fixedFont">{function}</span>  <b>callback</b>
+								
+							</dt>
+								<dd>The function to call when this group is retrieved.</dd>
 						
 						</dl>
 					
@@ -584,6 +641,28 @@ ul.inheritsList
 
 					<hr />
 				
+					<a name="api"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>api</b>
+					
+					</div>
+					<div class="description">
+						The groups api.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
 					<a name="approved_for_payment"> </a>
 					<div class="fixedFont">
 					
@@ -593,6 +672,28 @@ ul.inheritsList
 					</div>
 					<div class="description">
 						Approved for payment
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="constructor"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>constructor</b>
+					
+					</div>
+					<div class="description">
+						Reset the constructor.
 						
 						
 					</div>
@@ -760,6 +861,28 @@ ul.inheritsList
 
 					<hr />
 				
+					<a name="search"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>search</b>
+					
+					</div>
+					<div class="description">
+						The search parameter for this group.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
 					<a name="secondary_color"> </a>
 					<div class="fixedFont">
 					
@@ -834,15 +957,15 @@ ul.inheritsList
 					Method Detail
 				</div>
 				
-					<a name="get"> </a>
+					<a name="getEvents"> </a>
 					<div class="fixedFont">
 					
 					
-					<b>get</b>(callback)
+					<b>getEvents</b>(params, callback)
 					
 					</div>
 					<div class="description">
-						Get a group provided the UUID.
+						Returns the events for this group.
 						
 						
 					</div>
@@ -854,10 +977,23 @@ ul.inheritsList
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<b>callback</b>
+									<span class="light fixedFont">{object}</span> <b>params</b>
 									
 								</dt>
-								<dd></dd>
+								<dd>An object of the following parameters.
+<ul>
+<li><strong>start</strong> - The start date to get the events.</li>
+<li><strong>end</strong> - The end date to get the events.</li>
+<li><strong>fields</strong> - The fields to get.</li>
+<li><strong>limit</strong> - The limit of events to get.</li>
+<li><strong>offset</strong> - The offset of events for pagination.</li>
+</ul></dd>
+							
+								<dt>
+									<span class="light fixedFont">{function}</span> <b>callback</b>
+									
+								</dt>
+								<dd>The callback function to get the events.</dd>
 							
 							</dl>
 						
@@ -870,15 +1006,15 @@ ul.inheritsList
 
 					<hr />
 				
-					<a name="save"> </a>
+					<a name="getUpcomingEvents"> </a>
 					<div class="fixedFont">
 					
 					
-					<b>save</b>(callback)
+					<b>getUpcomingEvents</b>(params, callback)
 					
 					</div>
 					<div class="description">
-						Save a group to the database.
+						Returns the upcoming events for this group.
 						
 						
 					</div>
@@ -890,10 +1026,59 @@ ul.inheritsList
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<b>callback</b>
+									<span class="light fixedFont">{object}</span> <b>params</b>
 									
 								</dt>
-								<dd></dd>
+								<dd>An object of the following parameters.
+<ul>
+<li><strong>start</strong> - The start date to get the events.</li>
+<li><strong>end</strong> - The end date to get the events.</li>
+<li><strong>fields</strong> - The fields to get.</li>
+<li><strong>limit</strong> - The limit of events to get.</li>
+<li><strong>offset</strong> - The offset of events for pagination.</li>
+</ul></dd>
+							
+								<dt>
+									<span class="light fixedFont">{function}</span> <b>callback</b>
+									
+								</dt>
+								<dd>The callback function to get the events.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="update"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>update</b>(object)
+					
+					</div>
+					<div class="description">
+						Override the update routine.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{object}</span> <b>object</b>
+									
+								</dt>
+								<dd>The node object to update.</dd>
 							
 							</dl>
 						
@@ -918,7 +1103,7 @@ ul.inheritsList
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Wed Nov 02 2011 20:28:30 GMT-0000 (UTC)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Mon Nov 28 2011 22:58:51 GMT-0000 (UTC)
 		</div>
 	</body>
 </html>

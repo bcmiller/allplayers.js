@@ -195,15 +195,33 @@ ul.inheritsList
 	
 	<li><a href="../symbols/allplayers.date.html">allplayers.date</a></li>
 	
-	<li><a href="../symbols/allplayers.entity.html">allplayers.entity</a></li>
-	
 	<li><a href="../symbols/allplayers.event.html">allplayers.event</a></li>
 	
+	<li><a href="../symbols/allplayers.event.api.html">allplayers.event.api</a></li>
+	
 	<li><a href="../symbols/allplayers.group.html">allplayers.group</a></li>
+	
+	<li><a href="../symbols/allplayers.group.api.html">allplayers.group.api</a></li>
 	
 	<li><a href="../symbols/allplayers.location.html">allplayers.location</a></li>
 	
 	<li><a href="../symbols/Date.html">Date</a></li>
+	
+	<li><a href="../symbols/drupal.api.html">drupal.api</a></li>
+	
+	<li><a href="../symbols/drupal.entity.html">drupal.entity</a></li>
+	
+	<li><a href="../symbols/drupal.node.html">drupal.node</a></li>
+	
+	<li><a href="../symbols/drupal.node.api.html">drupal.node.api</a></li>
+	
+	<li><a href="../symbols/drupal.system.html">drupal.system</a></li>
+	
+	<li><a href="../symbols/drupal.system.api.html">drupal.system.api</a></li>
+	
+	<li><a href="../symbols/drupal.user.html">drupal.user</a></li>
+	
+	<li><a href="../symbols/drupal.user.api.html">drupal.user.api</a></li>
 	
 </ul>
 <hr />
@@ -221,13 +239,13 @@ ul.inheritsList
 			<p class="description">
 				
 				<br />Extends
-					<a href="../symbols/allplayers.entity.html">allplayers.entity</a>.<br />
+					<a href="../symbols/drupal.entity.html">drupal.entity</a>.<br />
 				
 			
 				The class to govern all location functionality and data.
 				
 				
-					<br /><i>Defined in: </i> <a href="../symbols/src/js_src_allplayers.location.js.html">allplayers.location.js</a>.
+					<br /><i>Defined in: </i> <a href="../symbols/src/src_allplayers.location.js.html">allplayers.location.js</a>.
 				
 			</p>
 
@@ -246,7 +264,7 @@ ul.inheritsList
 						<td class="attributes">&nbsp;</td>
 						<td class="nameDescription" >
 							<div class="fixedFont">
-								<b><a href="../symbols/allplayers.location.html#constructor">allplayers.location</a></b>(api, options)
+								<b><a href="../symbols/allplayers.location.html#constructor">allplayers.location</a></b>(object, callback)
 							</div>
 							<div class="description"></div>
 						</td>
@@ -276,6 +294,16 @@ ul.inheritsList
 								<b><a href="../symbols/allplayers.location.html#city">city</a></b>
 								</div>
 								<div class="description">City</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/allplayers.location.html#constructor">constructor</a></b>
+								</div>
+								<div class="description">Reset the constructor</div>
 							</td>
 						</tr>
 					
@@ -345,7 +373,7 @@ ul.inheritsList
 				
 				
 				<dl class="inheritsList">
-				<dt>Fields borrowed from class <a href="../symbols/allplayers.entity.html">allplayers.entity</a>: </dt><dd><a href="../symbols/allplayers.entity.html#description">description</a>, <a href="../symbols/allplayers.entity.html#title">title</a>, <a href="../symbols/allplayers.entity.html#uuid">uuid</a></dd>
+				<dt>Fields borrowed from class <a href="../symbols/drupal.entity.html">drupal.entity</a>: </dt><dd><a href="../symbols/drupal.entity.html#api">api</a>, <a href="../symbols/drupal.entity.html#id">id</a></dd>
 				</dl>
 				
 			
@@ -357,7 +385,7 @@ ul.inheritsList
 				
 				
 				<dl class="inheritsList">
-				<dt>Methods borrowed from class <a href="../symbols/allplayers.entity.html">allplayers.entity</a>: </dt><dd><a href="../symbols/allplayers.entity.html#get">get</a>, <a href="../symbols/allplayers.entity.html#getObject">getObject</a>, <a href="../symbols/allplayers.entity.html#update">update</a></dd>
+				<dt>Methods borrowed from class <a href="../symbols/drupal.entity.html">drupal.entity</a>: </dt><dd><a href="../symbols/drupal.entity.html#get">get</a>, <a href="../symbols/drupal.entity.html#getObject">getObject</a>, <a href="../symbols/drupal.entity.html#getQuery">getQuery</a>, <a href="../symbols/drupal.entity.html#remove">remove</a>, <a href="../symbols/drupal.entity.html#save">save</a>, <a href="../symbols/drupal.entity.html#update">update</a></dd>
 				</dl>
 				
 			
@@ -372,7 +400,7 @@ ul.inheritsList
 				</div>
 				
 				<div class="fixedFont">
-						<b>allplayers.location</b>(api, options)
+						<b>allplayers.location</b>(object, callback)
 				</div>
 				
 				<div class="description">
@@ -388,16 +416,17 @@ ul.inheritsList
 						<dt class="heading">Parameters:</dt>
 						
 							<dt>
-								<span class="light fixedFont">{@link allplayers.api}</span>  <b>api</b>
+								<span class="light fixedFont">{object}</span>  <b>object</b>
 								
 							</dt>
-								<dd>The API interface.</dd>
+								<dd>The location information.</dd>
 						
 							<dt>
-								<span class="light fixedFont">{object}</span>  <b>options</b>
+								<span class="light fixedFont">{function}</span>  <b>callback</b>
 								
 							</dt>
-								<dd>The options for this class.</dd>
+								<dd>The function to be called once the node has
+been retrieved from the server.</dd>
 						
 						</dl>
 					
@@ -426,6 +455,28 @@ ul.inheritsList
 					</div>
 					<div class="description">
 						City
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="constructor"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>constructor</b>
+					
+					</div>
+					<div class="description">
+						Reset the constructor
 						
 						
 					</div>
@@ -586,7 +637,7 @@ ul.inheritsList
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Wed Nov 02 2011 20:28:30 GMT-0000 (UTC)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Mon Nov 28 2011 22:58:51 GMT-0000 (UTC)
 		</div>
 	</body>
 </html>

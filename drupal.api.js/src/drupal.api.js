@@ -8,10 +8,10 @@ var drupal = drupal || {};
 drupal.api = function() {
 
   /** The Services API endpoint */
-  this.endpoint = drupal.endpoint;
+  this.endpoint = drupal.endpoint || this.endpoint || '';
 
   /** The resource within this endpoint */
-  this.resource = '';
+  this.resource = this.resource || '';
 };
 
 /**
@@ -72,6 +72,21 @@ drupal.api.prototype.call = function(url, dataType, type, data, callback) {
  */
 drupal.api.prototype.get = function(object, query, callback) {
   var url = this.getURL(object);
+  url += '.jsonp';
+  url += query ? ('?' + decodeURIComponent(jQuery.param(query, true))) : '';
+  this.call(url, 'jsonp', 'GET', null, callback);
+};
+
+/**
+ * API function to get a type of object within an object.
+ *
+ * @param {object} object The object of the item we are getting..
+ * @param {string} type The type of object you wish to get within this object.
+ * @param {object} query key-value pairs to add to the query of the URL.
+ * @param {function} callback The callback function.
+ */
+drupal.api.prototype.getItems = function(object, type, query, callback) {
+  var url = this.getURL(object) + '/' + type;
   url += '.jsonp';
   url += query ? ('?' + decodeURIComponent(jQuery.param(query, true))) : '';
   this.call(url, 'jsonp', 'GET', null, callback);

@@ -2,17 +2,7 @@ load("tools/jquery/jquery-1.5.2.min.js");
 load("tools/qunit/qunit/qunit.js");
 
 // Load the sources we would like to test.
-var jsFiles = [
-  "js/source/allplayers.base.js",
-  "js/source/allplayers.api.js",
-  "js/source/allplayers.entity.js",
-  "js/source/allplayers.date.js",
-  "js/source/allplayers.event.js",
-  "js/source/allplayers.group.js",
-  "js/source/allplayers.groups.js",
-  "js/source/allplayers.location.js",
-  "js/source/allplayers.calendar.js"
-];
+var jsFiles = [];
 
 // Iterate through the files and load them.
 var i = jsFiles.length;
