@@ -85,8 +85,8 @@ tools:
 	rm tools/jsdoc_toolkit-2.4.0.zip
 
 # Install the necessary libraries
-libraries:
-	wget http://arshaw.com/fullcalendar/downloads/fullcalendar-1.5.2.zip -P libraries
-	unzip libraries/fullcalendar-1.5.2.zip -d libraries
-	sudo mv libraries/fullcalendar-1.5.2 libraries/fullcalendar
-	sudo rm libraries/fullcalendar-1.5.2.zip
+lib:
+	wget http://arshaw.com/fullcalendar/downloads/fullcalendar-1.5.2.zip -P lib
+	unzip lib/fullcalendar-1.5.2.zip -d lib
+	sudo mv lib/fullcalendar-1.5.2 lib/fullcalendar
+	sudo rm lib/fullcalendar-1.5.2.zip
