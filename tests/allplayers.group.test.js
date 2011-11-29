@@ -1,6 +1,5 @@
 
 asyncTest("Group Search", function() {
-
   // Find some groups based on a search.
   new allplayers.group({search:"Spring Soccer"}, function(groups) {
 
@@ -12,6 +11,24 @@ asyncTest("Group Search", function() {
       ok(!!groups[i].title, "Group Title was found");
     }
   });
-
 });
 
+asyncTest("Subgroup Tree", function() {
+  new allplayers.group({search:"BGCA - Basketball"}, function(groups) {
+    var group = null;
+    for (var i in groups) {
+      group = groups[i];
+      if (group.title == 'BGCA - Basketball') {
+        break;
+      }
+    }
+
+    // Now get the subgroup tree.
+    group.getGroupTree(function(tree) {
+      console.log(tree);
+      expect(1);
+      start();
+      ok(true, 'pass');
+    });
+  });
+});

@@ -96,62 +96,86 @@
 <span class='line'> 89</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'> 90</span> 
 <span class='line'> 91</span> </span><span class="COMM">/**
-<span class='line'> 92</span>  * Returns the events for this group.
+<span class='line'> 92</span>  * Adds a key value pair to the query object.
 <span class='line'> 93</span>  *
-<span class='line'> 94</span>  * @param {object} params An object of the following parameters.
-<span class='line'> 95</span>  * &lt;ul>
-<span class='line'> 96</span>  * &lt;li>&lt;strong>start&lt;/strong> - The start date to get the events.&lt;/li>
-<span class='line'> 97</span>  * &lt;li>&lt;strong>end&lt;/strong> - The end date to get the events.&lt;/li>
-<span class='line'> 98</span>  * &lt;li>&lt;strong>fields&lt;/strong> - The fields to get.&lt;/li>
-<span class='line'> 99</span>  * &lt;li>&lt;strong>limit&lt;/strong> - The limit of events to get.&lt;/li>
-<span class='line'>100</span>  * &lt;li>&lt;strong>offset&lt;/strong> - The offset of events for pagination.&lt;/li>
-<span class='line'>101</span>  * &lt;/ul>
-<span class='line'>102</span>  *
-<span class='line'>103</span>  * @param {function} callback The callback function to get the events.
-<span class='line'>104</span>  */</span><span class="WHIT">
-<span class='line'>105</span> </span><span class="NAME">allplayers.group.prototype.getEvents</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">params</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">callback</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>106</span> 
-<span class='line'>107</span> </span><span class="WHIT">  </span><span class="COMM">// Get the events within this group.</span><span class="WHIT">
-<span class='line'>108</span> </span><span class="WHIT">  </span><span class="NAME">this.api.getItems</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'events'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">params</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">events</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>109</span> 
-<span class='line'>110</span> </span><span class="WHIT">    </span><span class="COMM">// Iterate through the events and create an event object out of them.</span><span class="WHIT">
-<span class='line'>111</span> </span><span class="WHIT">    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">events.length</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>112</span> </span><span class="WHIT">    </span><span class="KEYW">while</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">i</span><span class="PUNC">--</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>113</span> </span><span class="WHIT">      </span><span class="NAME">events</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">allplayers.event</span><span class="PUNC">(</span><span class="NAME">events</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>114</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>115</span> 
-<span class='line'>116</span> </span><span class="WHIT">    </span><span class="COMM">// Call the callback.</span><span class="WHIT">
-<span class='line'>117</span> </span><span class="WHIT">    </span><span class="NAME">callback</span><span class="PUNC">(</span><span class="NAME">events</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>118</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>119</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>120</span> 
-<span class='line'>121</span> </span><span class="COMM">/**
-<span class='line'>122</span>  * Returns the upcoming events for this group.
-<span class='line'>123</span>  *
-<span class='line'>124</span>  * @param {object} params An object of the following parameters.
-<span class='line'>125</span>  * &lt;ul>
-<span class='line'>126</span>  * &lt;li>&lt;strong>start&lt;/strong> - The start date to get the events.&lt;/li>
-<span class='line'>127</span>  * &lt;li>&lt;strong>end&lt;/strong> - The end date to get the events.&lt;/li>
-<span class='line'>128</span>  * &lt;li>&lt;strong>fields&lt;/strong> - The fields to get.&lt;/li>
-<span class='line'>129</span>  * &lt;li>&lt;strong>limit&lt;/strong> - The limit of events to get.&lt;/li>
-<span class='line'>130</span>  * &lt;li>&lt;strong>offset&lt;/strong> - The offset of events for pagination.&lt;/li>
-<span class='line'>131</span>  * &lt;/ul>
-<span class='line'>132</span>  *
-<span class='line'>133</span>  * @param {function} callback The callback function to get the events.
-<span class='line'>134</span>  */</span><span class="WHIT">
-<span class='line'>135</span> </span><span class="NAME">allplayers.group.prototype.getUpcomingEvents</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">params</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">callback</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>136</span> 
-<span class='line'>137</span> </span><span class="WHIT">  </span><span class="COMM">// Get the events within this group.</span><span class="WHIT">
-<span class='line'>138</span> </span><span class="WHIT">  </span><span class="NAME">this.api.getItems</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'events/upcoming'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">params</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">events</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>139</span> 
-<span class='line'>140</span> </span><span class="WHIT">    </span><span class="COMM">// Iterate through the events and create an event object out of them.</span><span class="WHIT">
-<span class='line'>141</span> </span><span class="WHIT">    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">events.length</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>142</span> </span><span class="WHIT">    </span><span class="KEYW">while</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">i</span><span class="PUNC">--</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>143</span> </span><span class="WHIT">      </span><span class="NAME">events</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">allplayers.event</span><span class="PUNC">(</span><span class="NAME">events</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>144</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>145</span> 
-<span class='line'>146</span> </span><span class="WHIT">    </span><span class="COMM">// Call the callback.</span><span class="WHIT">
-<span class='line'>147</span> </span><span class="WHIT">    </span><span class="NAME">callback</span><span class="PUNC">(</span><span class="NAME">events</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>148</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>149</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>150</span> </span></pre></body></html>
+<span class='line'> 94</span>  * @param {object} query The query object.
+<span class='line'> 95</span>  * @param {string} field The field to set.
+<span class='line'> 96</span>  * @param {string} value The value of the field to set.
+<span class='line'> 97</span>  */</span><span class="WHIT">
+<span class='line'> 98</span> </span><span class="NAME">allplayers.group.prototype.setQuery</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">query</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">field</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">value</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 99</span> 
+<span class='line'>100</span> </span><span class="WHIT">  </span><span class="COMM">// Set the value of this query.</span><span class="WHIT">
+<span class='line'>101</span> </span><span class="WHIT">  </span><span class="NAME">query</span><span class="PUNC">[</span><span class="NAME">field</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">value</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>102</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>103</span> 
+<span class='line'>104</span> </span><span class="COMM">/**
+<span class='line'>105</span>  * Returns the events for this group.
+<span class='line'>106</span>  *
+<span class='line'>107</span>  * @param {object} params An object of the following parameters.
+<span class='line'>108</span>  * &lt;ul>
+<span class='line'>109</span>  * &lt;li>&lt;strong>start&lt;/strong> - The start date to get the events.&lt;/li>
+<span class='line'>110</span>  * &lt;li>&lt;strong>end&lt;/strong> - The end date to get the events.&lt;/li>
+<span class='line'>111</span>  * &lt;li>&lt;strong>fields&lt;/strong> - The fields to get.&lt;/li>
+<span class='line'>112</span>  * &lt;li>&lt;strong>limit&lt;/strong> - The limit of events to get.&lt;/li>
+<span class='line'>113</span>  * &lt;li>&lt;strong>offset&lt;/strong> - The offset of events for pagination.&lt;/li>
+<span class='line'>114</span>  * &lt;/ul>
+<span class='line'>115</span>  *
+<span class='line'>116</span>  * @param {function} callback The callback function to get the events.
+<span class='line'>117</span>  */</span><span class="WHIT">
+<span class='line'>118</span> </span><span class="NAME">allplayers.group.prototype.getEvents</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">params</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">callback</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>119</span> 
+<span class='line'>120</span> </span><span class="WHIT">  </span><span class="COMM">// Get the events within this group.</span><span class="WHIT">
+<span class='line'>121</span> </span><span class="WHIT">  </span><span class="NAME">this.api.getItems</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'events'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">params</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">events</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>122</span> 
+<span class='line'>123</span> </span><span class="WHIT">    </span><span class="COMM">// Iterate through the events and create an event object out of them.</span><span class="WHIT">
+<span class='line'>124</span> </span><span class="WHIT">    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">events.length</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>125</span> </span><span class="WHIT">    </span><span class="KEYW">while</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">i</span><span class="PUNC">--</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>126</span> </span><span class="WHIT">      </span><span class="NAME">events</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">allplayers.event</span><span class="PUNC">(</span><span class="NAME">events</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>127</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>128</span> 
+<span class='line'>129</span> </span><span class="WHIT">    </span><span class="COMM">// Call the callback.</span><span class="WHIT">
+<span class='line'>130</span> </span><span class="WHIT">    </span><span class="NAME">callback</span><span class="PUNC">(</span><span class="NAME">events</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>131</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>132</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>133</span> 
+<span class='line'>134</span> </span><span class="COMM">/**
+<span class='line'>135</span>  * Returns the upcoming events for this group.
+<span class='line'>136</span>  *
+<span class='line'>137</span>  * @param {object} params An object of the following parameters.
+<span class='line'>138</span>  * &lt;ul>
+<span class='line'>139</span>  * &lt;li>&lt;strong>start&lt;/strong> - The start date to get the events.&lt;/li>
+<span class='line'>140</span>  * &lt;li>&lt;strong>end&lt;/strong> - The end date to get the events.&lt;/li>
+<span class='line'>141</span>  * &lt;li>&lt;strong>fields&lt;/strong> - The fields to get.&lt;/li>
+<span class='line'>142</span>  * &lt;li>&lt;strong>limit&lt;/strong> - The limit of events to get.&lt;/li>
+<span class='line'>143</span>  * &lt;li>&lt;strong>offset&lt;/strong> - The offset of events for pagination.&lt;/li>
+<span class='line'>144</span>  * &lt;/ul>
+<span class='line'>145</span>  *
+<span class='line'>146</span>  * @param {function} callback The callback function to get the events.
+<span class='line'>147</span>  */</span><span class="WHIT">
+<span class='line'>148</span> </span><span class="NAME">allplayers.group.prototype.getUpcomingEvents</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">params</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">callback</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>149</span> 
+<span class='line'>150</span> </span><span class="WHIT">  </span><span class="COMM">// Get the events within this group.</span><span class="WHIT">
+<span class='line'>151</span> </span><span class="WHIT">  </span><span class="NAME">this.api.getItems</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'events/upcoming'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">params</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">events</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>152</span> 
+<span class='line'>153</span> </span><span class="WHIT">    </span><span class="COMM">// Iterate through the events and create an event object out of them.</span><span class="WHIT">
+<span class='line'>154</span> </span><span class="WHIT">    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">events.length</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>155</span> </span><span class="WHIT">    </span><span class="KEYW">while</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">i</span><span class="PUNC">--</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>156</span> </span><span class="WHIT">      </span><span class="NAME">events</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">allplayers.event</span><span class="PUNC">(</span><span class="NAME">events</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>157</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>158</span> 
+<span class='line'>159</span> </span><span class="WHIT">    </span><span class="COMM">// Call the callback.</span><span class="WHIT">
+<span class='line'>160</span> </span><span class="WHIT">    </span><span class="NAME">callback</span><span class="PUNC">(</span><span class="NAME">events</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>161</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>162</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>163</span> 
+<span class='line'>164</span> </span><span class="COMM">/**
+<span class='line'>165</span>  * Returns a hierachy tree of all the subgroups within this group.
+<span class='line'>166</span>  *
+<span class='line'>167</span>  * @param {function} callback The callback function to get the subgroup tree.
+<span class='line'>168</span>  */</span><span class="WHIT">
+<span class='line'>169</span> </span><span class="NAME">allplayers.group.prototype.getGroupTree</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">callback</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>170</span> 
+<span class='line'>171</span> </span><span class="WHIT">  </span><span class="COMM">// Get the subgroups tree.</span><span class="WHIT">
+<span class='line'>172</span> </span><span class="WHIT">  </span><span class="NAME">this.api.getItems</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'subgroups/tree'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">callback</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>173</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>174</span> </span></pre></body></html>

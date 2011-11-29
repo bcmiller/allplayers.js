@@ -89,6 +89,19 @@ allplayers.group.prototype.update = function(object) {
 };
 
 /**
+ * Adds a key value pair to the query object.
+ *
+ * @param {object} query The query object.
+ * @param {string} field The field to set.
+ * @param {string} value The value of the field to set.
+ */
+allplayers.group.prototype.setQuery = function(query, field, value) {
+
+  // Set the value of this query.
+  query[field] = value;
+};
+
+/**
  * Returns the events for this group.
  *
  * @param {object} params An object of the following parameters.
@@ -146,4 +159,15 @@ allplayers.group.prototype.getUpcomingEvents = function(params, callback) {
     // Call the callback.
     callback(events);
   });
+};
+
+/**
+ * Returns a hierachy tree of all the subgroups within this group.
+ *
+ * @param {function} callback The callback function to get the subgroup tree.
+ */
+allplayers.group.prototype.getGroupTree = function(callback) {
+
+  // Get the subgroups tree.
+  this.api.getItems(this, 'subgroups/tree', {}, callback);
 };
