@@ -1,7 +1,6 @@
 .group_navigator {
   margin:0;
   padding:0;
-  background:#f1f1f1;
   font:70% Arial, Helvetica, sans-serif;
   color:#555;
   line-height:150%;
@@ -24,16 +23,22 @@
   list-style:none;
 }
 
-.group_navigator ul ul {
+.group_navigator ul {
   display:none;
 }
 
-.group_navigator li{
+.group_navigator li {
   line-height:200%;
   margin-top:1px;
-  background:#eee;
   position:relative;
   width:100%;
+}
+
+.group_navigator li.even {
+  background:#fff;
+}
+.group_navigator li.odd {
+  background:#eee;
 }
 
 /* IE leaves a blank space where span is added so this is to avoid that */
@@ -42,24 +47,7 @@
   display:inline;
 }
 
-.group_navigator li a{padding-left:28px;}
-.group_navigator li span{float:left;position:absolute;top:5px;left:5px;width:13px;height:13px;cursor:auto;font-size:0;}
+.group_navigator li input{float:left;position:absolute;top:3px;left:2px;width:13px;height:13px;cursor:auto;font-size:0;}
+.group_navigator li span{float:left;position:absolute;top:5px;left:26px;width:13px;height:13px;cursor:auto;font-size:0;}
 .group_navigator li span, .group_navigator li span.collapsed{background:url(images/collapsed.gif) no-repeat 0 0;}
 .group_navigator li span.expanded{background:url(images/expanded.gif) no-repeat 0 0;}
-
-/* second level */
-
-.group_navigator li li{
-  background:#fff;
-}
-.group_navigator li li a{padding-left:56px;}
-.group_navigator li li span{left:28px;}
-
-/* third level */
-
-.group_navigator li li li a{padding-left:84px;}
-.group_navigator li li li span{left:56px;}
-
-/* etc. */
-
-/*  */
