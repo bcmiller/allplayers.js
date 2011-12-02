@@ -1,0 +1,53 @@
+.treeselect {
+  margin:0;
+  padding:0;
+  font:70% Arial, Helvetica, sans-serif;
+  color:#555;
+  line-height:150%;
+  text-align:left;
+}
+
+.treeselect a {
+  text-decoration:none;
+  color:#057fac;
+}
+
+.treeselect a:hover{
+  text-decoration:none;
+  color:#999;
+}
+
+.treeselect, .treeselect ul, .treeselect li {
+  margin:0;
+  padding:0;
+  list-style:none;
+}
+
+.treeselect ul {
+  display:none;
+}
+
+.treeselect li {
+  line-height:200%;
+  margin-top:1px;
+  position:relative;
+  width:100%;
+}
+
+.treeselect li.even {
+  background:#fff;
+}
+.treeselect li.odd {
+  background:#eee;
+}
+
+/* IE leaves a blank space where span is added so this is to avoid that */
+* html .treeselect li{
+  float:left;
+  display:inline;
+}
+
+.treeselect li input{float:left;position:absolute;top:3px;width:13px;height:13px;cursor:auto;font-size:0;}
+.treeselect li span{float:left;position:absolute;top:5px;width:13px;height:13px;cursor:auto;font-size:0;}
+.treeselect li span, .treeselect li span.collapsed{background:url(images/collapsed.gif) no-repeat 0 0;}
+.treeselect li span.expanded{background:url(images/expanded.gif) no-repeat 0 0;}
