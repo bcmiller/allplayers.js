@@ -3,21 +3,22 @@
   <head>
     <title>AllPlayers.com Group Navigator</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link rel='stylesheet' type='text/css' href='css/group_navigator.css' />
+    <link rel='stylesheet' type='text/css' href='../treeselect/css/treeselect.css' />
     <script type='text/javascript' src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.js"></script>
     <script type='text/javascript' src='../../drupal.api.js/bin/drupal.api.js'></script>
     <script type='text/javascript' src='../../bin/allplayers.js'></script>
+    <script type='text/javascript' src='../treeselect/js/jquery.treeselect.js'></script>
     <script type='text/javascript' src='js/group_navigator.js'></script>
     <script type='text/javascript'>
       jQuery(function() {
         drupal.endpoint = '/api/v1/rest';
-        $(".group_navigator").group_navigator({
+        $(".treeselect").group_navigator({
           id:"930d090a-f61e-11e0-98df-12313d18191a"
         });
       });
     </script>
   </head>
   <body>
-    <ul class="group_navigator"></ul>
+    <ul class="treeselect"></ul>
   </body>
 </html>

@@ -23,8 +23,8 @@ asyncTest("Subgroup Tree", function() {
       }
     }
 
-    // Now get the subgroup tree.
-    group.getGroupTree(function(tree) {
+    // Now get the subgroup tree 3 levels deep.
+    group.getGroupTree(3, function(tree) {
       console.log(tree);
       expect(1);
       start();

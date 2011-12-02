@@ -171,11 +171,12 @@
 <span class='line'>164</span> </span><span class="COMM">/**
 <span class='line'>165</span>  * Returns a hierachy tree of all the subgroups within this group.
 <span class='line'>166</span>  *
-<span class='line'>167</span>  * @param {function} callback The callback function to get the subgroup tree.
-<span class='line'>168</span>  */</span><span class="WHIT">
-<span class='line'>169</span> </span><span class="NAME">allplayers.group.prototype.getGroupTree</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">callback</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>170</span> 
-<span class='line'>171</span> </span><span class="WHIT">  </span><span class="COMM">// Get the subgroups tree.</span><span class="WHIT">
-<span class='line'>172</span> </span><span class="WHIT">  </span><span class="NAME">this.api.getItems</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'subgroups/tree'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">callback</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>173</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>174</span> </span></pre></body></html>
+<span class='line'>167</span>  * @param {int} depth The depth of how deep the group tree should go.
+<span class='line'>168</span>  * @param {function} callback The callback function to get the subgroup tree.
+<span class='line'>169</span>  */</span><span class="WHIT">
+<span class='line'>170</span> </span><span class="NAME">allplayers.group.prototype.getGroupTree</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">depth</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">callback</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>171</span> 
+<span class='line'>172</span> </span><span class="WHIT">  </span><span class="COMM">// Get the subgroups tree.</span><span class="WHIT">
+<span class='line'>173</span> </span><span class="WHIT">  </span><span class="NAME">this.api.getItems</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'subgroups/tree'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">depth</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">depth</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">callback</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>174</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>175</span> </span></pre></body></html>

@@ -164,10 +164,11 @@ allplayers.group.prototype.getUpcomingEvents = function(params, callback) {
 /**
  * Returns a hierachy tree of all the subgroups within this group.
  *
+ * @param {int} depth The depth of how deep the group tree should go.
  * @param {function} callback The callback function to get the subgroup tree.
  */
-allplayers.group.prototype.getGroupTree = function(callback) {
+allplayers.group.prototype.getGroupTree = function(depth, callback) {
 
   // Get the subgroups tree.
-  this.api.getItems(this, 'subgroups/tree', {}, callback);
+  this.api.getItems(this, 'subgroups/tree', {depth: depth}, callback);
 };
