@@ -51,3 +51,4 @@
 .treeselect li span{float:left;position:absolute;top:5px;width:13px;height:13px;cursor:auto;font-size:0;}
 .treeselect li span, .treeselect li span.collapsed{background:url(images/collapsed.gif) no-repeat 0 0;}
 .treeselect li span.expanded{background:url(images/expanded.gif) no-repeat 0 0;}
+.treeselect li.treebusy{background:url(images/throbber.gif) no-repeat 0 0; width:13px; height:13px;}
