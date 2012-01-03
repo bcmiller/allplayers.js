@@ -3,71 +3,49 @@
   <head>
     <title>TreeSelect Control</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel='stylesheet' type='text/css' href='../moreorless/moreorless.css' />
     <link rel='stylesheet' type='text/css' href='css/treeselect.css' />
+    <link rel='stylesheet' type='text/css' href='css/chosen.css' />
     <script type='text/javascript' src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.js"></script>
+    <script type='text/javascript' src='../moreorless/jquery.moreorless.js'></script>
     <script type='text/javascript' src='js/jquery.treeselect.js'></script>
+    <script type='text/javascript' src='js/jquery.chosentree.js'></script>
     <script type='text/javascript'>
       jQuery(function() {
-        $("ul.treeselect").treeselect({tree:[
-          {id:"1",title:"Parent A", children:[
-            {id:"2",title:"Child AA", children:[
-                {id:"3",title:"SubChild AAA"},
-                {id:"4",title:"SubChild AAB"},
-                {id:"5",title:"SubChild AAC"},
-                {id:"6",title:"SubChild AAD"},
-                {id:"7",title:"SubChild AAE"},
-                {id:"8",title:"SubChild AAF"}
-            ]},
-            {id:"9",title:"Child AB", children:[
-                {id:"10",title:"SubChild ABA"},
-                {id:"11",title:"SubChild ABB"},
-                {id:"12",title:"SubChild ABC"},
-                {id:"13",title:"SubChild ABD"},
-                {id:"14",title:"SubChild ABE"},
-                {id:"15",title:"SubChild ABF"}
-            ]},
-          ]},
-          {id:"16",title:"Parent B", children:[
-            {id:"17",title:"Child BA", children:[
-                {id:"18",title:"SubChild BAA"},
-                {id:"19",title:"SubChild BAB"},
-                {id:"20",title:"SubChild BAC"},
-                {id:"21",title:"SubChild BAD"},
-                {id:"22",title:"SubChild BAE"},
-                {id:"23",title:"SubChild BAF"}
-            ]},
-            {id:"24",title:"Child BB", children:[
-                {id:"25",title:"SubChild BBA"},
-                {id:"26",title:"SubChild BBB"},
-                {id:"27",title:"SubChild BBC"},
-                {id:"28",title:"SubChild BBD"},
-                {id:"29",title:"SubChild BBE"},
-                {id:"30",title:"SubChild BBF"}
-            ]},
-          ]},
-          {id:"31",title:"Parent C", children:[
-            {id:"32",title:"Child CA", children:[
-                {id:"33",title:"SubChild CAA"},
-                {id:"34",title:"SubChild CAB"},
-                {id:"35",title:"SubChild CAC"},
-                {id:"36",title:"SubChild CAD"},
-                {id:"37",title:"SubChild CAE"},
-                {id:"38",title:"SubChild CAF"}
-            ]},
-            {id:"39",title:"Child CB", children:[
-                {id:"40",title:"SubChild CBA"},
-                {id:"41",title:"SubChild CBB"},
-                {id:"42",title:"SubChild CBC"},
-                {id:"43",title:"SubChild CBD"},
-                {id:"44",title:"SubChild CBE"},
-                {id:"45",title:"SubChild CBF"}
-            ]},
-          ]}
-        ]});
+
+        var baseLevel = 0;
+        var maxLevel = 0;
+        function loadChildren(node, level) {
+          baseLevel = level = level || baseLevel;
+          for (var i=0; i<5; i++) {
+            var id = node.id + (i+1).toString();
+            node.children.push({
+              id:id,
+              title:'Node ' + id,
+              has_children:(baseLevel < 4),
+              children:[]
+            });
+            if (level < maxLevel) {
+              loadChildren(node.children[i], (level + 1));
+            }
+          }
+          return node;
+        };
+
+        $('div.chosentree').chosentree({
+          load: function(node, callback) {
+            setTimeout(function() {
+              maxLevel = baseLevel + 2;
+              callback(loadChildren(node));
+            }, 1000);
+          }
+        });
       });
+
+
     </script>
   </head>
   <body>
-    <ul class="treeselect"></ul>
+    <div class="chosentree"></div>
   </body>
 </html>

@@ -6,7 +6,8 @@
 #
 
 # Create the list of files
-files =	js/jquery.treeselect.js
+files =	js/jquery.treeselect.js\
+	js/jquery.chosentree.js
 
 .DEFAULT_GOAL := all
 
@@ -18,8 +19,10 @@ jslint: ${files}
 
 # Create an aggregated js file and a compressed js file.
 js: ${files}
-	@echo "Generating compressed js/jquery.treeselect.compressed.js file"
-	@java -jar tools/compiler.jar --js js/jquery.treeselect.js --js_output_file js/jquery.treeselect.compressed.js
+	@echo "Generating aggregated bin/jquery.treeselect.js file"
+	@cat > bin/jquery.treeselect.js $^
+	@echo "Generating compressed bin/jquery.treeselect.compressed.js file"
+	@java -jar tools/compiler.jar --js bin/jquery.treeselect.js --js_output_file bin/jquery.treeselect.compressed.js
 
 # Fix the js style on all the files.
 fixjsstyle: ${files}
