@@ -3,21 +3,30 @@
   <head>
     <title>AllPlayers.com Group Navigator</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link rel='stylesheet' type='text/css' href='chosen.css' />
+    <link rel='stylesheet' type='text/css' href='../moreorless/moreorless.css' />
+    <link rel='stylesheet' type='text/css' href='../treeselect/css/chosen.css' />
     <link rel='stylesheet' type='text/css' href='../treeselect/css/treeselect.css' />
+    <link rel='stylesheet' type='text/css' href='css/group_navigator.css' />
     <script type='text/javascript' src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.js"></script>
     <script type='text/javascript' src='../../drupal.api.js/bin/drupal.api.js'></script>
     <script type='text/javascript' src='../../bin/allplayers.js'></script>
+    <script type='text/javascript' src='../moreorless/jquery.moreorless.js'></script>
     <script type='text/javascript' src='../treeselect/js/jquery.treeselect.js'></script>
+    <script type='text/javascript' src='../treeselect/js/jquery.chosentree.js'></script>
     <script type='text/javascript' src='js/group_navigator.js'></script>
     <script type='text/javascript'>
       jQuery(function() {
         drupal.endpoint = '/api/v1/rest';
-        $(".treeselect").group_navigator("931102d0-f61e-11e0-98df-12313d18191a");
+        $(".group_navigator").group_navigator({
+          deepLoad: true,
+          uuid: "24722bb4-a8c2-11e0-899f-12313d18191a"
+          /** uuid: "931102d0-f61e-11e0-98df-12313d18191a" /** The Y */
+          /** uuid: "93121224-f61e-11e0-98df-12313d18191a" /** Aerobics */
+        });
       });
     </script>
   </head>
   <body>
-    <ul class="treeselect"></ul>
+    <ul class="group_navigator"></ul>
   </body>
 </html>
